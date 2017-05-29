@@ -1,0 +1,5 @@
+#+Title:  Bachelor Thesis
+#+Author: Diego Vicente Martín
+#+Email:  diegovicente@protonmail.com
+
+This repository contains the bachelor thesis about the Agis library
