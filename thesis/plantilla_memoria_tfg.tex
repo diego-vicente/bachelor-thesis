@@ -1,0 +1,137 @@
+\documentclass[a4paper,12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{multirow}
+%\usepackage{makeidx}
+\usepackage{graphicx}
+\usepackage{fancyhdr}
+\usepackage{hyperref}
+\usepackage{float}
+\usepackage{color}
+\definecolor{azulUC3M}{RGB}{0,0,102}
+\definecolor{gray97}{gray}{.97}
+\definecolor{gray75}{gray}{.75}
+\definecolor{gray45}{gray}{.45}
+\usepackage{listings}
+\lstset{ frame=Ltb,
+     framerule=0pt,
+     aboveskip=0.5cm,
+     framextopmargin=3pt,
+     framexbottommargin=3pt,
+     framexleftmargin=0.4cm,
+     framesep=0pt,
+     rulesep=.4pt,
+     backgroundcolor=\color{gray97},
+     rulesepcolor=\color{black},
+     %
+     stringstyle=\ttfamily,
+     showstringspaces = false,
+     basicstyle=\small\ttfamily,
+     commentstyle=\color{gray45},
+     keywordstyle=\bfseries,
+     %
+     numbers=left,
+     numbersep=15pt,
+     numberstyle=\tiny,
+     numberfirstline = false,
+     breaklines=true,
+   }
+ 
+% minimizar fragmentado de listados
+\lstnewenvironment{listing}[1][]
+   {\lstset{#1}\pagebreak[0]}{\pagebreak[0]}
+ 
+\lstdefinestyle{consola}
+   {basicstyle=\scriptsize\bf\ttfamily,
+    backgroundcolor=\color{gray75},
+   }
+ 
+\lstdefinestyle{C}
+   {language=C,
+   }
+\usepackage[top=2cm]{geometry}
+\pretolerance=2000
+\tolerance=3000
+\begin{document}
+
+\begin{titlepage}
+\begin{sffamily}
+\color{azulUC3M}
+\begin{center}
+%\vspace*{-1cm}
+\begin{figure}[htb]
+\begin{center}
+\vspace*{0.6cm}
+\includegraphics[width=15cm]{imagenes/Portada_Logo.png}
+\vspace*{1.6cm}
+\end{center}
+\end{figure}
+\begin{LARGE}
+Grado Universitario... \\%completar el nombre del grado
+2016/2017 \\%indicar el curso académico
+\vspace*{2cm}
+\textsl{Trabajo Fin de Grado}\\
+\end{LARGE}
+
+\begin{huge}
+\textbf{Título del trabajo} \\
+\rule{80mm}{0.1mm}\\
+\vspace*{1cm}
+Nombre Apellido1 Apellido2\\ %Separar cada autor con \\ 
+\end{huge}
+
+\vspace*{1cm}
+\begin{Large}
+Tutor/es\\
+Nombre Apellido1 Apellido2\\
+Nombre Apellido1 Apellido2\\
+Lugar y fecha de presentación prevista\\
+\end{Large}
+\end{center}
+\vspace*{3cm}
+\color{black}
+\includegraphics{imagenes/creativecommons.png}\\
+\emph{[Incluir en el caso de interés en su publicación en el archivo abierto]}\\
+Esta obra se encuentra sujeta a la licencia Creative Commons \textbf{Reconocimiento - No Comercial - Sin Obra Derivada}
+
+\end{sffamily}
+\end{titlepage}
+
+
+\pagestyle{fancy}
+\fancyhead{} % Clear all header fields
+\setlength\headheight{21.2pt}
+\lhead{\hspace*{-0.3cm}\raisebox{-0.3\height}{\includegraphics[scale=1]{imagenes/Interior_Logo.png}}}
+\rhead{\color{azulUC3M} Mi encabezado} %Poner encabezado
+
+\renewcommand{\tablename}{\textbf{Tabla}} %para poner la palabra en mayusucula
+\renewcommand{\figurename}{\textbf{Figura}} % para poner la palabra en mayuscula
+\renewcommand{\listtablename}{Índice de tablas}
+
+\newpage
+
+\tableofcontents
+
+\newpage
+
+\listoffigures
+
+%Para imagenes
+%\begin{figure}[H]
+%\centering
+%\includegraphics[scale=0.8]{imagenes/*.png}
+%\caption{}
+%\end{figure}
+
+\newpage
+
+
+
+%Comenzar el trabajo
+
+
+
+\end{document}
