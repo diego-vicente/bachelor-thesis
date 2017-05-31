@@ -10,11 +10,13 @@
 \usepackage{fancyhdr}
 \usepackage{hyperref}
 \usepackage{float}
+
 \usepackage{color}
 \definecolor{azulUC3M}{RGB}{0,0,102}
 \definecolor{gray97}{gray}{.97}
 \definecolor{gray75}{gray}{.75}
 \definecolor{gray45}{gray}{.45}
+
 \usepackage{listings}
 \lstset{ frame=Ltb,
      framerule=0pt,
@@ -22,8 +24,8 @@
      framextopmargin=3pt,
      framexbottommargin=3pt,
      framexleftmargin=0.2cm,
-     xrightmargin=-1cm,
-     xleftmargin=-0.8cm,
+     xrightmargin=-0.7cm,
+     xleftmargin=-0.5cm,
      framesep=0pt,
      rulesep=0.2pt,
      backgroundcolor=\color{gray97},
@@ -41,19 +43,10 @@
      numberfirstline = false,
      breaklines=true,
    }
- 
-% minimizar fragmentado de listados
+
 \lstnewenvironment{listing}[1][]
-   {\lstset{#1}\pagebreak[0]}{\pagebreak[0]}
- 
-\lstdefinestyle{consola}
-   {basicstyle=\scriptsize\bf\ttfamily,
-    backgroundcolor=\color{gray75},
-   }
- 
-\lstdefinestyle{C}
-   {language=C,
-   }
+{\lstset{#1}\pagebreak[0]}{\pagebreak[0]}
+
 \usepackage[top=2cm]{geometry}
 \pretolerance=2000
 \tolerance=3000
@@ -109,10 +102,10 @@
 \setlength\headheight{21.2pt}
 \lhead{\hspace*{-0.3cm}\raisebox{-0.3\height}{
     \includegraphics[scale=1]{img/Interior_Logo.png}}}
-\rhead{\color{azulUC3M} Agis: Búsqueda Heurística en Haskell} %Poner encabezado
+\rhead{\color{azulUC3M} Agis: Búsqueda Heurística en Haskell}
 
-\renewcommand{\tablename}{\textbf{Tabla}} %para poner la palabra en mayusucula
-\renewcommand{\figurename}{\textbf{Figura}} % para poner la palabra en mayuscula
+\renewcommand{\tablename}{\textbf{Tabla}}
+\renewcommand{\figurename}{\textbf{Figura}}
 \renewcommand{\listtablename}{Índice de tablas}
 
 \newpage
@@ -132,9 +125,7 @@
 
 \newpage
 
-
-
-%Comenzar el trabajo
+\input{sections/intro.tex}
 
 
 \bibliographystyle{plain}
