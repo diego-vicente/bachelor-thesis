@@ -1,28 +1,40 @@
 \section{Introduction}
 
-The functional programming paradigm is nowadays an upward trend [CITATION
-NEEDED], whose popularity can be traced to the several advantages it offers: an
-arguably easier way of reasoning about its concepts, the use of high-level
-abstractions that can be used for both reducing the workload on the developers
-and including optimizations in the compiled code, or the fact that its
-characteristics and principles make the fact of turning purely functional code
-into concurrent code a trivial task [CITATION NEEDED].\\
+The functional programming paradigm is nowadays an upward trend
+\cite{ford-2013-ibm}, whose popularity can be traced to the several advantages
+it offers: an arguably easier way of reasoning about its concepts, the use of
+high-level abstractions that can be used for both reducing the workload on the
+developers and including optimizations in the compiled code, or the fact that
+its characteristics and principles make the fact of turning purely functional
+code into concurrent code a trivial task \cite{hammond-2012-parallel}. This is
+done by radically stripping the side effects from the code and keeping the
+state of the machine immutable, or more recently, by isolating them and keeping
+the referential transparency intact through as much as possible of the code base.\\
 
 This trend is present in new languages being developed with the functional
-paradigm: for instance, Scala [CITATION NEEDED] is a functional strongly-typed
+paradigm: for instance, Scala \cite{scala} is a functional, strongly-typed
 language based on the Java virtual machine, which makes it able to be used for
-Android applications development. Another interesting example is Elm [CITATION
-NEEDED], which compiles to Javascript and allows functional web development.
-But not only new languages are using functional programming: long-established
-languages are also introducing functional concepts such as Map-Reduce, folds,
-higher-order or anonymous functions into traditional workflows. Some examples
-of this include Java [CITATION NEEDED], C++ [CITATION NEEDED] or Python
-[CITATION NEEDED].\\
+Android applications development. Another interesting example is Elm
+\cite{elm}, which compiles to HTML, CSS and Javascript allowing functional web
+development. But not only new languages are being inspired by functional
+programming: long-established languages are also introducing functional
+concepts such as Map-Reduce, folds, higher-order or anonymous functions into
+traditional workflows. Some examples of this include Java \cite{java8},
+C++ \cite{cpp-lambdas, cpp-high-level} or Python \cite{python-mrs}.\\
 
-% Paragraph about Haskell
+The flagship language of the functional paradigm is Haskell \cite{haskell-98}.
+Among its main features we can highlight the fact that it is purely functional
+(and allows complete referential transparency by isolating the side effects),
+lazy (contrary to strict evaluation, laziness imply that only the required
+results are computed among all definitions), strongly and statically typed (all
+types are checked at compile time) and provides a great set of abstractions
+that can be compiled into concurrent code. This particularities have placed on
+Haskell the stigma of being an academic language, with hardly any practical use
+on real life; a stigma that the community has worked exhaustively to get rid
+of.\\
 
-However, there are several Computer Science fields that seem to belong to just
-one paradigm. For example, a quick query on how many Haskell packages are
+Ironically enough, some Computer Science fields seem like unexplored territory
+in Haskell. For example, a quick query on how many Haskell packages are
 available on the most popular Haskell package manager related to heuristic
 search returns a scarce set of algorithms, with different specifications and
 barely any cohesion between them. That makes the task of studying the behavior
@@ -39,6 +51,6 @@ algorithms implemented and ready to be used; and \texttt{Search.Monadic}, which
 adds a new layer of complexity using a monad that wraps the search. This causes
 a time and space overhead with the advantage of being able to gather run-time
 statistics, that can be used for educational, algorithm design or research
-purposes.
+purposes. 
 
 \newpage
