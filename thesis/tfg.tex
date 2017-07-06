@@ -37,15 +37,27 @@
      commentstyle=\color{gray45},
      keywordstyle=\bfseries,
      %
-     numbers=left,
-     numbersep=15pt,
-     numberstyle=\tiny,
-     numberfirstline = false,
      breaklines=true,
    }
 
+   \lstdefinestyle{haskell}{
+     language=Haskell,
+     numbers=left,
+     numbersep=15pt,
+     numberstyle=\tiny,
+     numberfirstline=false,
+   }
+
+   \lstdefinestyle{shell}{
+     escapeinside=\{\}
+   }
+
+
 \lstnewenvironment{listing}[1][]
 {\lstset{#1}\pagebreak[0]}{\pagebreak[0]}
+
+\renewcommand{\lstlistingname}{Snippet}
+\renewcommand{\lstlistlistingname}{List of \lstlistingname s}
 
 \usepackage[top=2cm]{geometry}
 \pretolerance=2000
@@ -118,6 +130,8 @@
 \newpage
 
 \listoffigures
+
+\lstlistoflistings
 
 %Para imagenes
 %\begin{figure}[H]
