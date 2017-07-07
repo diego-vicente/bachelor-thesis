@@ -2,6 +2,33 @@
 
 \subsection{Heuristic Search Libraries}
 
+Heuristic Search is a problem solving method that belongs to Artificial
+Intelligence \cite{rusell-2003-aima} used in robotics, pathfinding, computer
+gaming among other fields. Due to being more appropriate for the performance
+that is in general desired, we can find that the most amount of work on
+Heuristic Search is done in imperative, fast languages like C++ or Java.\\
+
+In C++, we can find full search frameworks like \emph{HOG2} \cite{hog2},
+\emph{Research code for heuristic search} \cite{cpp-search} or \emph{The
+  Heuristic Search Research Framework} \cite{goldenberg-2017-framework}. All
+these frameworks offer a full set of algorithms and procedures to override the
+default implementations (such as cost, heuristic or expansion functions) in
+order to adapt the library's behavior to the problem at hand. Also, these
+frameworks offer visual representations options; a feature which is indeed the
+main goal in the case of \emph{The Heuristic Search Research Framework}, that
+offers a general visualization of algorithm behavior instead of domain specific
+ones. On the other hand, in Java we can find similar projects like
+\emph{Combinatorial Search for Java} \cite{cs4j} or \emph{AIMA}
+\cite{java-aima}.\\
+
+Trying to find similar projects in functional languages is more complicated
+than that. However, one can find interesting projects like \emph{AIMA} written
+in Common Lisp \cite{lisp-aima} or even a complete search framework written in
+OCaml \cite{ocaml-search}. In Haskell, however, projects of this size are
+nowhere to be found: All the algorithms are distributed in individual packages
+with completely different implementations, as well as the data structures used
+to perform the search.
+
 
 \subsection{Haskell}
 
