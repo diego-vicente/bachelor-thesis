@@ -32,4 +32,36 @@ to perform the search.
 
 \subsection{Haskell}
 
+Haskell's first version was released in 1990 after the efforts of a committee
+in FPCA '87 for creating an open standard for a ``non-strict, purely functional
+language'' \cite{haskell-history}. Haskell's main features have remain patent
+in the language, but constantly evolving: the language's main pillars are
+\cite{haskell-98, haskell-2010}:
+
+\begin{enumerate}
+\item \textbf{Strong and statically typed}: the types are checked at compile
+  time. That makes the run-time be sure that every function will get as
+  parameter the expected object, making it more robust. However, no explicit
+  type declaration is needed (although it is usually considered a good
+  practice); types can be inferred most of the times by the compiler.
+\item \textbf{Purely functional}: this type system is what allows Haskell to be
+  purely functional. For Haskell, a string literal is of type \texttt{String},
+  while an user's input on the prompt is a \texttt{IO String}. While at first
+  shocking, this quality of Haskell maintains the referential transparency
+  intact: the same function call with the same arguments is guaranteed to
+  provide always the same output. All side effects are contained into monads
+  (like the aforementioned \texttt{IO} monad) so they are contained and
+  isolated.
+\item \textbf{Lazy}: the fact that Haskell's evaluation is lazy (contrary to
+  more common strict evaluation) means that a expression is only computed if
+  its result is really necessary at a moment in time. This allows expressions
+  to be defined in a much higher level: telling the computer what something is
+  rather than how to compute it, and leaving the details of it to the compiler.
+  Lazy evaluation provides for instance the use of infinite lists (since only
+  the necessary part will be actually evaluated).
+\item \textbf{Concurrent abstractions}: All the aforementioned characteristics
+  also add up to the fact that the compiler is able to include concurrent
+  optimizations into regular Haskell code thanks to its high-level definitions.
+\end{enumerate}
+  
 \newpage
