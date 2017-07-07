@@ -63,5 +63,23 @@ in the language, but constantly evolving: the language's main pillars are
   also add up to the fact that the compiler is able to include concurrent
   optimizations into regular Haskell code thanks to its high-level definitions.
 \end{enumerate}
-  
+
+Currently, the Glasgow Haskell Compiler (GHC) can be almost considered the
+de-facto standard in Haskell compilers: widely spread and with an impressive
+interface of pragmas to enable different optimizations by the compiler, it is
+the compiler used for most projects because of the language extensions it
+provides. Regarding packaging frameworks we can use Cabal, as a more
+established option; or Stack, that wraps around Cabal configurations offering
+more robust dependency installs and builds. Both frameworks offer several tools
+for compilation, packaging, documentation, distribution, testing and profiling.
+These tools will be explained in detail as they appear in the thesis.\\
+
+Although not yet mainstream, Haskell is a language used in the industry that is
+specially well-regarded in web backends: its concurrency is based in threads
+that are so light that can be spawned in much larger densities than average
+threads \cite{epstein-2011-cloud}. This fits specially well in a web server,
+where every request can get one thread without compromising performance.
+Haskell's type system also prevents different attacks (like SQL/XSS injection)
+to be performed in these systems \cite{snoyman-2015-yesod}.
+
 \newpage
