@@ -1,3 +1,36 @@
 \section{Goals}
 
+The main goal of this project is to develop a complete framework for Haskell,
+containing the following parts:
+
+\begin{enumerate}
+\item \textbf{A Heuristic Search library}: Arguably, the most complex part of
+  the framework. This library would include a set of both uninformed and
+  informed algorithms that have been adapted to the functional paradigm from
+  their traditional implementations. Apart from the algorithms, the library
+  will also provide the necessary building blocks for designing a new
+  algorithm. These building blocks will be in fact used in the algorithms of
+  the library, so the user can get a better intuition on how to use them just
+  by checking the source code. There will be, in fact, two complementary
+  libraries: one of them will implement the algorithms in a pure way, offering
+  fast and completely functional executions; while the other will offer the
+  same algorithms using a monad that will collect different execution metrics,
+  and will be specially interesting for educational purposes on the algorithms.
+\item \textbf{The automation and benchmarking tools}: To offer a useful
+  framework, it has to allow researchers to be able to perform batch
+  experiments, as well as provide tools for benchmarking the code looking for
+  possible performance improvements. That way, the framework will include
+  several shortcuts for performing tests and comparisons between algorithm, as
+  well as integration with benchmarking and optimization tools available for
+  Haskell.
+\item \textbf{Toy problems and other examples}: A small number of typical
+  problems already implemented in Haskell, ready for the user to test or solve
+  with the algorithms proposed (or developed).
+\item \textbf{Tutorial, examples and documentation}: Due to the complexity and
+  novelty of this framework, a comprehensive set of documentation has to be
+  generated, and examples of use as well as several tutorials are planned to be
+  written for the users to better understand how the library works
+\end{enumerate}
+
+
 \newpage
