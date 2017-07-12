@@ -32,4 +32,31 @@ containing the following parts:
   written for the users to better understand how the library works
 \end{enumerate}
 
+There are also several remarks to be made before formally stating the
+requirements. We could use two main approaches to design the library: use the
+Haskell Foreign Function Interface or program everything in Haskell.\\
+
+The Foreign Function Interface allows Haskell code to perform calls functions
+written in other languages \cite{haskell98-ffi}. Using this interface, we could
+program in a stateful and imperative way our search functions using for example
+C/C++ and then call them from the library, that would serve just as a wrapper.
+This would allow us to write high-performance code (also much more complicated
+and low level than Haskell); performance that can be sometimes required in
+this field.\\
+
+However, using the FFI generates new dependencies for the project, that has to
+be shipped in several languages. Also, this interface has to be carefully
+treated and studied to prevent the creation of new corner cases that can induce
+new bugs; and this interface is quite limited in the type of parameters that it
+can receive, which is a great problem for this project. However, the most
+important point is that, if the purpose of this library is to provide a way of
+comparing functional search algorithms with some default ones (i.e
+Breadth-First Search), comparing the user implementation with some code that is
+indeed imperative and written in C/C++ seems pointless and misleading.\\
+
+These reasons, and the fact that writing the whole library in Haskell is going
+to be cleaner and more educative (as well as making it easier to provide some
+construction blocks for the users) are the reasons why the FFI is omitted for
+developing this library.\\
+
 \newpage
