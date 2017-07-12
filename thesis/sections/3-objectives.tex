@@ -1,5 +1,7 @@
 \section{Objectives}
 
+\subsection{Parts of the Library}
+
 The main goal of this project is to develop a complete framework for Haskell,
 containing the following parts:
 
@@ -11,11 +13,7 @@ containing the following parts:
   will also provide the necessary building blocks for designing a new
   algorithm. These building blocks will be in fact used in the algorithms of
   the library, so the user can get a better intuition on how to use them just
-  by checking the source code. There will be, in fact, two complementary
-  libraries: one of them will implement the algorithms in a pure way, offering
-  fast and completely functional executions; while the other will offer the
-  same algorithms using a monad that will collect different execution metrics,
-  and will be specially interesting for educational purposes on the algorithms.
+  by checking the source code.
 \item \textbf{The automation and benchmarking tools}: To offer a useful
   framework, it has to allow researchers to be able to perform batch
   experiments, as well as provide tools for benchmarking the code looking for
@@ -31,6 +29,10 @@ containing the following parts:
   generated, and examples of use as well as several tutorials are planned to be
   written for the users to better understand how the library works
 \end{enumerate}
+
+\subsection{Analysis}
+
+\subsubsection{Haskell's Foreign Function Interface}
 
 There are also several remarks to be made before formally stating the
 requirements. We could use two main approaches to design the library: use the
@@ -58,5 +60,43 @@ These reasons, and the fact that writing the whole library in Haskell is going
 to be cleaner and more educative (as well as making it easier to provide some
 construction blocks for the users) are the reasons why the FFI is omitted for
 developing this library.\\
+
+\subsubsection{Using Idiomatic Haskell}
+
+Also, one of the main purposes of this library, is to explore the features of
+the language and try to benefit from it as much as possible. Probably one of
+the more interesting features is the non-strict evaluation, which could allow
+us to introduce some interesting features.\\
+
+In other frameworks \cite{cpp-search, cs4j, java-aima, hog2} a search returns a
+node. This node, the solution, generally contains the state, the path recorded
+to get there, and several run-time statistics like nodes expanded, open list
+length, etc. If the search fails, usually the null element is returned. Since
+this is not possible in Haskell, the intuitive approach is to use the
+\texttt{Maybe} monad, that will let us return \texttt{Just <solution> |
+  Nothing}. However, we can use a different structure that offers more
+interesting possibilities: a list of solutions. This list can, indeed, be
+infinite (or too big to be actually tractable), which already makes impossible
+for other languages to manage it. However, due to the aforementioned laziness,
+we can program the library to return this list without any problem: if the user
+only asks for the first element (using for instance \texttt{head}), only this
+element will be computed, performing the same computations as the traditional
+libraries would do.\\
+
+To collect the run-time statistics is not trivial as it can be in another
+languages. Since we need to rely on recursion, collecting the total execution
+statistics from the different stack calls requires a model called monad. %cite?
+This monad will be explained later in the document, but to include it in the
+library we need to perform modifications in the code to wrap the solutions in
+it. If we try to wrap the list of solutions in the monad, we will be able to
+obtain full run-time statistics, but no partial ones: if we ask only for the
+head of the solutions it will be computed and nothing more, but if we want to
+query the total nodes expanded the full search on the solution space has to be
+performed for the monad to retrieve the number. Then, a list of solutions is
+not the best structure if we want to use the monad.\\
+
+The best solution is to offer the user two different flavors of the library:
+one that implements a completely pure, fast and lazy search; and another one
+that performs a ``more traditional'' search collecting run-time statistics.\\
 
 \newpage
