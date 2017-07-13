@@ -11,13 +11,21 @@ problems with a fast growing queue generate a problematic space overhead, that
 is translated to big garbage collection pauses that make execution slow. The
 cost centers reveal that the space allocation happen most of all in the
 \texttt{DataStructure} methods for adding nodes, so let us keep researching how
-to fix this issue. By running a problematic problem like \texttt{Warcraft} for
-which \texttt{aStar} has to expand XXXX nodes to find a plan of length 19, we
-should be able to better explore this issue.\\
+to fix this issue. To generate a lot of nodes in the open list, we will use a
+bad heuristic in the problem \texttt{Warcraft}, to get a solution with these
+statistics (obtained with the \texttt{Search.Monadic} library):
 
-Running the \texttt{profiling} executable of the library in this problem
-outputs, we can see these results (please bear in mind the profiling overhead,
-stated as \texttt{PROF} time):
+\begin{itemize}
+ \item Number of expanded nodes: 378790
+ \item Number of enqueued nodes: 734887
+ \item Maximum length of the queue: 356099
+\end{itemize}
+
+Just to obtain a plan length of 19. This big size for the open list will
+trigger the garbage collection problem and let us study it better. Running the
+\texttt{profiling} executable of the library in this problem outputs, we can
+see these results (please bear in mind the profiling overhead, stated as
+\texttt{PROF} time):
 
 \begin{lstlisting}
 > cabal run profiling
