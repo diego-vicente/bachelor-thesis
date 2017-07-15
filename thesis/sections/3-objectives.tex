@@ -97,6 +97,8 @@ not the best structure if we want to use the monad.\\
 
 The best solution is to offer the user two different flavors of the library:
 one that implements a completely pure, fast and lazy search; and another one
-that performs a ``more traditional'' search collecting run-time statistics.\\
-
+that performs a ``more traditional'' search collecting run-time statistics.
+This, however, will reduce code re-usability, since Haskell's strong typing
+will not allow to share common code in some parts (for example, the data
+structures code).
 \newpage
