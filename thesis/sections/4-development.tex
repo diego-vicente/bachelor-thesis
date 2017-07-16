@@ -31,10 +31,17 @@ for the user by demand.\\
 \begin{table}[h]
   \centering
   \rowcolors{2}{gray90}{white}
-\begin{tabular}{| p{4cm} | p{6cm} |}
-  \hline
-  \texttt{ID}            & \texttt{UC-XX} \\
-  \hline
+
+\begin{tabular}{
+  !{\color{azulUC3M}\vline} p{4cm}
+  !{\color{azulUC3M}\vline} p{6cm}
+  !{\color{azulUC3M}\vline}}
+  \arrayrulecolor{azulUC3M}
+  \rowcolor{azulUC3M}
+
+  \multicolumn{1}{l !{\color{white}\vline}} {\texttt{ID}}
+  & \multicolumn{1}{l}                      {\texttt{UC-XX}} \\
+  
   \textit{Title}         & \\
   \textit{Actor}         & \\
   \textit{Preconditions} & \\
