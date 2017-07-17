@@ -9,16 +9,13 @@
 \usepackage{graphicx}
 \usepackage{fancyhdr}
 \usepackage{hyperref}
-
-\usepackage{color}
+\usepackage{float}
+\usepackage[table]{xcolor}
 \definecolor{azulUC3M}{RGB}{0,0,102}
 \definecolor{gray97}{gray}{.97}
 \definecolor{gray90}{gray}{.90}
 \definecolor{gray75}{gray}{.75}
 \definecolor{gray45}{gray}{.45}
-
-\usepackage{float}
-\usepackage[table]{xcolor}
 \usepackage{colortbl}
 \setlength\arrayrulewidth{1pt}
 
@@ -29,26 +26,26 @@
 {\def\tableID{#1}
  \def\tableCaption{#2}
 
-  \begin{table}
-  \centering
-  \rowcolors{2}{gray90}{white}
-
-\begin{tabular}{
-  !{\color{azulUC3M}\vline} p{4cm}
-  !{\color{azulUC3M}\vline} p{6cm}
-  !{\color{azulUC3M}\vline}}
-  \arrayrulecolor{azulUC3M}
-  \rowcolor{azulUC3M}
-
-  \multicolumn{1}{l !{\color{white}\vline}}
-  {\color{white}{\texttt{ID}}}
-  & \multicolumn{1}{l}
-    {\color{white}{\texttt{#1}}} \\ }
+ \begin{table}[h!]
+   \centering
+   \rowcolors{2}{gray90}{white}
+   
+   \begin{tabular}{
+     !{\color{azulUC3M}\vline} p{3cm}
+     !{\color{azulUC3M}\vline} p{10cm}
+     !{\color{azulUC3M}\vline}}
+     \arrayrulecolor{azulUC3M}
+     \rowcolor{azulUC3M}
+     
+     \multicolumn{1}{l !{\color{white}\vline}}
+     {\color{white}{\texttt{ID}}}
+     & \multicolumn{1}{l}
+       {\color{white}{\texttt{#1}}} \\ }
 % Footer of the table
 { \hline
-\end{tabular}
-\caption{\tableCaption}
-\label{\tableID}
+  \end{tabular}
+  \caption{\tableCaption}
+  \label{\tableID}
 \end{table} }
 
 
