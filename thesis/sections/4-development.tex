@@ -289,11 +289,47 @@ stands for a double digit number.
   \textit{Description}   &
   Offer a function able to perform an Uniform-Cost Search that returns
   the list of all solutions found that way in the problem space. Uniform-Cost
-  Search should be implemented using linear-memory search (\texttt{FR-03})
-  iteratively (\texttt{FR-03}). \\ 
+  Search should be implemented using linear-memory search (\texttt{FR-03}).\\
   \textit{Priority}      & High \\
   \textit{Use-case(s)}   & \texttt{UC-01, UC-05} \\
 \end{uc3m-table}
+
+
+\begin{uc3m-table}{FR-11}{Functional Requirement \texttt{FR-11}}
+  \textit{Title}         & \textbf{Pure Greedy Search} \\
+  \textit{Description}   &
+  Offer a function able to perform a Greedy Search that returns the list of all
+  solutions found that way in the problem space. Greedy Search should be
+  implemented using linear-memory search (\texttt{FR-03})
+  expanding the nodes with a minimal-heuristic order.\\
+  \textit{Priority}      & High \\
+  \textit{Use-case(s)}   & \texttt{UC-01, UC-05} \\
+\end{uc3m-table}
+
+
+\begin{uc3m-table}{FR-12}{Functional Requirement \texttt{FR-12}}
+  \textit{Title}         & \textbf{Pure A* Search} \\
+  \textit{Description}   &
+  Offer a function able to perform an A* Search that returns
+  the list of all solutions found that way in the problem space. A*
+  Search should be implemented using general search (\texttt{FR-02})
+  using a priority queue to expand the nodes (\texttt{FR-05}). \\
+  \textit{Priority}      & High \\
+  \textit{Use-case(s)}   & \texttt{UC-01, UC-05} \\
+\end{uc3m-table}
+
+
+\begin{uc3m-table}{FR-13}{Functional Requirement \texttt{FR-12}}
+  \textit{Title}         & \textbf{Pure Iterative-Deepening A* Search} \\
+  \textit{Description}   &
+  Offer a function able to perform a IDA* Search that returns
+  the list of all solutions found that way in the problem space. IDA*
+  Search should be implemented using linear-memory search (\texttt{FR-02})
+  and expanding the nodes in cost-heuristic search order.\\
+  \textit{Priority}      & High \\
+  \textit{Use-case(s)}   & \texttt{UC-01, UC-05} \\
+\end{uc3m-table}
+
 
 
 
