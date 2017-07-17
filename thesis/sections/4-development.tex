@@ -15,11 +15,11 @@ simply nonsensical diagrams. \\
 However, due to the academic character of this thesis, it is needed to provide
 some formal specification of the system using the learned methodologies for
 software development, so we will try to use the appropriate mathematical
-concepts embedded in traditional formal requirements, function specifications,
-etc; as well as more familiar specification systems for Haskell projects like
-the type specification. Please, bear in mind that this is not usually the case
-in Haskell projects and the recommended guidelines just include formal
-specification through mathematical definition. \\
+concepts embedded (as long as they are manageable and in the scope of the
+thesis), as well as more familiar specification systems for Haskell projects
+like the type specification. Please, bear in mind that this is not usually the
+case in Haskell projects and the recommended guidelines just include formal
+specification through mathematical definition and theorem proving. \\
 
 \subsection{Use Cases}
 
@@ -59,14 +59,79 @@ following the template in the Table \ref{table:uc-ex}. Each of the use cases
 will receive a unique identifier of the format \texttt{UC-XX}, where
 \texttt{XX} is a double digit number. This unique identifier will be used later
 on different matrices to trace requirements. The complete set of use cases for
-the library is stated following this paragraph.
+the library is stated following this page.
 
-\begin{uc3m-table}{UC-01}{Use Case 01}
-  \textit{Title}         & \\
-  \textit{Actor}         & \\
-  \textit{Preconditions} & \\
-  \textit{Description}   & \\
-\end{uc3m-table}  
+\newpage
+
+\begin{uc3m-table}{UC-01}{Use Case \texttt{UC-01}}
+  \textit{Title} & \textbf{Solve a search problem} \\
+  \textit{Actor} & User \\
+  \textit{Preconditions} &
+  The user has a compatible representation of the problem programmed in
+  Haskell, and the package \texttt{agis} is already installed in their system.
+  \\
+  \textit{Description} &
+  The user imports the module containing the algorithm that he wants to use,
+  and includes the functionality in their code. Then, the user can run the code
+  to obtain the solution found.\\
+\end{uc3m-table}
+
+
+\begin{uc3m-table}{UC-02}{Use Case \texttt{UC-02}}
+  \textit{Title} & \textbf{Solve a search problem and get statistics} \\
+  \textit{Actor} & User \\
+  \textit{Preconditions} &
+  The user has a compatible representation of the problem programmed in
+  Haskell, and the package \texttt{agis} is already installed in their system.
+  \\
+  \textit{Description} &
+  The user imports the module containing the monadic version of the algorithm
+  that he wants to use, and includes the functionality in their code. Then, the
+  user can run the code to obtain the solution found and several search
+  statistics.\\  
+\end{uc3m-table}
+
+
+\begin{uc3m-table}{UC-03}{Use Case \texttt{UC-03}}
+  \textit{Title} & \textbf{Design a new search algorithm} \\
+  \textit{Actor} & User \\
+  \textit{Preconditions} &
+  The package \texttt{agis} is already installed in the user's system. \\
+  \textit{Description} &
+  The user can import the module containing several functions that they can use
+  to build their algorithm, as well as using a monadic version of those
+  functions to gain a better understanding on the algorithm.\\ 
+\end{uc3m-table}
+
+
+\begin{uc3m-table}{UC-04}{Use Case \texttt{UC-04}}
+  \textit{Title} & \textbf{Test a new algorithm} \\
+  \textit{Actor} & User \\
+  \textit{Preconditions} &
+  The package \texttt{agis} is already installed in the user's system, and the
+  user has already implemented their algorithm using the library types and
+  functions. \\
+  \textit{Description} &
+  The user can import several toy problems that the library offers to test that
+  algorithm to check the behavior or performance.\\ 
+\end{uc3m-table}
+
+\begin{uc3m-table}{UC-05}{Use Case \texttt{UC-05}}
+  \textit{Title} & \textbf{Compare a new algorithm} \\
+  \textit{Actor} & User \\
+  \textit{Preconditions} &
+  The package \texttt{agis} is already installed in the user's system, and the
+  user has already implemented their algorithm using the library types and
+  functions.\\
+  \textit{Description} &
+  The user can import more algorithms from the library and trivially apply one
+  or another to the same problem space, to check the performance of both of
+  them side by side.\\
+\end{uc3m-table}
+
+
+
+\newpage 
 
 \subsection{Functional Requirements}
 \subsection{Implementation}
