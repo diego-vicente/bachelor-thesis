@@ -51,15 +51,15 @@ for the user by demand.\\
   \hline
 \end{tabular}
 \caption{Use Case template}
-\label{table:uc-ex}
+\label{uc-ex}
 \end{table}
 
 All the use cases that will be covered will be specified in individual tables
-following the template in the Table \ref{table:uc-ex}. Each of the use cases
-will receive a unique identifier of the format \texttt{UC-XX}, where
-\texttt{XX} is a double digit number. This unique identifier will be used later
-on different matrices to trace requirements. The complete set of use cases for
-the library is stated following this page.
+following the template in the Table \ref{uc-ex}. Each of the use cases will
+receive a unique identifier of the format \texttt{UC-XX}, where \texttt{XX} is
+a double digit number. This unique identifier will be used later on different
+matrices to trace requirements. The complete set of use cases for the library
+is stated following this page.
 
 \newpage
 
@@ -116,6 +116,7 @@ the library is stated following this page.
   algorithm to check the behavior or performance.\\ 
 \end{uc3m-table}
 
+
 \begin{uc3m-table}{UC-05}{Use Case \texttt{UC-05}}
   \textit{Title} & \textbf{Compare a new algorithm} \\
   \textit{Actor} & User \\
@@ -130,10 +131,52 @@ the library is stated following this page.
 \end{uc3m-table}
 
 
-
 \newpage 
 
-\subsection{Functional Requirements}
+\subsection{Requirements}
+
+Once all the use cases have been defined for the library, we can design all the
+functional and non-functional requirements of the library. These requirements
+will be formalized in a similar table to those for the use cases, that can be
+seen in Table \ref{r-ex}.
+
+\begin{table}[h]
+  \centering
+  \rowcolors{2}{gray90}{white}
+
+\begin{tabular}{
+  !{\color{azulUC3M}\vline} p{4cm}
+  !{\color{azulUC3M}\vline} p{6cm}
+  !{\color{azulUC3M}\vline}}
+  \arrayrulecolor{azulUC3M}
+  \rowcolor{azulUC3M}
+
+  \multicolumn{1}{l !{\color{white}\vline}}
+  {\color{white}{\texttt{ID}}}
+  & \multicolumn{1}{l}
+    {\color{white}{\texttt{FR-XX || NFR-XX}}} \\
+  
+  \textit{Title}         & \\
+  \textit{Description}   & \\
+  \textit{Priority}      & \\
+  \hline
+\end{tabular}
+\caption{Requirement template}
+\label{r-ex}
+\end{table}
+
+Every functional requirement (that specifies a function that has to be offered
+by the library) will be tagged using an unique identifier with the format
+\texttt{FR-XX}, where the \texttt{XX} represent a double digit number. On the
+other hand, all the non-functional requirements (associated with preconditions
+or other context necessary for the library to correctly work) will be
+identified with the tags \texttt{NFR-XX}, where once again the \texttt{XX}
+stands for a double digit number.
+
+\subsubsection{Functional Requirements}
+\subsubsection{Non-Functional Requirements}
+\subsubsection{Traceability Matrix}
+
 \subsection{Implementation}
 
 \newpage
