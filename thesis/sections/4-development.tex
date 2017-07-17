@@ -254,7 +254,7 @@ stands for a double digit number.
   of all solutions found that way in the problem space. Breadth-First Search
   should be implemented using general search (\texttt{FR-02}) and a First-In,
   First-Out queue (\texttt{FR-05}). \\
-  \textit{Priority}      & High \\
+  \textit{Priority}      & Medium \\
   \textit{Use-case(s)}   & \texttt{UC-01, UC-05} \\
 \end{uc3m-table}
 
@@ -266,7 +266,7 @@ stands for a double digit number.
   of all solutions found that way in the problem space. Depth-First Search
   should be implemented using linear-memory search (\texttt{FR-03}) or a
   Last-In, First-Out stack (\texttt{FR-05}).\\
-  \textit{Priority}      & High \\
+  \textit{Priority}      & Medium \\
   \textit{Use-case(s)}   & \texttt{UC-01, UC-05} \\
 \end{uc3m-table}
 
@@ -279,7 +279,7 @@ stands for a double digit number.
   Depth-First Search should be implemented using linear-memory search
   iteratively (\texttt{FR-03}) or a Last-In, First-Out depth-bounded stack
   (\texttt{FR-05}). \\ 
-  \textit{Priority}      & High \\
+  \textit{Priority}      & Medium \\
   \textit{Use-case(s)}   & \texttt{UC-01, UC-05} \\
 \end{uc3m-table}
 
@@ -302,7 +302,7 @@ stands for a double digit number.
   solutions found that way in the problem space. Greedy Search should be
   implemented using linear-memory search (\texttt{FR-03})
   expanding the nodes with a minimal-heuristic order.\\
-  \textit{Priority}      & High \\
+  \textit{Priority}      & Medium \\
   \textit{Use-case(s)}   & \texttt{UC-01, UC-05} \\
 \end{uc3m-table}
 
@@ -314,24 +314,171 @@ stands for a double digit number.
   the list of all solutions found that way in the problem space. A*
   Search should be implemented using general search (\texttt{FR-02})
   using a priority queue to expand the nodes (\texttt{FR-05}). \\
-  \textit{Priority}      & High \\
+  \textit{Priority}      & Medium \\
   \textit{Use-case(s)}   & \texttt{UC-01, UC-05} \\
 \end{uc3m-table}
 
 
-\begin{uc3m-table}{FR-13}{Functional Requirement \texttt{FR-12}}
+\begin{uc3m-table}{FR-13}{Functional Requirement \texttt{FR-13}}
   \textit{Title}         & \textbf{Pure Iterative-Deepening A* Search} \\
   \textit{Description}   &
   Offer a function able to perform a IDA* Search that returns
   the list of all solutions found that way in the problem space. IDA*
-  Search should be implemented using linear-memory search (\texttt{FR-02})
+  Search should be implemented using linear-memory search (\texttt{FR-03})
   and expanding the nodes in cost-heuristic search order.\\
-  \textit{Priority}      & High \\
+  \textit{Priority}      & Medium \\
   \textit{Use-case(s)}   & \texttt{UC-01, UC-05} \\
 \end{uc3m-table}
 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%% MONADIC FRs %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+
+\begin{uc3m-table}{FR-14}{Functional Requirement \texttt{FR-14}}
+  \textit{Title}         & \textbf{Search monad} \\
+  \textit{Description}   &
+  Design a monad that is able to collect run-time statistic in searches. The
+  search monad should be able to keep this logs:
+  \begin{enumerate}
+  \item Number of expanded nodes.
+  \item Number of enqueued nodes (if the search uses a data structure).
+  \item Maximum length of the queue (if the search uses a data structure).
+  \end{enumerate}\\
+  \textit{Priority}      & Medium \\
+  \textit{Use-case(s)}   & \texttt{UC-02} \\
+\end{uc3m-table}
+
+
+\begin{uc3m-table}{FR-15}{Functional Requirement \texttt{FR-15}}
+  \textit{Title}         & \textbf{Monadic general search method} \\
+  \textit{Description}   &
+  Following the general search algorithm mentioned in \cite{rusell-2003-aima},
+  offer a function with similar capabilities, using a monadic functional style:
+  using the search monad (\texttt{FR-14}) to collect run-time statistics of the
+  search. This search should use a data structure (\texttt{FR-18}) to modify
+  the behavior of the search.\\
+  \textit{Priority}      & Low \\
+  \textit{Use-case(s)}   & \texttt{UC-03} \\
+\end{uc3m-table}
+
+
+\begin{uc3m-table}{FR-16}{Functional Requirement \texttt{FR-16}}
+  \textit{Title}         & \textbf{Monadic linear-memory search method} \\
+  \textit{Description}   &
+  Offer a method that is able to perform a search while collecting run-time
+  statistics and using linear memory to do so. This method has to be visible
+  for the user to include in their own algorithms as well. \\
+  \textit{Priority}      & Low \\
+  \textit{Use-case(s)}   & \texttt{UC-03} \\
+\end{uc3m-table}
+
+
+\begin{uc3m-table}{FR-17}{Functional Requirement \texttt{FR-17}}
+  \textit{Title}         & \textbf{Monadic data structure interface} \\
+  \textit{Description}   &
+  Adapt the data structure interface defined for \texttt{FR-04} to handle
+  monadic algorithms. That way, the user can also implement the search monad
+  into their algorithms no matter if they use data structures.\\
+  \textit{Priority}      & Low \\
+  \textit{Use-case(s)}   & \texttt{UC-03} \\
+\end{uc3m-table}
+
+
+\begin{uc3m-table}{FR-18}{Functional Requirement \texttt{FR-18}}
+  \textit{Title}         & \textbf{Library of monadic data structures} \\
+  \textit{Description}   &
+  Adapt the data structures offered for pure algorithms (\texttt{FR-05}) to the
+  search monad. \\
+  \textit{Priority}      & Low \\
+  \textit{Use-case(s)}   & \texttt{UC-03} \\
+\end{uc3m-table}
+
+
+\begin{uc3m-table}{FR-19}{Functional Requirement \texttt{FR-19}}
+  \textit{Title}         & \textbf{Monadic Breadth-First Search} \\
+  \textit{Description}   &
+  Offer a function able to perform a Breadth-First Search that returns the
+  solution wrapped in the search monad with the statistics. Breadth-First Search
+  should be implemented using general search (\texttt{FR-15}) and a First-In,
+  First-Out queue (\texttt{FR-18}). \\
+  \textit{Priority}      & Low \\
+  \textit{Use-case(s)}   & \texttt{UC-02, UC-06} \\
+\end{uc3m-table}
+
+
+\begin{uc3m-table}{FR-20}{Functional Requirement \texttt{FR-20}}
+  \textit{Title}         & \textbf{Monadic Depth-First Search} \\
+  \textit{Description}   &
+  Offer a function able to perform a Depth-First Search that returns the
+  solution wrapped in the search monad with the statistics. Depth-First Search
+  should be implemented using linear-memory search (\texttt{FR-16}) or a
+  Last-In, First-Out stack (\texttt{FR-18}).\\
+  \textit{Priority}      & Low \\
+  \textit{Use-case(s)}   & \texttt{UC-02, UC-06} \\
+\end{uc3m-table}
+
+
+\begin{uc3m-table}{FR-21}{Functional Requirement \texttt{FR-21}}
+  \textit{Title}         & \textbf{Monadic Iterative Depth-First Search} \\
+  \textit{Description}   &
+  Offer a function able to perform an Iterative Depth-First Search that returns
+  the solution wrapped in the search monad with the statistics. Iterative
+  Depth-First Search should be implemented using linear-memory search
+  iteratively (\texttt{FR-16}) or a Last-In, First-Out depth-bounded stack
+  (\texttt{FR-18}). \\ 
+  \textit{Priority}      & Low \\
+  \textit{Use-case(s)}   & \texttt{UC-02, UC-06} \\
+\end{uc3m-table}
+
+
+\begin{uc3m-table}{FR-22}{Functional Requirement \texttt{FR-22}}
+  \textit{Title}         & \textbf{Monadic Uniform-Cost Search} \\
+  \textit{Description}   &
+  Offer a function able to perform an Uniform-Cost Search that returns
+  the solution wrapped in the search monad with the statistics. Uniform-Cost
+  Search should be implemented using linear-memory search (\texttt{FR-16}).\\
+  \textit{Priority}      & Low \\
+  \textit{Use-case(s)}   & \texttt{UC-02, UC-06} \\
+\end{uc3m-table}
+
+
+\begin{uc3m-table}{FR-23}{Functional Requirement \texttt{FR-23}}
+  \textit{Title}         & \textbf{Monadic Greedy Search} \\
+  \textit{Description}   &
+  Offer a function able to perform a Greedy Search that returns solution
+  wrapped in the search monad with the statistics. Greedy Search should be
+  implemented using linear-memory search (\texttt{FR-16}) expanding the nodes
+  with a minimal-heuristic order.\\ 
+  \textit{Priority}      & Low \\
+  \textit{Use-case(s)}   & \texttt{UC-02, UC-06} \\
+\end{uc3m-table}
+
+
+\begin{uc3m-table}{FR-24}{Functional Requirement \texttt{FR-24}}
+  \textit{Title}         & \textbf{Monadic A* Search} \\
+  \textit{Description}   &
+  Offer a function able to perform an A* Search that returns
+  the solution wrapped in the search monad with the statistics. A*
+  Search should be implemented using general search (\texttt{FR-15})
+  using a priority queue to expand the nodes (\texttt{FR-18}). \\
+  \textit{Priority}      & Low \\
+  \textit{Use-case(s)}   & \texttt{UC-02, UC-06} \\
+\end{uc3m-table}
+
+
+\begin{uc3m-table}{FR-24}{Functional Requirement \texttt{FR-24}}
+  \textit{Title}         & \textbf{Monadic Iterative-Deepening A* Search} \\
+  \textit{Description}   &
+  Offer a function able to perform a IDA* Search that returns
+  the solution wrapped in the search monad with the statistics. IDA*
+  Search should be implemented using linear-memory search (\texttt{FR-16})
+  and expanding the nodes in cost-heuristic search order.\\
+  \textit{Priority}      & Low \\
+  \textit{Use-case(s)}   & \texttt{UC-02, UC-06} \\
+\end{uc3m-table}
+
+
+\newpage
 
 \subsubsection{Non-Functional Requirements}
 \subsubsection{Traceability Matrix}
