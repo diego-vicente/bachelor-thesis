@@ -3,9 +3,9 @@
 When trying to follow a traditional software engineering approach to in
 Haskell, one soon runs into several dead ends: due to the different paradigm
 and style, trying to apply some methods feels forced or unnatural.
-Traditionally, in Haskell the approach when formalizing an approach just
-involves a mathematical approach, using just Mathematics for a formal design
-through equations, that are then verified by a theorem prover such as Agda or
+Traditionally, in Haskell the approach when formalizing a piece of code just
+involves a mathematical validation, using pure Mathematics for a formal design
+through equations, that can then verified by a theorem prover such as Agda or
 Coq. Furthermore, the problems only increase when we try to use UML: this
 methodology was clearly not designed for other than Object-Oriented programming
 and it is not possible to create traditional diagrams for Haskell without
@@ -159,6 +159,7 @@ seen in Table \ref{r-ex}.
   \textit{Title}         & \\
   \textit{Description}   & \\
   \textit{Priority}      & \\
+  \textit{Use-case(s)}   & \\
   \hline
 \end{tabular}
 \caption{Requirement template}
@@ -173,7 +174,129 @@ or other context necessary for the library to correctly work) will be
 identified with the tags \texttt{NFR-XX}, where once again the \texttt{XX}
 stands for a double digit number.
 
+\newpage
+
 \subsubsection{Functional Requirements}
+
+\begin{uc3m-table}{FR-01}{Functional Requirement \texttt{FR-01}}
+  \textit{Title}         & \textbf{Set of data types and classes} \\
+  \textit{Description}   &
+  All end-user types have to be well documented and offered to the user due to
+  Haskell's strongly typing system.\\
+  \textit{Priority}      & High \\
+  \textit{Use-case(s)}   & \texttt{UC-01, UC-02, UC-03, UC-04, UC-05} \\
+\end{uc3m-table}
+
+
+\begin{uc3m-table}{FR-02}{Functional Requirement \texttt{FR-02}}
+  \textit{Title}         & \textbf{Pure general search method} \\
+  \textit{Description}   &
+  Following the general search algorithm mentioned in \cite{rusell-2003-aima},
+  offer a function with similar capabilities while purely functional. As the
+  one in the book, it should behave differently by the order of nodes in the
+  open list. Due to this open list of nodes, it will use non-linear memory. \\
+  \textit{Priority}      & High \\
+  \textit{Use-case(s)}   & \texttt{UC-03} \\
+\end{uc3m-table}
+
+
+\begin{uc3m-table}{FR-03}{Functional Requirement \texttt{FR-03}}
+  \textit{Title}         & \textbf{Pure linear-memory search method} \\
+  \textit{Description}   &
+  Offer a method that is able to perform search using linear memory in a purely
+  functional way.\\
+  \textit{Priority}      & High \\
+  \textit{Use-case(s)}   & \texttt{UC-03} \\
+\end{uc3m-table}
+
+
+\begin{uc3m-table}{FR-04}{Functional Requirement \texttt{FR-04}}
+  \textit{Title}         & \textbf{Pure data structure interface} \\
+  \textit{Description}   &
+  A data structure interface to hold the nodes open list in general search has
+  to be provided. This interface has to be defined as a Haskell class and be
+  well documented, as well as exported for the user to implement their own data
+  structures.\\
+  \textit{Priority}      & High \\
+  \textit{Use-case(s)}   & \texttt{UC-03} \\
+\end{uc3m-table}
+
+
+\begin{uc3m-table}{FR-05}{Functional Requirement \texttt{FR-05}}
+  \textit{Title}         & \textbf{Library of pure data structures} \\
+  \textit{Description}   &
+  Using the aforementioned data structure interface, the library should also
+  provide a set of curated, purely functional data structures as the ones
+  exposed in \cite{okasaki-1999-purely}. The exact set of data structures is
+  left to decide once the implementation starts, choosing the more convenient
+  ones for both the library and the user. \\
+  \textit{Priority}      & High \\
+  \textit{Use-case(s)}   & \texttt{UC-03} \\
+\end{uc3m-table}
+
+
+\begin{uc3m-table}{FR-06}{Functional Requirement \texttt{FR-06}}
+  \textit{Title}         & \textbf{Library of toy problems} \\
+  \textit{Description}   &
+  The library should include a set of already implemented problems that enables
+  the users to solve them by using algorithms that use the library's data types
+  (whether the ones provided by the library or ones implemented by themselves).
+  \\
+  \textit{Priority}      & High \\
+  \textit{Use-case(s)}   & \texttt{UC-04, UC-05} \\
+\end{uc3m-table}
+
+
+\begin{uc3m-table}{FR-07}{Functional Requirement \texttt{FR-07}}
+  \textit{Title}         & \textbf{Pure Breadth-First Search} \\
+  \textit{Description}   &
+  Offer a function able to perform a Breadth-First Search that returns the list
+  of all solutions found that way in the problem space. Breadth-First Search
+  should be implemented using general search (\texttt{FR-02}) and a First-In,
+  First-Out queue (\texttt{FR-05}). \\
+  \textit{Priority}      & High \\
+  \textit{Use-case(s)}   & \texttt{UC-01, UC-05} \\
+\end{uc3m-table}
+
+
+\begin{uc3m-table}{FR-08}{Functional Requirement \texttt{FR-08}}
+  \textit{Title}         & \textbf{Pure Depth-First Search} \\
+  \textit{Description}   &
+  Offer a function able to perform a Depth-First Search that returns the list
+  of all solutions found that way in the problem space. Depth-First Search
+  should be implemented using linear-memory search (\texttt{FR-03}) or a
+  Last-In, First-Out stack (\texttt{FR-05}).\\
+  \textit{Priority}      & High \\
+  \textit{Use-case(s)}   & \texttt{UC-01, UC-05} \\
+\end{uc3m-table}
+
+
+\begin{uc3m-table}{FR-09}{Functional Requirement \texttt{FR-09}}
+  \textit{Title}         & \textbf{Pure Iterative Depth-First Search} \\
+  \textit{Description}   &
+  Offer a function able to perform an Iterative Depth-First Search that returns
+  the list of all solutions found that way in the problem space. Iterative
+  Depth-First Search should be implemented using linear-memory search
+  iteratively (\texttt{FR-03}) or a Last-In, First-Out depth-bounded stack
+  (\texttt{FR-05}). \\ 
+  \textit{Priority}      & High \\
+  \textit{Use-case(s)}   & \texttt{UC-01, UC-05} \\
+\end{uc3m-table}
+
+
+\begin{uc3m-table}{FR-10}{Functional Requirement \texttt{FR-10}}
+  \textit{Title}         & \textbf{Pure Uniform-Cost Search} \\
+  \textit{Description}   &
+  Offer a function able to perform an Uniform-Cost Search that returns
+  the list of all solutions found that way in the problem space. Uniform-Cost
+  Search should be implemented using linear-memory search (\texttt{FR-03})
+  iteratively (\texttt{FR-03}). \\ 
+  \textit{Priority}      & High \\
+  \textit{Use-case(s)}   & \texttt{UC-01, UC-05} \\
+\end{uc3m-table}
+
+
+
 \subsubsection{Non-Functional Requirements}
 \subsubsection{Traceability Matrix}
 
