@@ -48,6 +48,10 @@
   \label{\tableID}
 \end{table} }
 
+\usepackage{caption}
+% \DeclareCaptionFont{white}{\color{white}}
+% \DeclareCaptionFormat{listing}{\colorbox{azulUC3M}{\parbox{\textwidth}{#1#2#3}}}
+% \captionsetup[lstlisting]{format=listing,labelfont=white,textfont=white}
 
 \usepackage{listings}
 \lstset{ frame=Ltb,
@@ -58,6 +62,7 @@
      framexleftmargin=0.2cm,
      xrightmargin=-0.7cm,
      xleftmargin=-0.5cm,
+     belowcaptionskip=0.5cm,
      framesep=0pt,
      rulesep=0.2pt,
      backgroundcolor=\color{gray97},
@@ -87,9 +92,6 @@
 
 \lstnewenvironment{listing}[1][]
 {\lstset{#1}\pagebreak[0]}{\pagebreak[0]}
-
-\renewcommand{\lstlistingname}{Snippet}
-\renewcommand{\lstlistlistingname}{List of \lstlistingname s}
 
 \usepackage[top=2cm]{geometry}
 \pretolerance=2000
