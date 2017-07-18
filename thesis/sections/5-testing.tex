@@ -99,8 +99,36 @@ package. The results are as follow:
 \end{lstlisting}
 
 
-There, we can see that the garbage collection time has been reduced by a
-second, but it is still a marginal improvement. Another option we have 
+There, it can be seen that the garbage collection time has been reduced by a
+second, but it is still a marginal improvement. Therefore, maybe a different
+approach is needed: If we take a close look to the \texttt{addList} method, the
+main cost center of this problem, we can see that we have two main options to
+implement it: the first of them is to create a new \texttt{MinPrioHeap} and use
+the library function \texttt{union} to merge both of them inside the new
+structure. The code is shown in the listing \ref{addlist:union}.
+
+\begin{lstlisting}[style=haskell, caption= \texttt{addList} using
+  \texttt{union}, label=addlist:union]
+addList xs (PriorityQueue h f) = PriorityQueue (union h xs') f
+  where xs' = fromList $ map (\n -> (f n, n)) xs
+\end{lstlisting}
+
+Although the language should manage the memory correctly, maybe this is not the
+best way of managing this operation. As a possible solution, we can try to
+force the reutilization of the old structure by adding the nodes using a strict
+fold over the \texttt{MinPrioHeap}. This implementation is shown in the listing
+\ref{addlist:fold}.
+
+\begin{lstlisting}[style=haskell, caption= \texttt{addList} using
+  \texttt{fold'}, label=addlist:fold]
+addList xs (PriorityQueue h f) = PriorityQueue (foldl' insertNode h xs) f
+  where insertNode acc x = insert (f x, x) acc
+\end{lstlisting}
+
+To check the performance of all possibilities, the profiling problem stated at
+the beginning of this subsection has been run using all combination of
+implementations and library, and the full results of performance are found in
+the chart shown in the figure X.
 
 
 \newpage
