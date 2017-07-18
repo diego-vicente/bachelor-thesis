@@ -338,7 +338,7 @@ stands for a double digit number.
   \textit{Title}         & \textbf{Search monad} \\
   \textit{Description}   &
   Design a monad that is able to collect run-time statistic in searches. The
-  search monad should be able to keep this logs:
+  search monad should be able to keep these logs:
   \begin{enumerate}
   \item Number of expanded nodes.
   \item Number of enqueued nodes (if the search uses a data structure).
@@ -481,6 +481,48 @@ stands for a double digit number.
 \newpage
 
 \subsubsection{Non-Functional Requirements}
+
+\begin{uc3m-table}{NFR-01}{Non-Functional Requirement \texttt{NFR-01}}
+  \textit{Title}         & \textbf{Operating System} \\
+  \textit{Description}   &
+  The library can be used in any operating system that is able to run GHC and
+  the Haskell platform, namely: Ubuntu, Arch Linux, FreeBSD, Gentoo Linux
+  (x86-64 and x86), Fedora, Debian and NixOS.\\
+  \textit{Priority}      & High \\
+\end{uc3m-table}
+
+
+\begin{uc3m-table}{NFR-02}{Non-Functional Requirement \texttt{NFR-02}}
+  \textit{Title}         & \textbf{Haskell version} \\
+  \textit{Description}   &
+  The Haskell platform has to be installed in the system, which includes the
+  GHC as well as other packaging, testing and documented tools needed for the
+  system. The version included must be 8.0 or higher.\\
+  \textit{Priority}      & High \\
+\end{uc3m-table}
+
+
+\begin{uc3m-table}{NFR-02}{Non-Functional Requirement \texttt{NFR-02}}
+  \textit{Title}         & \textbf{Cabal version} \\
+  \textit{Description}   &
+  Cabal is a packaging tool, used for building and installing packages and
+  dependencies in Haskell. The Cabal version has to be 1.24.0.0 or later.\\
+  \textit{Priority}      & High \\
+\end{uc3m-table}
+
+
+\begin{uc3m-table}{NFR-03}{Non-Functional Requirement \texttt{NFR-03}}
+  \textit{Title}         & \textbf{Dependencies} \\
+  \textit{Description}   &
+  All the dependencies needed for the library to properly work must be
+  installed in the system. These dependencies are controlled by Cabal and
+  require no further intervention by the user if Cabal is used for installing.
+  The complete list of dependencies can be found in the package configuration
+  file (\texttt{.cabal}).\\
+  \textit{Priority}      & High \\
+\end{uc3m-table}
+
+
 \subsubsection{Traceability Matrix}
 
 \subsection{Implementation}
