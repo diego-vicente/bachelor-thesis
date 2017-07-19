@@ -1,6 +1,7 @@
 \section{Testing}
 
 \subsection{Unit testing}
+
 \subsection{Profiling}
 
 \subsubsection{Profiling different \texttt{PriorityQueue} implementations}
@@ -13,7 +14,7 @@ cost centers reveal that the space allocation happen most of all in the
 \texttt{DataStructure} methods for adding nodes, so let us keep researching how
 to fix this issue. To generate a lot of nodes in the open list, we will use a
 bad heuristic in the problem \texttt{Warcraft}, to get a solution with these
-statistics (obtained with the \texttt{Search.Monadic} library):
+statistics (obtained with the \texttt{Search.Monadic} library):\\
 
 \begin{itemize}
  \item Number of expanded nodes: 378790
@@ -25,7 +26,7 @@ Just to obtain a plan length of 19. This big size for the open list will
 trigger the garbage collection problem and let us study it better. Running the
 \texttt{profiling} executable of the library in this problem outputs, we can
 see these results (please bear in mind the profiling overhead, stated as
-\texttt{PROF} time):
+\texttt{PROF} time):\\
 
 \begin{lstlisting}
 > cabal run profiling
@@ -66,7 +67,7 @@ queue, we can experiment with different methods.\\
 We can run the same problem using the implementation with the \texttt{psqueues}
 (and more accurately the \texttt{Data.IntPSQ} module), an alternative library
 that offers an implementation of a higher level than our original \texttt{heap}
-package. The results are as follow:
+package. The results are as follow:\\
 
 
 \begin{lstlisting}
@@ -105,7 +106,7 @@ approach is needed: If we take a close look to the \texttt{addList} method, the
 main cost center of this problem, we can see that we have two main options to
 implement it: the first of them is to create a new \texttt{MinPrioHeap} and use
 the library function \texttt{union} to merge both of them inside the new
-structure. The code is shown in the listing \ref{addlist:union}.
+structure. The code is shown in the listing \ref{addlist:union}.\\
 
 \begin{lstlisting}[style=haskell, caption= \texttt{addList} using
   \texttt{union}, label=addlist:union]
@@ -117,7 +118,7 @@ Although the language should manage the memory correctly, maybe this is not the
 best way of managing this operation. As a possible solution, we can try to
 force the reutilization of the old structure by adding the nodes using a strict
 fold over the \texttt{MinPrioHeap}. This implementation is shown in the listing
-\ref{addlist:fold}.
+\ref{addlist:fold}.\\
 
 \begin{lstlisting}[style=haskell, caption= \texttt{addList} using
   \texttt{fold'}, label=addlist:fold]
@@ -131,7 +132,7 @@ implementations and library, and the full results of performance are found in
 the chart shown in the figure X.\\
 
 \begin{figure}
-\centering
+  \centering
 \begin{tikzpicture}
   \begin{axis}[
     xbar,
@@ -139,18 +140,22 @@ the chart shown in the figure X.\\
     axis x line       = none,
     % width = 8cm, height = 4cm,
     ytick = data,
+    xmin=0,
     tickwidth         = 0pt,
-    enlarge y limits  = 0.2,
+    enlarge y limits  = 1,
     enlarge x limits  = 0.02,
-    symbolic y coords = {heap,psqueues},
+    symbolic y coords = {Package A,Package B},
     nodes near coords,
   ]
-  \addplot coordinates { (57727,heap) (5672,psqueues) };
-  \addplot coordinates { (14320,heap) (1615,psqueues) };
-  \legend{union, foldl}
+  \addplot coordinates { (4.21,Package A) (4.52,Package B) };
+  \addplot coordinates { (4.1,Package A) (4.8,Package B) };
+  \legend{Using union, Using a fold}
   \end{axis}
 \end{tikzpicture}
-\caption{Hello} \label{fig:f}
+\vspace{-1cm}
+\caption{Comparing Package A (\texttt{heap}) and Package B
+  (\texttt{psqueues}).}
+\label{chart-libraries}
 \end{figure}
 
 \newpage
