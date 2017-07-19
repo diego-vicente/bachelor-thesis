@@ -128,7 +128,29 @@ addList xs (PriorityQueue h f) = PriorityQueue (foldl' insertNode h xs) f
 To check the performance of all possibilities, the profiling problem stated at
 the beginning of this subsection has been run using all combination of
 implementations and library, and the full results of performance are found in
-the chart shown in the figure X.
+the chart shown in the figure X.\\
 
+\begin{figure}
+\centering
+\begin{tikzpicture}
+  \begin{axis}[
+    xbar,
+    y axis line style = { opacity = 0 },
+    axis x line       = none,
+    % width = 8cm, height = 4cm,
+    ytick = data,
+    tickwidth         = 0pt,
+    enlarge y limits  = 0.2,
+    enlarge x limits  = 0.02,
+    symbolic y coords = {heap,psqueues},
+    nodes near coords,
+  ]
+  \addplot coordinates { (57727,heap) (5672,psqueues) };
+  \addplot coordinates { (14320,heap) (1615,psqueues) };
+  \legend{union, foldl}
+  \end{axis}
+\end{tikzpicture}
+\caption{Hello} \label{fig:f}
+\end{figure}
 
 \newpage
