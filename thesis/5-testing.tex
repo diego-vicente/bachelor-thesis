@@ -39,6 +39,24 @@ be explained in depth in each of the domains subsections.\\
 
 \subsection{Profiling}
 
+As seen in the previous section, the library has an overall good performance,
+but under certain conditions the it becomes drastically slower. However, it is
+hard to say what is exactly happening: due to the side-effects isolation, there
+is no easy way to use print-debugging or to time different functions of the
+code to see what is exactly going on. At this level of abstraction, what the
+computer is doing in the bad performances is, indeed, completely hidden from
+us.\\
+
+However, the language provides certain tools to profile code if it is indeed
+necessary to spot a problem. The main tool for profiling is using the
+\texttt{+RTS} interface, that will be detailed next. After explaining the
+process of creating a working environment to profile the project, we will
+undergo several experiments to find the hot spots in the project and follow a
+procedure to fix it.\\
+
+\subsubsection{Creating the \texttt{profiling} executable}
+
+\subsubsection{Find the cost centers of the library}
 
 \subsubsection{Profiling different \texttt{PriorityQueue} implementations}
 
