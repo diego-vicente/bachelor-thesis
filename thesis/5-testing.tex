@@ -56,7 +56,73 @@ procedure to fix it.\\
 
 \subsubsection{Creating the \texttt{profiling} executable}
 
-\subsubsection{Find the cost centers of the library}
+To effectively profile code in Haskell, it is needed to make use of an
+interface to the Runtime System (RTS). This system, which is not usually
+intended to be directly queued, is the one in charge of a lot of Haskell's nuts
+and bolts: RTS includes a storage manager, a scheduler and a profiler, among
+other necessary runtime services that work as a middle system between the user
+code and the compiled Haskell code \cite{ghc}.\\
+
+To effectively profile the code, it is necessary to use both compilation and
+runtime flags. This is usually easy to manage with single files, but a project
+like this can become really hard to compile with a simple \texttt{ghc} command
+outside of a packaging tool like Cabal or Stack. Plus, the library needs to
+install the profile version of the dependencies, so simply compiling by hand
+may not be enough to successfully profile the code.\\
+
+The best solution available for a project this size is to create a Cabal
+executable that will gather all the options, and enables for an easy access to
+the profiling of the library. To create this executable, we need to add the
+Listing \ref{prof-cabal} to the file \texttt{agis.cabal} in the root of the
+project.\\
+
+\begin{lstlisting}[style=haskell, label=prof-cabal, caption=
+Setup for the \texttt{profiling} executable in the Cabal file]
+-- Library profiling executable
+executable profiling
+
+  hs-source-dirs:      src/Search/Pure
+           
+  main-is:             Profiling.hs
+  
+  ghc-options:         -O2
+                       -threaded
+                       "-with-rtsopts=-N -p -s -h -i0.1"
+
+  build-depends:       [...]
+
+  default-language:    Haskell2010
+\end{lstlisting}
+
+This configuration creates a new executable called \texttt{profiling}, that
+will call the file \texttt{Profiling.hs} in the directory
+\texttt{search/Search/Pure}. This file will simply contain a main method
+calling the code to be tested, which will be the main method for the Moving AI
+maps. For this executable to created, we pass several options to the compiler:
+to be compiled with level 2 optimizations (\texttt{-O2}) and using the
+concurrent abstractions (\texttt{-threaded}), as well as to include all the
+necessary runtime options (\texttt{-with-rtsopts}):
+
+\begin{itemize}
+\item \texttt{-N} sets the number of available processors to the number of
+  processors of the system.
+\item \texttt{-p} generates the profiling report.
+\item \texttt{-s} includes garbage collection in the report.
+\item \texttt{-h} includes memory usage in the report.
+\item \texttt{-i} sets the profiler frequency to 0.1 seconds.  
+\end{itemize}
+
+Running \texttt{cabal build} will compile the project (and install all the
+necessary profiling version of the dependencies) and generate the executable.
+To run it, it is only necessary to run \texttt{cabal run profiling}. This
+shortcut is much more robust and simple than to input the compiler flags every
+time. Once run, it outputs a brief description of the profiling in the memory
+and generates a comprehensive report (a \texttt{.prof} file) where the runtime
+statistics are detailed. Now that the environment is set, we can proceed to
+profile the code searching for the hot spots in the library.
+
+
+\subsubsection{Finding the hot spots of the library}
 
 \subsubsection{Profiling different \texttt{PriorityQueue} implementations}
 
