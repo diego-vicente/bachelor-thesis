@@ -39,6 +39,7 @@ be explained in depth in each of the domains subsections.\\
 
 \subsection{Profiling}
 
+
 \subsubsection{Profiling different \texttt{PriorityQueue} implementations}
 
 
@@ -193,6 +194,23 @@ the chart shown in the figure \ref{chart-libraries}.\\
 \label{chart-libraries}
 \end{figure}
 
+It can be seen how the performances are very similar to each other: no matter
+which library or what implementation we use. We can then conclude that the
+problem is intrinsic to the memory management performed by the RTS interface in
+Haskell, or by how the compiler is turning the high-level declarations into
+machine code.\\
+
+Nonetheless, taking into account the knowledge that has been obtained by
+profiling the data structure, the most intuitive and possible reason for this
+space leak is that in Haskell, all data in immutable, and by adding the nodes
+to the queue a complete new queue is being generated, allocating a new copy of
+it and forcing the garbage collector to claim the old queue's space. Although
+this is the natural behavior expected from the language, there are workarounds
+to make a data structure mutable, but it has been impossible to find an
+implementation that allows for a low complexity insertion and extraction of
+nodes in a sorted heap and that is mutable. Implementing such data structure in
+Haskell is not an easy task, and it is considered to be out of the scope of
+this thesis.\\
 
 \newpage
 
