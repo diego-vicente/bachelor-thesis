@@ -2,6 +2,41 @@
 
 \subsection{Unit testing}
 
+\subsection{Search Domains Analysis}
+
+After performing the unit testing, the library still has to be proven reliable
+and fast in different search domains. To do so, we will use these domains:
+
+\begin{itemize}
+\item \textbf{N-Queens}: This problem consists in placing $n$ queens in a $n
+  \times n$ chess board so that no two queens are in the same row, column or
+  diagonal: that is, placing all the queens without two queens threatening each
+  other. This problem is provided in the library under the module
+  \texttt{Search.ToyProblem.NQueens}, and this is the implementation that will
+  be used to test the performance.
+\item \textbf{8-Puzzle}: This problem uses a $3 \times 3$ board that contains 8
+  numerated tiles and a blank space. The tiles can be slide around the board if
+  they are next to the blank space, and the purpose of the puzzle is to end up
+  with a sorted board. This problem is provided in the library under the module
+  \texttt{Search.ToyProblem.EightPuzzle}.
+\item \textbf{Moving AI Maps}: This problem depends receives a map and two
+  coordinates, and the agent generated tries to find a path that goes from one
+  point to the other. Depending on the algorithm, this path will be the easier
+  to find or the shortest. The map file is expected to be in the format
+  provided by \cite{movingai-benchmarks}. This is the most demanding problem of
+  all to be tested, as well as the most versatile.
+\end{itemize}
+
+In each problem, a different capability of the library is tested, and it will
+be explained in depth in each of the domains subsections.\\
+
+\subsubsection{Results \& Performance in N-Queens}
+
+\subsubsection{Results \& Performance in 8-Puzzle}
+
+\subsubsection{Results \& Performance in Moving AI Maps}
+
+
 \subsection{Profiling}
 
 \subsubsection{Profiling different \texttt{PriorityQueue} implementations}
@@ -14,7 +49,7 @@ cost centers reveal that the space allocation happen most of all in the
 \texttt{DataStructure} methods for adding nodes, so let us keep researching how
 to fix this issue. To generate a lot of nodes in the open list, we will use a
 bad heuristic in the problem \texttt{Warcraft}, to get a solution with these
-statistics (obtained with the \texttt{Search.Monadic} library):\\
+statistics (obtained with the \texttt{Search.Monadic} library):
 
 \begin{itemize}
  \item Number of expanded nodes: 378790
@@ -129,9 +164,9 @@ addList xs (PriorityQueue h f) = PriorityQueue (foldl' insertNode h xs) f
 To check the performance of all possibilities, the profiling problem stated at
 the beginning of this subsection has been run using all combination of
 implementations and library, and the full results of performance are found in
-the chart shown in the figure X.\\
+the chart shown in the figure \ref{chart-libraries}.\\
 
-\begin{figure}
+\begin{figure}[!htbp]
   \centering
 \begin{tikzpicture}
   \begin{axis}[
