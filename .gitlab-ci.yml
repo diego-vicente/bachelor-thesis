@@ -6,7 +6,8 @@ image: blang/latex
 
 build:
   script:
-    - latexmk -pdf
+    - cd thesis
+    - latexmk -pdf tfg.tex
   artifacts:
     paths:
       - "*.pdf"
