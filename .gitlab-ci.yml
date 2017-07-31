@@ -10,4 +10,4 @@ build:
     - latexmk -pdf tfg.tex
   artifacts:
     paths:
-      - "*.pdf"
+      - "thesis/tfg.pdf"
