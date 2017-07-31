@@ -531,7 +531,70 @@ are supposed to satisfy which use cases. Please notice that only functional
 requirements are considered for the traceability matrix (since non-functional
 requirements are stated as preconditions for the whole system to work at all).\\
 
+
 \subsection{Implementation}
+
+
+Once the requirements are defined well defined and the use cases are covered,
+we can go on to discuss the design of the library.
+
+\subsubsection{Type Signature Graph}
+
+To provide a visual representation of the library's design, one usually defines
+a class diagram that presents a map with all the interactions among classes in
+a given project. However, this artifact is strictly endemic to the
+Object-Oriented Programming paradigm, and cannot be applied to this project.
+Due to the size of the project, and the undeniable help of a visual
+representation like the class diagram, it is included in this thesis a
+\textit{type signature graph}. This representation presents a flow of types
+defined and arguments among modules, presenting the functions contained in each
+of them. With this model we try to obtain the undeniable insight provided by a
+graphical representation, and the formality that implies the type signature
+design, widely used as a model in Haskell development. \\
+
+\begin{sidewaysfigure}
+  \centering
+  \includegraphics[width=0.9\textwidth]{img/type-graph-pure.png}
+  \vspace{1cm}
+  \caption{Type signature graph of the \texttt{Search.Pure} library}
+  \label{graph-pure}
+\end{sidewaysfigure}
+
+\begin{sidewaysfigure}
+  \centering
+  \includegraphics[width=0.9\textwidth]{img/type-graph-monadic.png}
+  \vspace{1cm}
+  \caption{Type signature graph of the \texttt{Search.Monadic} library}
+  \label{graph-monadic}
+\end{sidewaysfigure}
+
+These graphs (Figures \ref{graph-pure}, \ref{graph-monadic}) show the basic
+control and import flow of the library, and are specially useful for
+understanding implementation basics and dependencies among functions. As a
+special remark, the specific functions provided by the \texttt{ToyProblem}
+modules are omitted (due to lack of interest for the rest of the diagram) and
+it is important to notice that every time the generic type \texttt{a} is
+mentioned has to follow the constraints \texttt{Eq a} and \texttt{Hashable a},
+since it is the type of the state of the problem space. Such constraints were
+dropped from the graph for readability reasons.\\
+
+We can see how both parts of the library share the same main structure: A
+\texttt{Base} module that defines all the main types needed, a \texttt{General}
+module that defines the more generalized functions to perform the search, a set
+of \texttt{DataStructure} implementations and two modules, \texttt{Uninformed}
+and \texttt{Informed} that implement a set of (respectively) uninformed and
+heuristic algorithms, using the algorithms and data structures defined in the
+former modules. For example, the Breadth-First Search algorithm (\texttt{bfs})
+is defined using a \texttt{Queue} data structure and initial conditions of a
+\texttt{generalSearch}.\\
+
+Even if both parts of the library seem the same, a closer look reveals that the
+monad designed to keep track of the search (\texttt{SearchM}) is returned
+instead of a list; a fact that is not visible because it is encapsulated in the
+\texttt{Algorithm} type. Also, some noticeable differences like the creation of
+new functions to keep better track of search statistics are present in the
+\texttt{Monadic} part of the library.
+
 
 \newpage
 
