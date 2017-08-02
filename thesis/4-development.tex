@@ -572,11 +572,12 @@ These graphs (Figures \ref{graph-pure}, \ref{graph-monadic}) show the basic
 control and import flow of the library, and are specially useful for
 understanding implementation basics and dependencies among functions. As a
 special remark, the specific functions provided by the \texttt{ToyProblem}
-modules are omitted (due to lack of interest for the rest of the diagram) and
-it is important to notice that every time the generic type \texttt{a} is
-mentioned has to follow the constraints \texttt{Eq a} and \texttt{Hashable a},
-since it is the type of the state of the problem space. Such constraints were
-dropped from the graph for readability reasons.\\
+modules are omitted (due to lack of interest for the rest of the diagram) as
+well as the \texttt{Benchmark} tools, and it is important to notice that every
+time the generic type \texttt{a} is mentioned has to follow the constraints
+\texttt{Eq a} and \texttt{Hashable a}, since it is the type of the state of the
+problem space. Such constraints were dropped from the graph for readability
+reasons.\\
 
 We can see how both parts of the library share the same main structure: A
 \texttt{Base} module that defines all the main types needed, a \texttt{General}
@@ -593,8 +594,25 @@ monad designed to keep track of the search (\texttt{SearchM}) is returned
 instead of a list; a fact that is not visible because it is encapsulated in the
 \texttt{Algorithm} type. Also, some noticeable differences like the creation of
 new functions to keep better track of search statistics are present in the
-\texttt{Monadic} part of the library.
+\texttt{Monadic} part of the library.\\
 
+
+\subsection{Implementation}
+
+\subsubsection{Pure General Search}
+
+To perform searches like a Breadth-First search, it is needed to enqueue the
+nodes in a structure and check in such structure which one is the next one to
+be expanded in the search. This general behavior is mainly modified by the
+nature of the data structure used to store the nodes: depending on it, we can
+use a queue (for Breadth-First Search), a stack (for a Depth-First Search) or
+more complex data structures such as a priority queue (for Uniform-Cost Search
+or A* Search, for instance). This general search is indeed described in
+\cite{rusell-2003-aima} when first explaining search methods. This algorithm
+is the main inspiration for the final implementation of the
+\texttt{generalSearch} method.
+
+%% TODO: Include generalSearch code
 
 \newpage
 
