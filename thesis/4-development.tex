@@ -599,7 +599,7 @@ new functions to keep better track of search statistics are present in the
 
 \subsection{Implementation}
 
-\subsubsection{Pure General Search}
+\subsubsection{General Search}
 
 To perform searches like a Breadth-First search, it is needed to enqueue the
 nodes in a structure and check in such structure which one is the next one to
@@ -610,9 +610,43 @@ more complex data structures such as a priority queue (for Uniform-Cost Search
 or A* Search, for instance). This general search is indeed described in
 \cite{rusell-2003-aima} when first explaining search methods. This algorithm
 is the main inspiration for the final implementation of the
-\texttt{generalSearch} method.
+\texttt{generalSearch} method.\\
 
-%% TODO: Include generalSearch code
+\begin{lstlisting}[style=haskell,
+caption=Pure \texttt{generalSearch} implementation, label=pure:general]
+generalSearch :: (DataStructure ds, Eq a, Hashable a)
+  => ProblemSpace a   -- ^ 'ProblemSpace' to be solved
+  -> Cost a           -- ^ 'Cost' function to use
+  -> Heuristic a      -- ^ 'Heuristic' function to use
+  -> ds a             -- ^ 'DataStructure' that manages the node expansion
+  -> [Node a]         -- ^ Returns the list of all final nodes (solutions)
+
+generalSearch problem g h nodes
+  | isEmpty nodes                   = []
+  | getGoalF problem (getState n)   = n : generalSearch problem g h nodes'
+  | otherwise                       = generalSearch problem g h ds'
+  where (nodes', n) = next nodes
+        expanded = expand n g h (getActions problem)
+        ds' = addList expanded nodes'
+\end{lstlisting}
+
+We can see in Listing \ref{pure:general} how the implementation is
+straightforward: To find all the possible paths to obtain a solution, the
+function checks if the node is final and enqueues if to the list of solutions,
+or expands it and adds the resulting nodes (if any) to the data structure. This
+could keep on going until the data structure is completely empty, but it will
+just expand as many nodes as strictly necessary to find the solutions the
+function is asked for.\\
+
+This way of relying on the data structure makes a super versatile piece of code
+out of this implementation, but also makes it extremely hard to formally prove:
+a possible way to do so would be to prove that all the nodes are expanded in a
+given order (i.e that a Breadth-First Search expands the nodes in a FIFO way),
+but that task depends on the data structure's implementation, so it is not
+possible to prove the correctness of this implementation for all possible
+entries. To make up for this, we the library includes all unit and integration
+tests possible to check correct behavior of it and the default data structures
+provided in it.\\
 
 \newpage
 
