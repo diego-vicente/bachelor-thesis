@@ -648,6 +648,75 @@ entries. To make up for this, we the library includes all unit and integration
 tests possible to check correct behavior of it and the default data structures
 provided in it.\\
 
+\subsubsection{Linear-Memory Search}
+
+With the \texttt{generalSearch} method we could virtually mimic any possible
+algorithm's node expansion order, by adding those functionalities to the data
+structure: a stack-like structure will expand nodes in a DFS fashion, adding a
+limit of depth will result in an IDFS-like behavior, sorting the nodes in a
+priority queue would result in a A* Search. However, stating that all these
+behaviors would be a valid implementation of the aforementioned algorithms is a
+great underestimation of these designs: there are other aspects to analyze of
+an algorithm rather than just the node expansion order
+\cite{korf-2014-correct}.\\
+
+A specially problematic aspect for our \texttt{generalSearch} method is the
+memory usage: the fact of enqueueing the nodes in the data structure makes it
+use an exponential memory depending on the branching factor of the search, and
+the fact that the objects in Haskell are immutable only makes this worse. This
+is acceptable when performing an A* Search (there is no other way for us to
+expand the nodes in order than to sort them in a queue with all the nodes to be
+expanded) but trying to use a stack as a data structure to perform a
+Depth-First Search will also result in it using exponential memory (all the
+nodes get enqueued and passed along the structure). This is not acceptable and
+we need to implement a different method for it.\\
+
+Fortunately, implementing this linear-memory method is as easy as relying on
+one of Haskell's more natural mechanisms: recursive calls in a tree shape.
+However, instead of simple depth-first search, we can take advantage of one of
+the most widespread abstractions of the language: \texttt{map}. This function
+performs a given function on each of the elements of a list. The main advantage
+is that this is one of the abstractions that uses concurrency so may result in
+a performance improvement under some certain conditions. In our case, we can
+define the method \texttt{depthSearch}, whose pure implementation is defined in
+the Listing \ref{pure:depth}.\\
+
+\begin{lstlisting}[style=haskell,
+caption=Pure \texttt{depthSearch} implementation, label=pure:depth]
+depthSearch :: (Eq a, Hashable a)
+  => ProblemSpace a   -- ^ 'ProblemSpace' to be solved
+  -> Cost a           -- ^ 'Cost' function to use
+  -> Heuristic a      -- ^ 'Heuristic' function to use
+  -> NodeEvaluation a -- ^ 'NodeEvaluation' to sort the expanded nodes
+  -> Node a           -- ^ Current 'Node' to be expanded
+  -> [Node a]         -- ^ Returns the list of all final nodes (solutions)
+  
+depthSearch problem g h f node
+  | getGoalF problem (getState node) = return node
+  | otherwise = concatMap (depthSearch problem g h f) sorted
+    where sorted = sortBy (\n n' -> compare (f n) (f n')) expanded
+          expanded = expand node g h (getActions problem)
+\end{lstlisting}
+
+We can see that this implementation includes some interesting mechanics. The
+function performs 3 basic tasks: check if a given node contains a final state
+inside and leave it, expand non-final nodes and flatten the list. When
+flattening the list, the nodes that result in an empty list (that is, that
+cannot be expanded) are pruned from the solutions list. By using this, we don't
+rely on a sequential implementation and we can take advantage of the
+paradigm.\\
+
+%%% TODO: Diagram explaining work?
+
+However, it is important to note that due to the fact that the each nodes
+include in themselves information of their path (the key part to solve the k
+path-finding problem) makes the size of the nodes slightly increase as the
+search increases. For that reason, the memory is not strictly linear, but it
+still provides a huge advantage over the previous method discussed. Since the
+memory used is not linear due to the allocation but to the increasing size of
+the nodes, this solution will be accepted as good enough for this purpose.
+
+
 \newpage
 
 %%% Local Variables:
