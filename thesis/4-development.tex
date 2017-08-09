@@ -704,7 +704,11 @@ inside and leave it, expand non-final nodes and flatten the list. When
 flattening the list, the nodes that result in an empty list (that is, that
 cannot be expanded) are pruned from the solutions list. By using this, we don't
 rely on a sequential implementation and we can take advantage of the
-paradigm.\\
+paradigm: this mapping of nodes are actually done concurrently and can increase
+the performance compared to a simple recursive call. Also notice that the
+function accepts a \texttt{NodeEvaluation} function to sort the nodes. Although
+this is not explicitly used in any of the predefined algorithms, can be useful
+for an user to sort nodes in order to be expanded.\\
 
 %%% TODO: Diagram explaining work?
 
@@ -714,8 +718,35 @@ path-finding problem) makes the size of the nodes slightly increase as the
 search increases. For that reason, the memory is not strictly linear, but it
 still provides a huge advantage over the previous method discussed. Since the
 memory used is not linear due to the allocation but to the increasing size of
-the nodes, this solution will be accepted as good enough for this purpose.
+the nodes, this solution will be accepted as good enough for this purpose.\\
 
+This method can be easily modified to perform another type of useful and
+widespread linear-memory search: a limited memory search (of any given bound by
+the user), that expand nodes if possible or if a given \texttt{NodeEvaluation}
+is within the bound given by the user. This function can be read in Listing
+\ref{pure:limit}.\\
+
+\begin{lstlisting}[style=haskell,
+caption=Pure \texttt{limitedDepthSearch} implementation, label=pure:limit]
+limitedDepthSearch :: (Eq a, Hashable a)
+  => ProblemSpace a   -- ^ 'ProblemSpace' to be solved
+  -> Cost a           -- ^ 'Cost' function to use
+  -> Heuristic a      -- ^ 'Heuristic' function to use
+  -> NodeEvaluation a -- ^ 'NodeEvaluation' to sort the expanded nodes
+  -> Double           -- ^ Limit to be imposed to the 'NodeEvaluation'
+  -> Node a           -- ^ Current 'Node' to be expanded
+  -> [Node a]         -- ^ Returns the list of all final nodes (solutions)
+
+limitedDepthSearch problem g h f l node
+  | getGoalF problem (getState node) = return node
+  | otherwise = concatMap (limitedDepthSearch problem g h f l) sorted
+    where sorted = sortBy (\n n' -> compare (f n) (f n')) expanded
+          expanded = filter ((<l) . f) $ expand node g h (getActions problem)
+\end{lstlisting}
+
+With this function, we can implement different search algorithms like
+Iterative Depth-First Search or Iterative Deepening A* Search, by performing
+a bounded search and increasing the bound over and over.\\
 
 \newpage
 
