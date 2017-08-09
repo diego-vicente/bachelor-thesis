@@ -748,6 +748,58 @@ With this function, we can implement different search algorithms like
 Iterative Depth-First Search or Iterative Deepening A* Search, by performing
 a bounded search and increasing the bound over and over.\\
 
+\subsubsection{Branch \& Bound Search}
+
+The last well known general search algorithm that we can provide is a
+branch-and-bound fashion search: performing a depth-first search and using the
+cost of that solution as the current cost bound. Then, keep on expanding nodes
+but making that search be a limited one, by the bound we have found in the
+previous solution. Each time a new solution is found, update the bound and keep
+on the search until there are no more nodes to expand. This algorithm also uses
+linear-space to perform the search, and the pseudocode for this algorithm is
+well-defined in \cite{zhang-1995-bnb}.\\
+
+However, this pseudocode is explicitly imperative and seems hard to recreate
+using a purely functional approach. A naive approach to this matter would be to
+use the previously mentioned algorithms to solve this problem: perform a
+\texttt{depthSearch} and store the cost, then perform a
+\texttt{limitedDepthSearch} with the current bound and try to found a better
+one, and repeat this procedure until no new solution is found. However, this
+will not use linear space: instead, it will perform $n$ searches that will,
+indeed, use linear-memory each one. This solution is definitely
+non-acceptable.\\
+
+The best solution, is to use a fold method, and use such accumulator to hold
+both the list of solutions (in a Last In First Out order) and the current best
+cost. Using this fold and recursively calling the function on the nodes, we can
+replicate the exact behavior of the algorithm in a purely functional way in a
+single search. The code of this function is written in the Listing
+\ref{pure:bnb}.\\
+
+\begin{lstlisting}[style=haskell,
+caption=Pure \texttt{depthBNB} implementation, label=pure:bnb]
+depthBNB :: (Eq a, Hashable a)
+  => ProblemSpace a   -- ^ 'ProblemSpace' to be solved
+  -> Cost a           -- ^ 'Cost' function to use
+  -> Heuristic a      -- ^ 'Heuristic' function to use
+  -> NodeEvaluation a -- ^ 'NodeEvaluation' to sort and bound the expanded nodes
+  -> Node a           -- ^ Current 'Node' to be expanded
+  -> (Double, [Node a])    -- ^ The current bound and intermediate solutions
+                           -- found (in ascending cost order)
+  -> (Double, [Node a])    -- ^ The final bound and all solutions found (in
+                           -- ascending cost order)
+
+depthBNB problem g h f n (l, sol) = foldl bnbStep (l, sol) sorted
+  where sorted = sortBy (\n n' -> compare (f n) (f n')) expanded
+        expanded = expand n g h (getActions problem)
+
+        bnbStep (bound, solutions) n
+          | f n >= bound = (bound, solutions)
+          | getGoalF problem (getState n) = (f n, n:solutions)
+          | otherwise = depthBNB problem g h f n (bound, solutions)
+\end{lstlisting}
+
+
 \newpage
 
 %%% Local Variables:
