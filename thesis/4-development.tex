@@ -864,7 +864,73 @@ description given in \cite{rusell-2003-aima} and due to the nature of the
 framework and the language it follows all the criteria exposed in
 \cite{felner-2011-dijkstra} to be named Uniform-Cost Search: it works in
 implicit graphs (as most all \texttt{ProblemSpace} objects are exactly that),
-and Dijkstra's would require to have all nodes input in the $Q$ list.
+and Dijkstra's would require to have all nodes input in the $Q$ list.\\
+
+
+\subsubsection{Informed Algorithms}
+
+In a similar way, we define a set of informed algorithms. The code for these
+algorithms can be found in Listing \ref{pure:inf}
+
+
+\begin{lstlisting}[style=haskell, caption=Pure informed search algorithms,
+label=pure:inf]
+-- | 'hillClimbing' runs a Hill Climbing Heuristic Search.
+hillClimbing :: (Eq a, Hashable a) => Cost a -> Heuristic a -> Algorithm a
+hillClimbing g h problem = generalSearch problem g h sortedH
+  where sortedH = startPriorityQueue (getInitial problem) getHeuristic
+
+
+-- | 'aStar' runs an A* Search.
+aStar :: (Eq a, Hashable a) => Cost a -> Heuristic a -> Algorithm a
+aStar g h problem = generalSearch problem g h sortedAStar
+  where sortedAStar  = startPriorityQueue (getInitial problem) aStarF
+        aStarF n = getCost n + getHeuristic n
+
+
+-- | 'idAStar' runs an Iterative-Deepening A* Search.
+idAStar :: (Eq a, Hashable a) =>
+  (Double, Double) -> Cost a -> Heuristic a -> Algorithm a
+idAStar (step, inf) g h p = stepIDAStar 0
+  where stepIDAStar l = if l < inf
+          then limitedDepthSearch p g h aStarF l initial
+               ++ stepIDAStar (l + step)
+          else []
+        aStarF n = getCost n + getHeuristic n
+        initial = newNode (getInitial p)
+
+
+-- | 'beam' runs a Beam Search of a given beam width.
+beam :: (Eq a, Hashable a) =>
+  Int -> Cost a -> Heuristic a -> Algorithm a
+beam w g h problem = generalSearch problem g h stack
+  where stack = startBeamStack (getInitial problem) w getHeuristic
+
+
+-- | 'dfBNB' performs a Depth-First Branch & Bound Search. Due to the nature of
+-- this algorithm, it does not return the list of all solutions in the problem
+-- space: Instead, it returns all the solutions that it has found in ascending
+-- cost order.
+dfBNB :: (Eq a, Hashable a) =>  Cost a -> Heuristic a -> Algorithm a
+dfBNB g h problem = snd $ depthBNB problem g h aStarF initial (inf, [])
+  where aStarF n = getCost n + getHeuristic n
+        initial = (newNode . getInitial) problem
+        inf = 1/0
+\end{lstlisting}
+
+
+The first of them is a greedy heuristic search algorithm, better known under
+the name of Hill Climbing. This algorithm performs a \texttt{generalSearch}
+with a priority queue that sorts the nodes in ascending order of heuristic
+value. Arguably, the most popular informed search algorithm, A* Search, is
+implemented in a similar way: runs a \texttt{generalSearch} using a priority
+queue as well, but that priority queue uses a function $f(n) = g(n) +
+h(n)$ to sort the nodes in ascending order, where $g$ is the cost function and
+$h$ is the heuristic function. A more lightweight but similar algorithm is
+Iterative-Deepening A*, which performs a depth search using the aforementioned
+function under a certain bound that increases each new iteration. This searches
+take linear time to find the solution, and if IDS performs a search inside a
+certain depth, IDA* performs a search inside a certain $f$-spectrum.
 
 \newpage
 
