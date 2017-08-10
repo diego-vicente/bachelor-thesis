@@ -756,8 +756,8 @@ cost of that solution as the current cost bound. Then, keep on expanding nodes
 but making that search be a limited one, by the bound we have found in the
 previous solution. Each time a new solution is found, update the bound and keep
 on the search until there are no more nodes to expand. This algorithm also uses
-linear-space to perform the search, and the pseudocode for this algorithm is
-well-defined in \cite{zhang-1995-bnb}.\\
+linear-space to perform the search, and a pseudocode for it can be found in
+\cite{zhang-1995-bnb} along with all necessary explanations.\\
 
 However, this pseudocode is explicitly imperative and seems hard to recreate
 using a purely functional approach. A naive approach to this matter would be to
@@ -770,7 +770,7 @@ indeed, use linear-memory each one. This solution is definitely
 non-acceptable.\\
 
 The best solution, is to use a fold method, and use such accumulator to hold
-both the list of solutions (in a Last In First Out order) and the current best
+both the list of solutions (in a Last In, First Out order) and the current best
 cost. Using this fold and recursively calling the function on the nodes, we can
 replicate the exact behavior of the algorithm in a purely functional way in a
 single search. The code of this function is written in the Listing
@@ -782,7 +782,7 @@ depthBNB :: (Eq a, Hashable a)
   => ProblemSpace a   -- ^ 'ProblemSpace' to be solved
   -> Cost a           -- ^ 'Cost' function to use
   -> Heuristic a      -- ^ 'Heuristic' function to use
-  -> NodeEvaluation a -- ^ 'NodeEvaluation' to sort and bound the expanded nodes
+  -> NodeEvaluation a -- ^ 'NodeEvaluation' to sort and bound expanded nodes
   -> Node a           -- ^ Current 'Node' to be expanded
   -> (Double, [Node a])    -- ^ The current bound and intermediate solutions
                            -- found (in ascending cost order)
@@ -799,6 +799,72 @@ depthBNB problem g h f n (l, sol) = foldl bnbStep (l, sol) sorted
           | otherwise = depthBNB problem g h f n (bound, solutions)
 \end{lstlisting}
 
+
+\subsubsection{Uninformed Algorithms}
+
+Using the previously developed methods, we are able to create a set of
+uninformed, purely-functional algorithms ready to use by the users. These
+algorithms are just partially-applied general functions which are imposed some
+initial conditions to behave as the algorithm is supposed to. Apart from the
+convenience that this implies, another main reason to design the search
+algorithms this way is because those general search methods are available for
+users to build their own search algorithms. Just like these partially-applied
+functions result in one algorithm or the other, the users of the framework have
+absolute freedom to use them to create their own algorithms.\\
+
+\begin{lstlisting}[style=haskell,
+caption=Pure uninformed search algorithms, label=pure:uninf]
+-- | 'bfs' runs a Breadth-First Search
+bfs :: (Eq a, Hashable a) => Algorithm a
+bfs problem = generalSearch problem noCost noHeuristic (startQueue $
+                                                        getInitial problem)
+
+
+-- | 'dfs' runs a Depth-First Search
+dfs :: (Eq a, Hashable a) => Algorithm a
+dfs problem = depthSearch problem noCost noHeuristic noSorting initial
+  where initial = newNode (getInitial problem)
+
+
+-- | 'idfs' runs an Iterative Deepening Depth-First Search. The first argument,
+-- a pair of 'Int's (@step@, @inf@), represent the main parameters of the
+-- search: each new iteration the depth test is incremented by adding @step@ as
+-- long as the new depth is lower than @inf@.
+idfs :: (Eq a, Hashable a) => (Int, Int) -> Algorithm a
+idfs (step, inf) p = stepIDFS 0
+  where stepIDFS d = if d < inf
+          then limitedDepthSearch p noCost noHeuristic depth (fromIntegral d) i
+               ++ stepIDFS (d + step)
+          else []
+        i = newNode $ getInitial p
+        depth = fromIntegral . length . getPath
+
+
+-- | 'ucs' runs an Uniform-Cost Search with a given cost function
+ucs :: (Eq a, Hashable a) => Cost a -> Algorithm a
+ucs g problem = generalSearch problem g noHeuristic sortedCost
+  where sortedCost = startPriorityQueue (getInitial problem) getCost
+\end{lstlisting}
+
+In the Listing \ref{pure:uninf} we can see some of the best know brute-force
+search algorithms. Breadth-First Search is implemented using a
+\texttt{generalSearch} call with a queue data structure (First In, First Out).
+On the other hand, the Depth-First Search algorithm uses the simplest
+implementation of the \texttt{depthSearch} general method starting in the
+initial node of the problem space. Iterative Deepening Depth-First Search is
+implemented by performing a \texttt{limitedDepthSearch} over and over,
+increasing the depth bound using a given step until that bound is bigger that
+some limit given by the user. All these algorithms have been implemented
+following the description provided in \cite{rusell-2003-aima}. The last
+algorithm in the set is Uniform-Cost Search, which performs a breadth-first,
+cost-based search in the problem space. To do so, \texttt{generalSearch} is
+used with a priority queue that sorts the nodes in cost ascending order. This
+algorithm is usually called Dijkstra's, but this implementation is based on the
+description given in \cite{rusell-2003-aima} and due to the nature of the
+framework and the language it follows all the criteria exposed in
+\cite{felner-2011-dijkstra} to be named Uniform-Cost Search: it works in
+implicit graphs (as most all \texttt{ProblemSpace} objects are exactly that),
+and Dijkstra's would require to have all nodes input in the $Q$ list.
 
 \newpage
 
