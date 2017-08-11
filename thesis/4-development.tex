@@ -930,7 +930,17 @@ $h$ is the heuristic function. A more lightweight but similar algorithm is
 Iterative-Deepening A*, which performs a depth search using the aforementioned
 function under a certain bound that increases each new iteration. This searches
 take linear time to find the solution, and if IDS performs a search inside a
-certain depth, IDA* performs a search inside a certain $f$-spectrum.
+certain depth, IDA* performs a search inside a certain $f$-spectrum. These
+algorithms follow the specifications covered in \cite{rusell-2003-aima}.\\
+
+Another algorithm offered is Beam Search, which uses a data structure called
+\texttt{BeamStack} in the library: it only enqueues the best $k$ nodes of a
+given expansion, following a \texttt{NodeEvaluation} function. In the previous
+case, $k$ is the width of the beam, that is decided by the user. The last
+algorithm specified is Depth-First Branch \& Bound, which just uses the
+aforementioned \texttt{depthBNB} general method using $f$ as the evaluation
+function to perform the Branch \& Bound, as specified in
+\cite{zhang-1995-bnb}.\\
 
 \newpage
 
