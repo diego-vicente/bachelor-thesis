@@ -942,6 +942,90 @@ aforementioned \texttt{depthBNB} general method using $f$ as the evaluation
 function to perform the Branch \& Bound, as specified in
 \cite{zhang-1995-bnb}.\\
 
+
+\subsubsection{The Search Monad}
+
+These are basically all algorithms provided by the library: a user can import
+all these algorithms and model their problem as a \texttt{ProblemSpace}, define
+all necessary functions and get the list of solutions. However, if the user is
+more interested in an academic or educational point of view, this functions do
+not provide some important information: How many nodes are being expanded? How
+many nodes where enqueued when we first found a solution?\\
+
+Solving this questions using purely functional reasoning is a real challenge:
+the easiest way to do this is using a global variable, outside the scope of the
+recursivity, that stores all the necessary statistics. However, since this is
+modifying the state of the machine, it is an illegal operation in Haskell. If
+we try to use a simple counter we will not obtain always the correct results:
+In a depth-first recursion, the counter will only be able to count the expanded
+nodes in the solution's path. An accumulator will have a performance cost and
+most code should be rewritten to hold it.\\
+
+For those reasons, the solution best solution found for this problem was to use
+a monad. A monad is a model that is able to ``bypass'' the explicit data flow
+imposed by the pure functional paradigm. This model let us embed a context in a
+computation, which is helpful in different situations like error handling,
+logging or (like in this specific case) counting operations and execution
+traces \cite{wadler-1993-monad}. To do so, the \texttt{SearchM} monad is
+included in the library. In this section, its design will be explained as well
+as proved correct following the monad laws.\\
+
+\begin{lstlisting}[style=haskell, caption=\texttt{Statistics} implementation,
+label=monad:stat]
+data Statistics = Statistics
+  { nodesExpanded  :: Integer -- ^ Number of nodes expanded through the whole
+                              -- search
+  , nodesEnqueued  :: Integer -- ^ Number of nodes that have been enqueued
+                              -- through the whole search
+  , maxQueueLength :: Integer -- ^ Maximum number of nodes that have been
+                              -- enqueued at the same time
+  } deriving Eq
+
+mergeStats :: Statistics -> Statistics -> Statistics
+mergeStats (Statistics exp enq maxL) (Statistics exp' enq' maxL') =
+  Statistics (exp + exp') (enq + enq') (max maxL maxL')
+\end{lstlisting}
+
+In Listing \ref{monad:stat} we can see the definition of a \texttt{Statistics}
+object, which is a record that gathers information about the current search
+being performed: the total number of expanded nodes, the total number of nodes
+that were added to the data structure, and the maximum size of the data
+structure throughout the execution. Also, the method \texttt{mergeStats} is
+defined to combine two different statistic logs: sum the expanded and enqueued
+nodes and compare the maximum lengths.
+
+\begin{lstlisting}[style=haskell, caption=\texttt{SearchM} implementation,
+label=monad:searchm]
+data SearchM a = SearchM { getNode  :: a          -- ^ Node with solution
+                         , getStats :: Statistics -- ^ Complete search
+                                                  -- statistics 
+                         }
+
+instance Functor SearchM where
+  fmap f (SearchM n stats) = SearchM (f n) stats
+
+instance Applicative SearchM where
+  pure n = SearchM n (Statistics 0 0 0)
+  SearchM f s <*> SearchM n s' = SearchM (f n) (mergeStats s s')
+
+instance Monad SearchM where
+  return = pure
+  SearchM n s >>= f = let SearchM n' s' = f n in SearchM n' (mergeStats s s')
+\end{lstlisting}
+
+Using the \texttt{Statistics} record, making the monad is a much more
+accessible task. In the Listing \ref{monad:searchm} we can see how we define
+\texttt{SearchM} as a wrapper for a \texttt{Node} object that contains all the
+search statistics. After defining the object, it has to implement all the
+necessary classes to be a monad: All monads are also functors (often
+endofuctors, since they map a category to themselves) with application and two
+natural transformations \cite{street-1972-monads}. For that reason, we have to
+define \texttt{fmap} (a generalized version of the \texttt{map} function on
+lists) to define it as a functor, and the functions \texttt{pure} (to embed
+pure expressions in the functor) and \texttt{<*>} (to sequence computations and
+combine their results) to define the application of it.
+
+
 \newpage
 
 %%% Local Variables:
