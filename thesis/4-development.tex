@@ -1023,7 +1023,47 @@ natural transformations \cite{street-1972-monads}. For that reason, we have to
 define \texttt{fmap} (a generalized version of the \texttt{map} function on
 lists) to define it as a functor, and the functions \texttt{pure} (to embed
 pure expressions in the functor) and \texttt{<*>} (to sequence computations and
-combine their results) to define the application of it.
+combine their results) to define the application of it.\\
+
+However, by including it as a monad (specially as in a library, as a resource
+available to the end user), we need to ensure that it behaves as such. The way
+to do it is formally proving that the monad fulfills the monad laws
+\cite{wadler-1993-monad}. To prove this, we are going to use the same notation
+used in Wadler's work: The bind operator, defined in Haskell as
+\texttt{>>=}, will be used in this thesis as $\star$, and lambda clauses will
+be defined using the Greek letter ($\lambda$). A monad has to fulfill 3 basic
+monad laws:
+
+\begin{itemize}
+\item \textbf{Left identity}: this law states that putting a pure value in
+  context and then binding it to a function has to be equivalent to applying
+  the function to the variable.
+
+  $$
+  unit \  x \star f = f(x) \\
+  $$
+
+  Which, in Haskell, is equivalent to the expression \texttt{return x >>= f ==
+    f x}, for a variable \texttt{x :: a} and a function \texttt{f :: a -> m b}.
+  This formal proof for this law is covered in Listing \ref{monad:leftid}.
+
+\begin{lstlisting}[style = haskell, caption = Left identity formal proof for
+\texttt{SearchM}, label = monad:leftid]
+return x >>= f == f x
+-- { definition of return, where s :: Statistics with identity value }
+SearchM x s >>= f == f x
+-- { definition of >>= }
+let SearchM x' s' = f x in SearchM x' (mergeStats s s') == f x
+-- { definition of f }
+SearchM x' (mergeStats s s') == SearchM x' s'
+-- { applying identity of s }
+SearchM x' s' == SearchM x' s'
+-- { equality }
+True
+\end{lstlisting}
+\end{itemize}
+
+
 
 
 \newpage
