@@ -1045,19 +1045,44 @@ monad laws:
 
   Which, in Haskell, is equivalent to the expression \texttt{return x >>= f ==
     f x}, for a variable \texttt{x :: a} and a function \texttt{f :: a -> m b}.
-  This formal proof for this law is covered in Listing \ref{monad:leftid}.
+  The formal proof for this law is covered in Listing \ref{monad:leftid}.
 
 \begin{lstlisting}[style = haskell, caption = Left identity formal proof for
 \texttt{SearchM}, label = monad:leftid]
 return x >>= f == f x
--- { definition of return, where s :: Statistics with identity value }
-SearchM x s >>= f == f x
+-- { definition of return, where s_id :: Statistics with the identity value }
+SearchM x s_id >>= f == f x
 -- { definition of >>= }
-let SearchM x' s' = f x in SearchM x' (mergeStats s s') == f x
+let SearchM x' s = f x in SearchM x' (mergeStats s_id s) == f x
 -- { definition of f }
-SearchM x' (mergeStats s s') == SearchM x' s'
--- { applying identity of s }
-SearchM x' s' == SearchM x' s'
+SearchM x' (mergeStats s_id s) == SearchM x' s
+-- { applying identity of s_id }
+SearchM x' s == SearchM x' s
+-- { equality }
+True
+\end{lstlisting}
+
+\item \textbf{Right identity}: this law states that binding a monadic value to
+  an empty context is no different from the initial monadic value itself.
+
+  $$
+  m \star \  \lambda x \rightarrow unit x = m \\
+  $$
+
+  This statement can be written in Haskell as
+  \texttt{SearchM x s >>= (\symbol{92}x -> return x) = SearchM x s}, for a variable
+  \texttt{x :: a}. The formal proof for this law is covered in Listing
+  \ref{monad:rightid}.
+
+\begin{lstlisting}[style = haskell, caption = Left identity formal proof for
+\texttt{SearchM}, label = monad:rightid]
+SearchM x s >>= (\n -> return n) = SearchM x s
+-- { definition of return, where s_id :: Statistics with identity value }
+SearchM x s >>= (\n -> SearchM n s_id) = SearchM x s
+-- { definition of >>= }
+SearchM x (mergeStats s_id s) = SearchM x s
+-- { applying identity of s_id }
+SearchM x s = SearchM x s
 -- { equality }
 True
 \end{lstlisting}
