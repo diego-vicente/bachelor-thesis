@@ -1031,8 +1031,10 @@ to do it is formally proving that the monad fulfills the monad laws
 \cite{wadler-1993-monad}. To prove this, we are going to use the same notation
 used in Wadler's work: The bind operator, defined in Haskell as
 \texttt{>>=}, will be used in this thesis as $\star$, and lambda clauses will
-be defined using the Greek letter ($\lambda$). A monad has to fulfill 3 basic
-monad laws:
+be defined using the Greek letter ($\lambda$). However, due to a simpler
+approach and the increased intuition on the behavior that they provide, the
+formulation of the rules will be the ones provided in
+\cite{lipovaca-2011-learn}.
 
 \begin{itemize}
 \item \textbf{Left identity}: this law states that putting a pure value in
