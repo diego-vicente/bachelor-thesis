@@ -1074,18 +1074,52 @@ True
   \texttt{x :: a}. The formal proof for this law is covered in Listing
   \ref{monad:rightid}.
 
-\begin{lstlisting}[style = haskell, caption = Left identity formal proof for
+\begin{lstlisting}[style = haskell, caption = Right identity formal proof for
 \texttt{SearchM}, label = monad:rightid]
-SearchM x s >>= (\n -> return n) = SearchM x s
+SearchM x s >>= (\n -> return n) == SearchM x s
 -- { definition of return, where s_id :: Statistics with identity value }
-SearchM x s >>= (\n -> SearchM n s_id) = SearchM x s
+SearchM x s >>= (\n -> SearchM n s_id) == SearchM x s
 -- { definition of >>= }
-SearchM x (mergeStats s_id s) = SearchM x s
+SearchM x (mergeStats s_id s) == SearchM x s
 -- { applying identity of s_id }
-SearchM x s = SearchM x s
+SearchM x s == SearchM x s
 -- { equality }
 True
 \end{lstlisting}
+
+\item \textbf{Associativity}: This law states that the binding of different
+  monadic operations is independent of the nesting in which it occurs.
+
+  $$
+  m \star f \star g = m \star (\lambda x \rightarrow f(x) \star g)\\
+  $$
+
+  For a variable \texttt{x :: a}, and functions \texttt{f :: a -> m b},
+  \texttt{g :: a -> m b}, the formal proof for this law is covered in Listing
+  \ref{monad:assoc}.
+
+\begin{lstlisting}[style = haskell, caption = Associativity formal proof for
+\texttt{SearchM}, label = monad:assoc]
+(SearchM x s >>= f) >>= g == SearchM x s >>= (\n -> f n >>= g)
+-- { left side - definition of >>= (1); let f x = x'}
+SearchM x' (mergeStats s s') >>= g
+-- { left side - definition of >>= (2); let g x' = x''}
+SearchM x'' (mergeStats (mergeStats s s') s'')
+-- { right side - definition of >>= (3); }
+SearchM x s >>= (\n -> SearchM ((g . f) n) (mergeStats s_f s_g))
+-- { right side - definition of >>= (4); let (f . g) x = x''}
+SearchM x'' (mergeStats (mergeStats s' s'') s)
+-- { assuming associativity of mergeStats, let result be s_f }
+SearchM x'' s_f == SearchM x'' s_f
+-- { equality }
+True
+\end{lstlisting}
+
+  In this proof, the associativity of \texttt{mergeStats} is mentioned as an
+  axiom. This can be seen true in Listing \ref{monad:stat} where the
+  implementation of this function displays three associative operations: two
+  sums and one maximum.\\
+  
 \end{itemize}
 
 
