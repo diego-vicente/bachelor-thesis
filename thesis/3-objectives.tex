@@ -85,20 +85,66 @@ libraries would do.\\
 
 To collect the run-time statistics is not trivial as it can be in another
 languages. Since we need to rely on recursion, collecting the total execution
-statistics from the different stack calls requires a model called monad. %cite?
-This monad will be explained later in the document, but to include it in the
-library we need to perform modifications in the code to wrap the solutions in
-it. If we try to wrap the list of solutions in the monad, we will be able to
-obtain full run-time statistics, but no partial ones: if we ask only for the
-head of the solutions it will be computed and nothing more, but if we want to
-query the total nodes expanded the full search on the solution space has to be
-performed for the monad to retrieve the number. Then, a list of solutions is
-not the best structure if we want to use the monad.\\
+statistics from the different stack calls requires a model called monad
+\cite{wadler-1993-monad}. This monad will be explained later in the document,
+but to include it in the library we need to perform modifications in the code
+to wrap the solutions in it. If we try to wrap the list of solutions in the
+monad, we will be able to obtain full run-time statistics, but no partial ones:
+if we ask only for the head of the solutions it will be computed and nothing
+more, but if we want to query the total nodes expanded the full search on the
+solution space has to be performed for the monad to retrieve the number. Then,
+a list of solutions is not the best structure if we want to use the monad.\\
 
 The best solution is to offer the user two different flavors of the library:
 one that implements a completely pure, fast and lazy search; and another one
 that performs a ``more traditional'' search collecting run-time statistics.
 This, however, will reduce code re-usability, since Haskell's strong typing
 will not allow to share common code in some parts (for example, the data
-structures code).
+structures code).\\
+
+\subsubsection{Finding $k$ Shortest Paths}
+
+Using lists instead of the \texttt{Maybe} monad is an interesting idea.
+However, talking about heuristic search, this approach might ring a familiar
+bell: the $k$ shortest paths problem. This problem faces the fact of finding
+the best $k$ paths that lead to a solution in a given problem
+\cite{eppstein-1998-finding}. Although at first sight this seems to be trivial
+taking into account all the algorithms right now, the fact that most of these
+algorithms rely on a list of closed nodes usually imply that not all paths that
+lead to a final node can be found. This complex problem has been faced several
+times using different approaches: from variations of Dijkstra's algorithm to
+the exploitation of deviations in an already known path
+\cite{dreyfus-1969-appraisal}.\\
+
+However, this undeniably complex problem seem to have a simple solution when
+restricting our implementation to the functional paradigm seems to guide the
+design to a clear solution. It is, indeed, quite unnatural for this paradigm to
+use a closed list of nodes, since it requires to use an accumulator or a monad
+to embed it, in order to properly keep track of the list of nodes already
+expanded. However, a quite natural approach to prevent loops in Haskell is to
+include a closed list in each of the nodes: instead of changing a general
+context, just include a visited state in a node's memory, which feels like a
+much more natural way to include the computation and still prevent brute force
+algorithms to infinitely iterate over a loop in the search graph.\\
+
+This approach, indeed, solves the $k$ shortest paths problem, and the
+fragmentation of the closed list in individual nodes is used in
+\cite{dechter-2012-search} as the main idea behind the algorithms proposed.
+Although this may seem as redundant and inefficient, it can provide good
+results when using a good and consistent heuristic function. For this reason,
+it seems as an interesting experiment and work to make this library be
+available to return the (maybe infinite) list of solutions found: in algorithms
+that are ensured to provide the optimal solution, this list will indeed return
+the list of all solutions in the search space, sorted from best (or shortest)
+to worst. To obtain the best $k$ solutions then becomes trivial in Haskell:
+using a well known idiom like \texttt{take k solutions}, where
+\texttt{solutions} is the list returned by the framework's algorithm. Haskell's
+lazy evaluation will then search for the first $k$ solutions that it is able to
+find and then finish the execution.\\
+
+On the other hand, it is important to notice that algorithms that don't
+guarantee an optimal solution will not solve the $k$ shortest paths: however,
+it may be interesting on comparing the evolution of the cost in the solutions
+found in those algorithms and comparing among each other.\\
+
 \newpage
