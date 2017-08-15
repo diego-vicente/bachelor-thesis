@@ -1151,6 +1151,43 @@ operations bound together \cite{haskell99}). Taking into account that we have
 defined the bind operation to replace the object inside the monad and to merge
 both object's statistics, this produces the desired outcome.
 
+Taking a closer look at the rewritten \texttt{generalSearch} function in
+Listing \ref{monad:general}, we can see how the main control flow of the
+function is the same: check if there are no more nodes to expand, if the node
+is final, or if the node has to be expanded again. However, the function now
+has a do-block that uses logging functions to keep track of the statistics as
+it works. We can see how adapting the library to the monad is an affordable
+task compared to rewriting the functions using accumulators, but there are some
+aspects that require attention to work properly.\\
+
+\begin{lstlisting}[style=haskell,
+caption=Monadic \texttt{generalSearch} implementation, label=monad:general]
+generalSearch :: (DataStructure ds, Eq a, Hashable a)
+  => ProblemSpace a   -- ^ 'ProblemSpace' to be solved
+  -> Cost a           -- ^ 'Cost' function to use
+  -> Heuristic a      -- ^ 'Heuristic' function to use
+  -> ds a             -- ^ 'DataStructure' that manages the node expansion
+  -> SearchM (Maybe (Node a)) -- ^ Returns the solution obtained
+
+generalSearch problem g h nodes
+  | isEmpty nodes = do
+      logExpanded
+      return Nothing
+  | getGoalF problem (getState n) = do
+      logExpanded
+      return (Just n)
+  | otherwise = do 
+      logExpanded
+      logEnqueued (length expanded)
+      logLength ds'
+      generalSearch problem g h ds'
+
+  where (nodes', n) = next nodes
+        expanded = expand n g h (getActions problem)
+        ds' = addList expanded nodes'
+\end{lstlisting}
+
+
 \newpage
 
 %%% Local Variables:
