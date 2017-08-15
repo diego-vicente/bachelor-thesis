@@ -926,12 +926,13 @@ value. Arguably, the most popular informed search algorithm, A* Search, is
 implemented in a similar way: runs a \texttt{generalSearch} using a priority
 queue as well, but that priority queue uses a function $f(n) = g(n) +
 h(n)$ to sort the nodes in ascending order, where $g$ is the cost function and
-$h$ is the heuristic function. A more lightweight but similar algorithm is
-Iterative-Deepening A*, which performs a depth search using the aforementioned
-function under a certain bound that increases each new iteration. This searches
-take linear time to find the solution, and if IDS performs a search inside a
-certain depth, IDA* performs a search inside a certain $f$-spectrum. These
-algorithms follow the specifications covered in \cite{rusell-2003-aima}.\\
+$h$ is the heuristic function \cite{dechter-1985-astar}. A more lightweight but
+similar algorithm is Iterative-Deepening A*, which performs a depth search
+using the aforementioned function under a certain bound that increases each new
+iteration. This searches take linear time to find the solution, and if IDS
+performs a search inside a certain depth, IDA* performs a search inside a
+certain $f$-spectrum. These algorithms follow the specifications covered in
+\cite{rusell-2003-aima}.\\
 
 Another algorithm offered is Beam Search, which uses a data structure called
 \texttt{BeamStack} in the library: it only enqueues the best $k$ nodes of a
@@ -1145,11 +1146,11 @@ do-notation blocks alongside with some logging functions to update the state
 embedded inside the monad.\\
 
 These logging functions have a simple mechanism: They create a dummy
-\texttt{SearchM} object that will be bind (\texttt{>>=}) to the next object
+\texttt{SearchM} object that will be bound (\texttt{>>=}) to the next object
 inside the do-block (do-blocks are indeed just syntactic sugar for a series of
-operations bound together \cite{haskell99}). Taking into account that we have
+operations bound together \cite{haskell-2010}). Taking into account that we have
 defined the bind operation to replace the object inside the monad and to merge
-both object's statistics, this produces the desired outcome.
+both object's statistics, this produces the desired outcome.\\
 
 Taking a closer look at the rewritten \texttt{generalSearch} function in
 Listing \ref{monad:general}, we can see how the main control flow of the
