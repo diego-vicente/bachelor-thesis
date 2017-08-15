@@ -1125,7 +1125,31 @@ True
 \end{itemize}
 
 
+\subsubsection{Adapting the Library to the Search Monad}
 
+Once the monad has been correctly implemented, the library can be replicated
+using the monad. However, since,the monad encapsulates context in the
+computations to be able to keep track of search statistics. For that reason,
+we cannot rely on the lazy evaluation as before: if we ask for the head of the
+list of solutions and the statistics, the statistics cover all the computations
+to be performed in the whole list, which is an operation that may be endless.
+For that reason, it was decided to suppress the idea of returning a list of
+solutions in the monadic part of the library: instead, the first solution found
+(if any) is returned, as in a traditional search library.\\
+
+If the previous sections have covered the code in the \texttt{Search.Pure} part
+of the library, this will instead cover the slight modifications applied to the
+code in the \texttt{Search.Monadic} modules to hold the search statistics.
+These modifications consists of just modifying the recursive calls inside
+do-notation blocks alongside with some logging functions to update the state
+embedded inside the monad.\\
+
+These logging functions have a simple mechanism: They create a dummy
+\texttt{SearchM} object that will be bind (\texttt{>>=}) to the next object
+inside the do-block (do-blocks are indeed just syntactic sugar for a series of
+operations bound together \cite{haskell99}). Taking into account that we have
+defined the bind operation to replace the object inside the monad and to merge
+both object's statistics, this produces the desired outcome.
 
 \newpage
 
