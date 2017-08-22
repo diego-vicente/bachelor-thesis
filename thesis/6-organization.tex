@@ -5,6 +5,68 @@
 \subsubsection{Time Management}
 \subsubsection{Version Control \& Continuous Integration}
 
+To manage all the code in the project, it is a must to use a Version Control
+System (VCS). The chosen system for the project is Git, a widespread
+distributed VCS that allows us to keep track of all changes in the code in all
+developing devices as well as in a remote server \cite{chacon-2009-git}. The
+way Git works allows us to maintain all the code in the repository and enables
+different collaboration dynamics that will be required for the open release of
+the project.\\
+
+One of the main features of Git is the branching system: a repository contains
+one main branch (\texttt{master}), which contains all the commits (snapshots
+that include all code at a certain point in time in the project) associated
+with it. The users can create a new branch from it, to add new features or try
+new implementations, and merge back the changes when satisfied or keep on
+creating new branches on it. This system allows a great flexibility, which can
+sometimes become a problem; for that reason some workflows have been designed
+to impose some restrictions to Git usage in big projects that are maintained by
+several developers. For this project, the choice used is a slight modification
+of Git-flow \cite{driessen-2010-gitflow}, that uses the \texttt{master} branch
+as the branch where \texttt{HEAD} represents the last delivered development
+changes. In the original workflow proposed, this branch is only for
+production-ready code, but the author considers this redundant and in the
+project repository it is stated that the production-ready code is the one
+tagged as releases in the repository \cite{chacon-2009-git}, and distributed in
+the Haskell package managers available. All support branches should be branched
+from \texttt{master} and merged back into it once the code is ready, as stated
+in the \texttt{CONTRIBUTING} file.\\
+
+However, we also must define what ``ready'' actually means: to do so, we will
+rely in one of the tools provided by the third-party service that hosts the
+code: GitLab, which offers the possibility of configuring different Continuous
+Integration tasks and pipelines. Continuous Integration is the practice of
+merging often the developer copies of the project into the main repository
+\cite{fowler-2006-ci}, and the tools provided by the service allows us to run
+some code on the server side and return some insights. In this particular case,
+the pipeline configured installs a Docker image containing Haskell, installs
+and builds the project and then runs the tests defined in the project's test
+suite. This configuration is stored in the file \texttt{.gitlab-ci.yaml} and
+can be read in Listing \ref{git-ci}.\\
+
+\begin{lstlisting}[label=git-ci,
+caption=Continuous Integration pipeline configuration]
+image: haskell:8.0
+
+before_script:
+  - cabal update
+  - cabal install --only-dependencies --enable-tests
+
+test:
+  script:
+  - cabal configure --enable-tests
+  - cabal build
+  - cabal test
+\end{lstlisting}
+
+If the project can install all dependencies, be compiled and run all tests
+without failures, the commit gets tagged as ``passed''. If not, the build is
+considered to fail and an email notification gets sent to the collaborator that
+pushed the code to the repository. Only passed pull-requests can be merged into
+master, forcing the work-in-progress to stay in the adequate branch and the
+code to be ready before be merged into the master branch.\\
+
+
 \subsection{Budget}
 
 \subsection{Open-Sourcing the Project}
@@ -15,6 +77,5 @@
 \newpage
 
 %%% Local Variables:
-%%% mode: latex
-%%% TeX-master: t
+%%% TeX-master: "tfg"
 %%% End:
