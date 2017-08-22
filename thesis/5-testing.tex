@@ -1,7 +1,5 @@
 \section{Testing}
 
-\subsection{Unit testing}
-
 \subsection{Search Domains Analysis}
 
 After performing the unit testing, the library still has to be proven reliable
@@ -37,13 +35,46 @@ be explained in depth in each of the domains subsections.\\
 \subsubsection{Results \& Performance in Moving AI Maps}
 
 
+\subsection{Unit \& Integration Testing}
+
+Thanks to the Cabal packaging tool, it is easy to include a test suite in the
+library, that can be run automatically. The chosen way to test the functions of
+the library was to create a \texttt{Test} folder, in which replicate the
+structure of the library modules. In each of this new modules there should be
+all the tests for the functions included in them. Since the design of the
+library functions are incremental, these small specifications can be both unit
+tests (for instance, to check if \texttt{Search.DataStructure.Queue} correctly
+adds a node) or integration tests (if a queue and a general search can be
+combined correctly to work as a Breadth-First Search). To perform the latter
+tests, we will use small examples of each of the search domains that have been
+included in the library as toy problems, to test the correctness of the results
+returned.\\
+
+To perform this task, the easiest way is to use the \texttt{hspec} package,
+that offers all the necessary functions to perform the testing of the modules,
+plus a function to discover and run all necessary \texttt{Spec} files when
+asking the library to be tested. That way, we can just create new test modules
+and they will be automatically discovered. To run the tests it is only
+necessary to build the library along with the tests (\texttt{cabal build
+  --enable-tests}) and then run \texttt{cabal test}. This convenient access to
+the tests is the cornerstone for the Continuous Integration of the library,
+that will be specified later on the document.\\
+
+Running this command in the version for this thesis (\texttt{0.2.0.0}) runs a
+total of 156 different examples (both unit and integration tests) in
+$\sim 2.6581$ seconds with 0 failures. The output presents the name of each of
+the modules being tested, along with a description of each of the tests and a
+mark in case there was a failure in such example. The complete set of tests can
+be found in the path \texttt{src/Test/} of the library code.\\
+
+
 \subsection{Profiling}
 
-As seen in the previous section, the library has an overall good performance,
-but under certain conditions the it becomes drastically slower. However, it is
-hard to say what is exactly happening: due to the side-effects isolation, there
-is no easy way to use print-debugging or to time different functions of the
-code to see what is exactly going on. At this level of abstraction, what the
+As seen in previous sections, the library has an overall good performance, but
+under certain conditions the it becomes drastically slower. However, it is hard
+to say what is exactly happening: due to the side-effects isolation, there is
+no easy way to use print-debugging or to time different functions of the code
+to see what is exactly going on. At this level of abstraction, what the
 computer is doing in the bad performances is, indeed, completely hidden from
 us.\\
 
