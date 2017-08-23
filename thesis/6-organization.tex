@@ -104,6 +104,28 @@ no liability or warranty with the software.\\
 
 \subsubsection{Contribution Workflow}
 
+Since the project aims to attract users to contribute, it is considered a good
+practice to offer some contribution guidelines for interested users to follow.
+This guidelines are collected in the file \texttt{CONTRIBUTING} and gather all
+the steps to have homogeneous code and methodologies throughout the whole
+project. In this section, this guidelines will be explained on detail.\\
+
+First, the user is asked to create a new issue in the remote repository
+provider, GitLab. This prevents two users to start working on clashing or
+redundant tasks and offers a better perspective when organizing the project.
+Some guidelines are also given when forking or branching (following the scheme
+specified before for branching/merging). There is a special emphasis on test
+creation: this will prevent future refactors or improvements to break previous
+features. Once the contribution is ready on a forked version of the repository,
+a pull-request can be performed. This will no automatically merge the code, but
+instead it will start a code review process. This code review will ensure that
+the code has been developed following the guidelines mentioned, and will enable
+feedback from the project maintainer(s) to the user in order to create better,
+more adequate code for the project \cite{beller-2014-review}. Once the code
+review has been approved, the code is merged to the main code and only accepted
+in the repository if all the Continuous Integration stages (install
+dependencies, building and testing) are properly completed.\\
+
 \newpage
 
 %%% Local Variables:
