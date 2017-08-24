@@ -42,7 +42,7 @@ algorithms cannot be tested in this domain. For the same reason, no correctness
 of the solution has to be considered: if the solution is found is because it is
 valid. That makes the evaluation simpler to understand for this case.\\
 
-\begin{figure}[htbp!]
+\begin{figure}[!htbp]
   \centering
   \begin{tikzpicture}
     \begin{axis}[
@@ -53,7 +53,7 @@ valid. That makes the evaluation simpler to understand for this case.\\
       legend style={at={(0.5,-0.15)},
         anchor=north,legend columns=-1},
       ylabel={Time (ms)},
-      symbolic x coords={BFS,DFS,IDFS(s=1),IDFS(s=5),UCS},
+      symbolic x coords={BFS,DFS,IDFS(1),IDFS(5),UCS},
       xtick=data,
       nodes near coords,
       nodes near coords align={vertical},
@@ -61,17 +61,98 @@ valid. That makes the evaluation simpler to understand for this case.\\
       \addplot coordinates {
         (BFS,125.5)
         (DFS,6.806)
-        (IDFS(s=1),352.0)
-        (IDFS(s=5),38.0)
+        (IDFS(1),352.0)
+        (IDFS(5),38.0)
         (UCS,137.1)
       };
       % \legend{}
     \end{axis}
   \end{tikzpicture}
-  \caption{Time per pure uninformed algorithm in 8-Queens}
+  \caption{Time to find a solution in 8-Queens}
   \label{nq:time}
 \end{figure}
 
+
+\begin{figure}[!htbp]
+  \centering
+  \begin{tikzpicture}
+    \begin{axis}[
+      compat=newest,
+      ybar,
+      enlargelimits=0.15,
+      x = 2.3cm,
+      bar width = 0.8cm,
+      legend style={at={(0.5,-0.15)},
+        anchor=north,legend columns=-1},
+      ylabel={Nodes expanded},
+      symbolic x coords={BFS,DFS,IDFS(1),IDFS(5),UCS},
+      xtick=data,
+      nodes near coords,
+      nodes near coords align={vertical},
+      ]
+      \addplot coordinates {
+        (BFS,1966)
+        (DFS,114)
+        (IDFS(1),5623)
+        (IDFS(5),650)
+        (UCS,1966)
+      };
+      % \legend{}
+    \end{axis}
+  \end{tikzpicture}
+  \caption{Nodes expanded to find a solution in 8-Queens}
+  \label{nq:nodes}
+\end{figure}
+
+
+\begin{figure}[!htbp]
+  \centering
+  \begin{tikzpicture}
+    \begin{axis}[
+      compat=newest,
+      ybar,
+      enlargelimits=0.15,
+      x = 2.3cm,
+      bar width = 0.8cm,
+      legend style={at={(0.5,-0.15)},
+        anchor=north,legend columns=-1},
+      ylabel={Total Memory Allocated (KB)},
+      symbolic x coords={BFS,DFS,IDFS(1),IDFS(5),UCS},
+      xtick=data,
+      nodes near coords,
+      nodes near coords align={vertical},
+      ]
+      \addplot coordinates {
+        (BFS,72840)
+        (DFS,6066)
+        (IDFS(1),152132)
+        (IDFS(5),20164)
+        (UCS,68501)
+      };
+      % \legend{}
+    \end{axis}
+  \end{tikzpicture}
+  \caption{Total memory allocated to find a solution in 8-Queens}
+  \label{nq:memory}
+\end{figure}
+
+
+We can see a clear correlation between the time taken find a solution (Figure
+\ref{nq:time}) and the nodes expanded in the process (Figure \ref{nq:nodes}).
+The results are not surprising: We can see how Breadth-First Search takes some
+a fair amount of time to find the solution, but the algorithm has to traverse
+completely some depths of the tree that cannot contain solutions, which makes
+a handicap for this algorithm. It is also noticeable that the best algorithm
+for this brute-force search is Depth-First Search, which is the fastest
+algorithm. Also an important insight is the fact that Iterative-Deepening
+Depth-First Search is quite sensitive to the parameters given: appropriate step
+parameters can save up to an order of magnitude in the nodes expanded.
+Uniform-Cost Search also behaves as a Breadth-First Search, since there is no
+variable cost function for this concrete example. In the Figure
+\ref{nq:memory}, we can see the total amount of memory allocated during the
+process; not the total memory used by it (memory is claimed back at some
+moments when it stops being used). The correlation between nodes and memory
+allocated is clear as well.\\
 
 \subsubsection{Results \& Performance in 8-Puzzle}
 
