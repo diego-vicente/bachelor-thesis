@@ -10,25 +10,68 @@ and fast in different search domains. To do so, we will use these domains:
   \times n$ chess board so that no two queens are in the same row, column or
   diagonal: that is, placing all the queens without two queens threatening each
   other. This problem is provided in the library under the module
-  \texttt{Search.ToyProblem.NQueens}, and this is the implementation that will
+  \texttt{Search.[...].ToyProblem.NQueens}, and this is the implementation that will
   be used to test the performance.
 \item \textbf{8-Puzzle}: This problem uses a $3 \times 3$ board that contains 8
   numerated tiles and a blank space. The tiles can be slide around the board if
   they are next to the blank space, and the purpose of the puzzle is to end up
   with a sorted board. This problem is provided in the library under the module
-  \texttt{Search.ToyProblem.EightPuzzle}.
+  \texttt{Search.[...].ToyProblem.EightPuzzle}.
 \item \textbf{Moving AI Maps}: This problem depends receives a map and two
   coordinates, and the agent generated tries to find a path that goes from one
   point to the other. Depending on the algorithm, this path will be the easier
   to find or the shortest. The map file is expected to be in the format
   provided by \cite{movingai-benchmarks}. This is the most demanding problem of
-  all to be tested, as well as the most versatile.
+  all to be tested, as well as the most versatile. A parser for this kind of
+  maps is included in \texttt{Search.[...].ToyProblem.MapParser}.
 \end{itemize}
 
 In each problem, a different capability of the library is tested, and it will
-be explained in depth in each of the domains subsections.\\
+be explained in depth in each of the domains subsections. To perform these
+tests, the included tools with the library will be used to perform all
+measurements.\\
 
 \subsubsection{Results \& Performance in N-Queens}
+
+The implementation for the N-Queens problem included with the library uses as
+operators the fact of adding a queen to a new column in all possible positions.
+That way, the approach followed to solve this problem is a brute-force
+approach, which is ideal to study all the uninformed algorithms. On the other
+hand, there is no heuristic available for this approach, so the informed set of
+algorithms cannot be tested in this domain. For the same reason, no correctness
+of the solution has to be considered: if the solution is found is because it is
+valid. That makes the evaluation simpler to understand for this case.\\
+
+\begin{figure}[htbp!]
+  \centering
+  \begin{tikzpicture}
+    \begin{axis}[
+      ybar,
+      enlargelimits=0.15,
+      x = 2.3cm,
+      bar width = 0.8cm,
+      legend style={at={(0.5,-0.15)},
+        anchor=north,legend columns=-1},
+      ylabel={Time (ms)},
+      symbolic x coords={BFS,DFS,IDFS(s=1),IDFS(s=5),UCS},
+      xtick=data,
+      nodes near coords,
+      nodes near coords align={vertical},
+      ]
+      \addplot coordinates {
+        (BFS,125.5)
+        (DFS,6.806)
+        (IDFS(s=1),352.0)
+        (IDFS(s=5),38.0)
+        (UCS,137.1)
+      };
+      % \legend{}
+    \end{axis}
+  \end{tikzpicture}
+  \caption{Time per pure uninformed algorithm in 8-Queens}
+  \label{nq:time}
+\end{figure}
+
 
 \subsubsection{Results \& Performance in 8-Puzzle}
 
