@@ -154,6 +154,38 @@ process; not the total memory used by it (memory is claimed back at some
 moments when it stops being used). The correlation between nodes and memory
 allocated is clear as well.\\
 
+It is also interesting to check the results of the benchmarks for counting all
+the solutions in the search domain. This test is specially interesting with
+Breadth-First Search and Depth-First Search: both of them should find the same
+number of solutions (92 for 8-Queens) and expand all nodes in the search space.
+The differences between timing will show if there is an intrinsic difference in
+the language in both approaches:\\
+
+\begin{lstlisting}
+<lambda> benchmark $ withAllNQueens [("bfs", bfs), ("dfs", dfs)]
+benchmarking nQueens/bfs
+time                 116.3 ms   (113.9 ms .. 119.5 ms)
+                     0.999 R²   (0.998 R² .. 1.000 R²)
+mean                 116.6 ms   (115.9 ms .. 117.6 ms)
+std dev              1.247 ms   (772.9 µs .. 1.917 ms)
+variance introduced by outliers: 11% (moderately inflated)
+
+benchmarking nQueens/dfs
+time                 111.9 ms   (110.4 ms .. 114.1 ms)
+                     1.000 R²   (0.999 R² .. 1.000 R²)
+mean                 113.3 ms   (112.6 ms .. 114.1 ms)
+std dev              1.149 ms   (803.0 µs .. 1.613 ms)
+variance introduced by outliers: 11% (moderately inflated)
+\end{lstlisting}
+
+The results show that both algorithms find the set of solutions using almost
+the same amount of time: Depth-First Search is just 2.5\% faster than
+Breadth-First, probably because of the time saved in allocating memory for the
+data structure, which is substituted by stack calls. These are good news: In
+this search domain, when finding all possible solutions, using linear search
+memory or a general search with a data structure have no visible time overhead
+from one another.\\
+
 \subsubsection{Results \& Performance in 8-Puzzle}
 
 \subsubsection{Results \& Performance in Moving AI Maps}

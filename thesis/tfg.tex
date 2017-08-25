@@ -1,5 +1,6 @@
 \documentclass[a4paper,12pt]{article}
 \usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
 % \usepackage[spanish]{babel}
 \usepackage{hyperref}
 \usepackage{amsmath}
@@ -11,6 +12,7 @@
 \usepackage{graphicx}
 \usepackage{fancyhdr}
 \usepackage{float}
+\usepackage{upgreek}
 \usepackage[table]{xcolor}
 \definecolor{azulUC3M}{RGB}{0,0,102}
 \definecolor{gray97}{gray}{.97}
@@ -77,6 +79,7 @@
      keywordstyle=\bfseries,
      %
      breaklines=true,
+     literate= {<lambda>}{$\lambda$}1 {²}{{\textsuperscript{2}}}1 {µ}{$\upmu$}1
    }
 
    \lstdefinestyle{haskell}{
