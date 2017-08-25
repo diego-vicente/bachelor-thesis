@@ -47,6 +47,8 @@ valid. That makes the evaluation simpler to understand for this case.\\
   \begin{tikzpicture}
     \begin{axis}[
       ybar,
+      axis lines*=left,
+      every axis plot post/.style={/pgf/number format/fixed},
       enlargelimits=0.15,
       x = 2.3cm,
       bar width = 0.8cm,
@@ -78,6 +80,8 @@ valid. That makes the evaluation simpler to understand for this case.\\
   \begin{tikzpicture}
     \begin{axis}[
       compat=newest,
+      axis lines*=left,
+      every axis plot post/.style={/pgf/number format/fixed},
       ybar,
       enlargelimits=0.15,
       x = 2.3cm,
@@ -111,6 +115,8 @@ valid. That makes the evaluation simpler to understand for this case.\\
     \begin{axis}[
       compat=newest,
       ybar,
+      axis lines*=left,
+      every axis plot post/.style={/pgf/number format/fixed},
       enlargelimits=0.15,
       x = 2.3cm,
       bar width = 0.8cm,
@@ -187,6 +193,61 @@ memory or a general search with a data structure have no visible time overhead
 from one another.\\
 
 \subsubsection{Results \& Performance in 8-Puzzle}
+
+In the implementation available in the library for 8-Puzzle, the operators
+consists of moving the blank space in the board. It is just a simpler way to
+express, the problem, and it works the same way as moving the tiles to the
+blank space. Thus, the complexity in this puzzle is much higher than in
+N-Queens, where a brute force search was proven to be quite efficient.
+Fortunately, there is an advantage compared to the previous problem: we can
+design heuristic functions to help us with it, and use the informed set of
+algorithms at hand. Included in the module there is a basic heuristic for this
+problem: the hamming heuristic, which counts how many numbers are not in the
+correct position.\\
+
+\begin{figure}[!htbp]
+  \centering
+  \begin{tikzpicture}
+    \begin{axis}[
+      compat=newest,
+      every axis plot post/.style={/pgf/number format/fixed},
+      ybar=5pt,
+      enlargelimits=0.28,
+      x = 1.5cm,
+      ymax = 1600,
+      bar width = 0.8cm,
+      legend style={at={(0.5,-0.15)},
+        anchor=north,legend columns=-1},
+      ylabel={Time (ms)},
+      symbolic x coords={BFS,DFS,IDFS,HC,A*,IDA*,BNB},
+      xtick=data,
+      restrict y to domain*=0:2300,
+      visualization depends on=rawy\as\rawy,
+      after end axis/.code={ % Draw line indicating break
+            \draw [ultra thick, white, decoration={snake, amplitude=1pt}, decorate] (rel axis cs:0,1.05) -- (rel axis cs:1,1.05);
+        },
+    nodes near coords={%
+            \pgfmathprintnumber{\rawy}% Print unclipped values
+          },
+      axis lines*=left,
+      clip=false
+      ]
+      \addplot coordinates {
+        (BFS,1327)
+        (DFS,59.53)
+        (IDFS,1464)
+        (HC,701.2)
+        (A*,234.6)
+        (IDA*,113.4)
+        (BNB,44396)
+      };
+      % \legend{}
+    \end{axis}
+  \end{tikzpicture}
+  \caption{Time to find a solution in 8-Puzzle}
+  \label{8p:time}
+\end{figure}
+
 
 \subsubsection{Results \& Performance in Moving AI Maps}
 
@@ -321,7 +382,7 @@ is translated to big garbage collection pauses that make execution slow. The
 cost centers reveal that the space allocation happen most of all in the
 \texttt{DataStructure} methods for adding nodes, so let us keep researching how
 to fix this issue. To generate a lot of nodes in the open list, we will use a
-bad heuristic in the problem \texttt{Warcraft}, to get a solution with these
+bad heuristic in the problem \texttt{MapParser}, to get a solution with these
 statistics (obtained with the \texttt{Search.Monadic} library):
 
 \begin{itemize}
