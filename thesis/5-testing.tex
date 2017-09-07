@@ -205,6 +205,12 @@ algorithms at hand. Included in the module there is a basic heuristic for this
 problem: the hamming heuristic, which counts how many numbers are not in the
 correct position.\\
 
+It is important to notice that the initial position of the board to perform
+these tests is the one provided in the library for benchmarking puzzles. This
+initial position has an optimal solution of 17 steps before being solved. We
+will then specify the correctness of the solutions found by the algorithm, but
+first we can check the times taken by each of them.\\
+
 \begin{figure}[!htbp]
   \centering
   \begin{tikzpicture}
@@ -224,7 +230,8 @@ correct position.\\
       restrict y to domain*=0:2300,
       visualization depends on=rawy\as\rawy,
       after end axis/.code={ % Draw line indicating break
-            \draw [ultra thick, white, decoration={snake, amplitude=1pt}, decorate] (rel axis cs:0,1.05) -- (rel axis cs:1,1.05);
+        \draw [ultra thick, white, decoration={snake, amplitude=1pt},
+        decorate] (rel axis cs:0,1.05) -- (rel axis cs:1,1.05);
         },
     nodes near coords={%
             \pgfmathprintnumber{\rawy}% Print unclipped values
@@ -248,6 +255,79 @@ correct position.\\
   \label{8p:time}
 \end{figure}
 
+In the Figure \ref{8p:time} we can see the times taken to solve this puzzle.
+The uninformed algorithms perform as expected: Breadth-First Search takes a
+fair amount of time but ensures that the solution is optimal, while Depth-First
+Search takes a short time to find the first solution available. Iterative
+Deepening Depth-First Search performs worse than BFS without any warranties,
+but it can be tuned later with better parameters to improve the times
+obtained.\\
+
+On the other hand, we see for the first time results on the informed
+algorithms. Hill Climbing takes almost half the time taken by BFS, but it is
+important to notice that it is simply following greedily the heuristic
+function, so it will not always return the optimal solution. On the other hand,
+A* uses both the cost function and the heuristic function, ensuring that the
+obtained solution is the optimal. Also, A* performs really good: it's around
+seven times faster than BFS, and the results are indeed the same.
+Iterative-Deepening A*, on the other hand, uses linear memory, but if the
+parameters are not correct the solution found it's not going to be optimal. We
+can see that IDA* is twice as fast as A*.\\
+
+However, we can see that Depth-First Branch \& Bound is much slower than the
+rest of the available algorithms. Although it produces the optimal solution, it
+is several orders of magnitude slower, which makes it not acceptable. The
+reason for this is that the rest of the algorithms are obtaining one single
+solution: The first solution that they are able to find. On the other hand,
+Branch \& Bound uses the first solution as a bound, and then keeps on searching
+until the solution space is completely exhausted. That makes BNB not being able
+to take advantage of Haskell's laziness as the other algorithms, and resulting
+in a terrible performance in this search domain, since the search space is hard
+to completely explore. That makes Depth-First Branch \& Bound a bad choice for
+this problem.\\
+
+\begin{figure}[!htbp]
+  \centering
+  \begin{tikzpicture}
+    \begin{axis}[
+      compat=newest,
+      every axis plot post/.style={/pgf/number format/fixed},
+      ybar=5pt,
+      enlargelimits=0.21,
+      x = 1.5cm,
+      bar width = 0.7cm,
+      axis lines*=left,
+      legend style={at={(0.5,-0.15)},
+        anchor=north,legend columns=-1},
+      ylabel={Steps},
+      symbolic x coords={BFS,DFS,IDFS,HC,A*,IDA*,BNB},
+      xtick=data,
+      nodes near coords,
+      nodes near coords align={vertical},
+      ]
+      \addplot coordinates {
+        (BFS,17)
+        (DFS,1053)
+        (IDFS,18)
+        (HC,88)
+        (A*,17)
+        (IDA*,17)
+        (BNB,17)
+      };
+      % \legend{}
+    \end{axis}
+  \end{tikzpicture}
+  \caption{Steps to solve the problem in each solution found}
+  \label{8p:steps}
+\end{figure}
+
+In Figure \ref{8p:steps} we can see the quality of each algorithm's answer to
+the problem. The shorter the solution found, the better the solution is, and
+the optimal solution for the instance being tested is 17 steps. We can see how,
+in this example, the algorithms that are able to find that solution are BFS,
+A*, IDA*, and BNB; with IDFS is really close to it. Unsurprisingly, the greedy
+algorithms (DFS and Hill Climbing) do not find optimal solutions, but their
+time/memory performance is overall better.\\
 
 \subsubsection{Results \& Performance in Moving AI Maps}
 
