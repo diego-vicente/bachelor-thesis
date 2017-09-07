@@ -331,6 +331,77 @@ time/memory performance is overall better.\\
 
 \subsubsection{Results \& Performance in Moving AI Maps}
 
+The Moving AI maps are the most complex and demanding test of all. These maps
+are formed by a $512 \times 512$ grid that contain walls and different sets of
+terrains. The first test, to test the timing and different behaviors of the
+algorithms, will be performed in a maze with corridors of width 1. That means
+that the problems only have to check paths at different intersections, making
+the branching factor smaller. There is a single solution, with a length of 5172
+nodes until the goal state. The results to this test are:\\
+
+\begin{figure}[!htbp]
+  \centering
+  \begin{tikzpicture}
+    \begin{axis}[
+      compat=newest,
+      every axis plot post/.style={/pgf/number format/fixed},
+      ybar=5pt,
+      enlargelimits=0.21,
+      x = 1.5cm,
+      bar width = 0.7cm,
+      legend style={at={(0.5,-0.15)},
+        anchor=north,legend columns=-1},
+      ylabel={Time (ms)},
+      symbolic x coords={BFS,DFS,IDFS,HC,A*,IDA*,BNB},
+      xtick=data,
+      axis lines*=left,
+      nodes near coords,
+      nodes near coords align={vertical},
+      ]
+      \addplot coordinates {
+        (BFS,0.559)
+        (DFS,0.256)
+        (IDFS,10.126)
+        (HC,7.453)
+        (A*,20.014)
+        (IDA*,0.684)
+        (BNB,0.392)
+      };
+      % \legend{}
+    \end{axis}
+  \end{tikzpicture}
+  \caption{Time to find a solution in the $512 \times 512$ maze}
+  \label{mp:time}
+\end{figure}
+
+There are three things that catch our eye in these results: the great
+discordance between the two iterative-deepening methods (applied with similar
+parameters to the problem), the great performance of Depth-First Branch \&
+Bound and the terrible performance of A*.\\
+
+The first one can be explained in function of the maze itself. It is (in this
+case) much more effective to follow greedily the heuristic function rather than
+expanding the search tree depth-first. This is translated in IDA* needing much
+less iterations than IDFS. However, this contradicts the fact that BFS is much
+more performant than Hill Climbing. We will come back to this detail.\\
+
+Second, Depth-First Branch \& Bound has proven to be a good option to solve
+this concrete problem, being only slower than DFS. This also ensures that the
+problem the algorithm suffered in the previous section are not intrinsic to the
+implementation, but to the nature of the problem and the algorithm.\\
+
+But the really surprising measure is A*: how can the algorithm that was the
+better performing until now, suddenly performs much more slower than the rest
+of algorithms. How is it possible than an A* search is an order of magnitude
+slower than its BFS counterpart? After all the previous testing on the code, it
+is possible to state that concrete conditions are resulting in slow conditions
+for A*. Incidentally, there is also a noticeable slower performance for Hill
+Climbing, specially after noticing that it should be favored by the heuristic
+function in this scenario. This two algorithms share something in common: both
+of them are implemented using a priority queue
+(\texttt{Search.[...].DataStructure.PriorityQueue}). Knowing this, our next
+step is to try to figure out what is causing this degradation for the priority
+queue or if it is something else.\\
 
 \subsection{Unit \& Integration Testing}
 
@@ -363,7 +434,6 @@ $\sim 2.6581$ seconds with 0 failures. The output presents the name of each of
 the modules being tested, along with a description of each of the tests and a
 mark in case there was a failure in such example. The complete set of tests can
 be found in the path \texttt{src/Test/} of the library code.\\
-
 
 \subsection{Profiling}
 
