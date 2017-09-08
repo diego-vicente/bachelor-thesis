@@ -401,7 +401,19 @@ function in this scenario. This two algorithms share something in common: both
 of them are implemented using a priority queue
 (\texttt{Search.[...].DataStructure.PriorityQueue}). Knowing this, our next
 step is to try to figure out what is causing this degradation for the priority
-queue or if it is something else.\\
+queue or if it is something else. This will be studied more comprehensively in
+the following profiling section.\\
+
+Furthermore, if the Moving AI Benchmarks can find the real Achilles' heel of
+the library: due to its purpose of finding the best $k$ solutions for a given
+problem, when we try to run demanding pathfinding problems in corridors of
+width $>1$, the algorithms revisits the same nodes as long as its own path does
+not contain it. In problems based in implicit graphs, it usually means an
+admissible redundancy; in problems based in maps this implies that the number
+of paths being tracked is higher and in algorithms like Breadth-First Search
+(that expands the nodes with lower depth first) the algorithm struggles to
+advance to the final solution \cite{dechter-2012-search}. For that reason, it
+is recommended to use a traditional approach for different maps and mazes.
 
 \subsection{Unit \& Integration Testing}
 
