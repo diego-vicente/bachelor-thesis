@@ -11,7 +11,17 @@ different stages.\\
   \centering
   \begin{ganttchart}[vgrid = dotted, hgrid = dotted, compress calendar,
     time slot format=isodate-yearmonth, x unit = 8mm,
-    group left shift = 0.1, group right shift = -0.1,]
+    group left shift = 0.1, group right shift = -0.1,
+    title/.append style={fill=azulUC3M, draw=white, thick},
+    title label font=\color{white}\ttfamily,
+    title height = 1,
+    group/.append style={fill=azulUC3M},
+    group label font = \small,
+    bar/.append style={fill=azulUC3M},
+    bar label font = \small,
+    milestone/.append style={draw=azulUC3M, fill=azulUC3M},
+    milestone label font = \small,
+    link/.append style={azulUC3M}]
     {2016-09}{2017-09}
     \gantttitlecalendar{year, month} \\
     
@@ -32,9 +42,9 @@ different stages.\\
     
     % \ganttgroup{Testing}{2017-07}{2017-09} \\
     \ganttlinkedbar{Iteration}{2017-07}{2017-08} \\
-    \ganttlinkedmilestone{\texttt{v0.2.0.0}}{2017-08} \\
+    \ganttlinkedmilestone{\texttt{v0.2.0.0}}{2017-08}
     \end{ganttchart}
-  \caption{Gantt Chart for the project development process.}
+  \caption{Gantt chart for the project.}
   \label{gantt}
 \end{figure}
 
