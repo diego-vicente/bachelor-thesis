@@ -3,6 +3,41 @@
 \subsection{Planning}
 
 \subsubsection{Time Management}
+
+For a project of this size, it is important to develop a plan that states
+different stages.\\
+
+\begin{figure}[ht]
+  \centering
+  \begin{ganttchart}[vgrid = dotted, hgrid = dotted, compress calendar,
+    time slot format=isodate-yearmonth, x unit = 8mm,
+    group left shift = 0.1, group right shift = -0.1,]
+    {2016-09}{2017-09}
+    \gantttitlecalendar{year, month} \\
+    
+    \ganttgroup{Phases}{2016-09}{2017-02}
+    \ganttgroup{}{2017-03}{2017-06}
+    \ganttgroup{}{2017-07}{2017-09} \\
+
+    % \ganttgroup{Research}{2016-09}{2017-06} \\
+    \ganttbar{Previous Research}{2016-09}{2016-10} \\
+    \ganttlinkedbar{Analysis}{2016-10}{2016-11} \\
+    \ganttlinkedbar{Design \& Modelling}{2016-12}{2017-02} \\ 
+    \ganttlinkedmilestone{Initial design}{2017-02} \\
+    
+    % \ganttgroup{Development}{2017-03}{2017-09} \\
+    \ganttlinkedbar{Implementation}{2017-03}{2017-05} \\
+    \ganttlinkedbar{Testing}{2017-04}{2017-06} \\
+    \ganttlinkedmilestone{\texttt{v0.1.0.0}}{2017-06} \\
+    
+    % \ganttgroup{Testing}{2017-07}{2017-09} \\
+    \ganttlinkedbar{Iteration}{2017-07}{2017-08} \\
+    \ganttlinkedmilestone{\texttt{v0.2.0.0}}{2017-08} \\
+    \end{ganttchart}
+  \caption{Gantt Chart for the project development process.}
+  \label{gantt}
+\end{figure}
+
 \subsubsection{Version Control \& Continuous Integration}
 
 To manage all the code in the project, it is a must to use a Version Control
