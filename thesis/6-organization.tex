@@ -5,7 +5,8 @@
 \subsubsection{Time Management}
 
 For a project of this size, it is important to develop a plan that states
-different stages.\\
+different stages. In Figure \ref{gantt} it is possible to see a Gantt project
+that sums the project planning for a complete year.\\
 
 \begin{figure}[ht]
   \centering
@@ -17,7 +18,7 @@ different stages.\\
     title height = 1,
     group/.append style={fill=azulUC3M},
     group label font = \small,
-    bar/.append style={fill=azulUC3M},
+    bar/.append style={fill=azulUC3M, draw=none, rounded corners=3pt},
     bar label font = \small,
     milestone/.append style={draw=azulUC3M, fill=azulUC3M},
     milestone label font = \small,
@@ -47,6 +48,32 @@ different stages.\\
   \caption{Gantt chart for the project.}
   \label{gantt}
 \end{figure}
+
+In the chart, it is possible to observe that there have been three main
+milestones in the project:
+
+\begin{itemize}
+\item \textbf{The initial design}: A complete design of the interface, with a
+  provisional type definition set. This implies that the requirements and use
+  cases have already been studied, and the research and analysis phases have
+  been completed already. This design is not final and immutable, of course:
+  it serves as a guideline for the implementation and requirement tracking.
+\item \textbf{Version 0.1.0.0}: The first version of the library. Lacking
+  several features, it includes a set of algorithms to be imported that have
+  been tested and proved correctly.
+\item \textbf{Version 0.2.0.0}: The final version of the project assigned to
+  this thesis; includes all the algorithms mentioned in this document and
+  benchmarking tools.
+\end{itemize}
+
+It is also important to clarify that the ``Implementation'' tasks imply more
+than simply writing the code needed: along with it, all the documentation have
+to be appropriately written and updated as the codebase evolves. In the
+``Testing'' tasks is also included all the required benchmarking to ensure the
+correctness of the algorithms. The task of ``Iteration'' is vaguely defined on
+purpose: depending on the evolution of the project, this may consist on further
+improvements or testing to complete the features and requirements in this
+document.\\
 
 \subsubsection{Version Control \& Continuous Integration}
 
@@ -110,7 +137,6 @@ considered to fail and an email notification gets sent to the collaborator that
 pushed the code to the repository. Only passed pull-requests can be merged into
 master, forcing the work-in-progress to stay in the adequate branch and the
 code to be ready before be merged into the master branch.\\
-
 
 \subsection{Budget}
 
