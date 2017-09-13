@@ -1,5 +1,43 @@
 \section{Future Work}
 
+This project is, however, far from being considered over. After the author's
+main idea of open sourcing the project there is the desire to make it evolve
+into a much bigger, common effort. The main reason behind is that there are
+many points that may be interesting to work on.\\
+
+The main one is performance; specially the issue encountered with the garbage
+collection. Fixing that problem would make the library twice as fast or more,
+making it a priority to work on. The main possible solution is on a lower level
+than the library itself, though: developing a mutable, efficient heap structure
+in Haskell, which is currently non-existent. This work was considered outside
+of the scope of the thesis due to its complexity, but it is an interesting
+point to focus future works. Also related with the performance of the library
+is the fact of the per-node scheme in the closed list of nodes. Although it
+is the main mechanism included by the library to provide the $k$ best
+solutions, it can be a great computation demand if used under certain
+circumstances. It may be necessary to provide some classical, common
+closed-list algorithms for some of the cases studied. However, that is not a
+trivial solution, and some effort has to be dedicated to find a proper model
+that works.\\
+
+Another point to focus future works is the code re-usability. Right now, there
+are some parts of the library that include duplicated code due to the different
+monadic and pure parts of the library. In the current setup, these two parts
+are almost independent due to their type definitions, although the main
+structure of both of them have some common parts. Some careful generalization
+to these types may succeed in providing common code for both parts of the
+library without renouncing to the current type safety.\\
+
+And, of course, the last point to work on is extending the framework. There are
+uncountable algorithms that can be added to it, apart from new pieces for
+designing new ones. But maybe the greatest part to be improved is the auxiliary
+tools for the framework, some of them that were planned ideas but rejected from
+the project due to the time constraint of this thesis. Some of those ideas were
+logging and report creation out of benchmarks, test suites for correctness, or
+notification systems like email or Telegram to report results after long
+testing. All these ideas have to be re-evaluated now and decide which ones are
+a priority to include.\\
+
 \newpage
 
 %%% Local Variables:
