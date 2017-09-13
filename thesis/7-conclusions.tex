@@ -1,5 +1,72 @@
 \section{Conclusions}
 
+The main purpose of the thesis was to create a framework for designing,
+developing and testing search algorithms in a purely functional environment
+like Haskell. In spite of the pitfalls found, the author thinks that the
+objective has been accomplished.\\
+
+Agis will be published as a Haskell package and open sourced to enable further
+development. The main codebase contains a set of algorithms ready to solve
+search problems, but it also provides several parts of search algorithms
+already implemented and ready to be included in user-designed algorithms: for
+instance, a node expansion function. This pieces are general enough to provide
+flexibility to the user for their own designs. A set of types is defined in the
+library with a comprehensive documentation, for the user to understand
+correctly all the inputs and outputs for each function, and make all the pieces
+fit in the library. These types enable the user's algorithm to be treated just
+like a library algorithm: that means that all the algorithms can be used to
+solve the same problems in the same way, and can be tested and benchmarked in
+the same manner.\\
+
+The set of algorithms provided by the library include some of the best known
+algorithms, that have been implemented following a closed list per node (that
+enables the search for the $k$ best solutions). This affects performance in
+some cases, but can yield some interesting insight when used for educational
+purposes. It is important to notice that this approach (the fact of providing
+the $k$ best solution algorithms instead of classical, single solution
+algorithms) was created in the research and analysis phase, where it appeared
+as an incredibly intuitive option to solve the closed list problems. Haskell's
+laziness and ability to deal with infinite sets of data turned out to provide a
+clean and elegant solution to this problem, that was worth to work on. That is
+indeed a hands-down conclusion of the project: when used for clear, state-less
+computation; Haskell provides a clean syntax, with almost no noise or verbosity
+(although it might seem obscure for some programmers if used to a more
+traditional, imperative syntax).\\
+
+However, Haskell also provides a great set of tools for input and output, that
+are able to isolate the side-effects of the computations. When this is combined
+with the vast community after Haskell, the results are great, high-level
+packages that deal with the side effects in a concise way; being a great
+example of that the \texttt{criterion} package used for the benchmarks in this
+project. It offers one-liner functions that allow to launch several-iterations
+of timings and prints all the important data of those timings.\\
+
+But a key feature and motivation behind this project is that Haskell's purity
+provides pure parallelism: all the pure code (which, simplifying it, is all the
+code without \texttt{IO} types) is able to trivially support parallelism by
+enabling a compiler flag. Pure parallelism enabled by GHC is guaranteed to be
+deterministic and not to have any race conditions or deadlocks \cite{ghc}. The
+fact of being able to build a complete framework for heuristic search works
+using purely functional programming brings that advantage, that can be
+incredibly useful in the future following the current trends.\\
+
+% Also important in these project was the organization. This was the biggest
+% project developed by the author, and it would not be possible without a
+% planning like the one developed for this project. Although the times were not
+% uniform as it could be (due to the rest of academic duties), the milestones
+% stated in the planning were respected and delivered on time, so the project
+% could go on without any late deliveries.\\
+
+As a summary of personal conclusions of the author, the new insight provided by
+this translation of typical search algorithms to a new paradigm is priceless.
+Along with it, the experience gained through this months in a different
+framework that the one used in the courses of the university was an interesting
+effort that provided several mechanisms and paradigms that can be exported to
+other languages. Although Haskell has been typically overlooked by the industry
+in favor to other languages, the functional programming paradigm is an upward
+trend that seem to bring some key concepts to our current development and
+progress.\\
+
 \newpage
 
 %%% Local Variables:
