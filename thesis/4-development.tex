@@ -548,6 +548,7 @@ stands for a double digit number.
   \textit{Priority}      & High \\
 \end{uc3m-table}
 
+\newpage
 
 \subsubsection{Traceability Matrix}
 
@@ -557,8 +558,56 @@ are supposed to satisfy which use cases. Please notice that only functional
 requirements are considered for the traceability matrix (since non-functional
 requirements are stated as preconditions for the whole system to work at all).\\
 
+\begin{table}[!htbp]
+   \centering
+   \rowcolors{2}{gray90}{white}
+   \begin{tabular}{*{6}{| c} |}
+     \hline
+     & \texttt{UC-01} & \texttt{UC-02} & \texttt{UC-03} & \texttt{UC-04}
+     & \texttt{UC-05} \\
+     \hline
+     \texttt{RF-01} & \checkmark & \checkmark & \checkmark & \checkmark & \checkmark \\
+     \texttt{RF-02} &            &            & \checkmark &            &            \\
+     \texttt{RF-03} &            &            & \checkmark &            &            \\
+     \texttt{RF-04} &            &            & \checkmark &            &            \\
+     \texttt{RF-05} &            &            & \checkmark &            &            \\
+     \texttt{RF-06} &            &            &            & \checkmark &            \\
+     \texttt{RF-07} & \checkmark &            &            &            &            \\
+     \texttt{RF-08} & \checkmark &            &            &            &            \\
+     \texttt{RF-09} & \checkmark &            &            &            &            \\
+     \texttt{RF-10} & \checkmark &            &            &            &            \\
+     \texttt{RF-11} & \checkmark &            &            &            &            \\
+     \texttt{RF-12} & \checkmark &            &            &            &            \\
+     \texttt{RF-13} & \checkmark &            &            &            &            \\
+     \texttt{RF-14} &            & \checkmark &            &            &            \\
+     \texttt{RF-15} &            &            & \checkmark &            &            \\
+     \texttt{RF-16} &            &            & \checkmark &            &            \\
+     \texttt{RF-17} &            &            & \checkmark &            &            \\
+     \texttt{RF-18} &            &            & \checkmark &            &            \\
+     \texttt{RF-19} &            & \checkmark &            &            &            \\
+     \texttt{RF-20} &            & \checkmark &            &            &            \\
+     \texttt{RF-21} &            & \checkmark &            &            &            \\
+     \texttt{RF-22} &            & \checkmark &            &            &            \\
+     \texttt{RF-23} &            & \checkmark &            &            &            \\
+     \texttt{RF-24} &            & \checkmark &            &            &            \\
+     \texttt{RF-25} &            & \checkmark &            &            &            \\
+     \texttt{RF-26} &            &            &            & \checkmark & \checkmark \\
+     \texttt{RF-27} &            &            &            & \checkmark & \checkmark \\
+     \texttt{RF-28} &            &            &            & \checkmark & \checkmark \\
+     \hline
+   \end{tabular}
+   \caption{Use Case - Requirement traceability matrix}
+   \label{mat:uc-r}
+\end{table}
 
-\subsection{Implementation}
+It is possible to see in Table \ref{mat:uc-r} that there is a full coverage
+between requirements and use-cases, so the formulation of the latter is
+correct. Next step is to define a set of module that correctly satisfies the
+requirements. After designing this module, a second traceability matrix is
+needed to verify that all modules in the library are associated to
+requirements.
+
+\newpage
 
 
 Once the requirements are defined well defined and the use cases are covered,
