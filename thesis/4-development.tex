@@ -672,6 +672,163 @@ new functions to keep better track of search statistics are present in the
 \texttt{Monadic} part of the library.\\
 
 
+\newpage
+
+\newcommand*\rot{\rotatebox{90}}
+
+\begin{table}[!htbp]
+   \centering
+   \rowcolors{2}{gray90}{white}
+   \begin{tabular}{*{15}{| c} |}
+     \hline
+     & \rot{\texttt{Search.Pure.Base}}
+     & \rot{\texttt{Search.Pure.General}}
+     & \rot{\texttt{Search.Pure.DataStructure.*}}
+     & \rot{\texttt{Search.Pure.Uninformed}}
+     & \rot{\texttt{Search.Pure.Informed}}
+     & \rot{\texttt{Search.Pure.ToyProblem.*}}
+     & \rot{\texttt{Search.Pure.Benchmark}}
+     & \rot{\texttt{Search.Monadic.Base}}
+     & \rot{\texttt{Search.Monadic.General}}
+     & \rot{\texttt{Search.Monadic.DataStructure.*}}
+     & \rot{\texttt{Search.Monadic.Uninformed}}
+     & \rot{\texttt{Search.Monadic.Informed}}
+     & \rot{\texttt{Search.Monadic.ToyProblem.*}}
+     & \rot{\texttt{Search.Monadic.Benchmark}} \\
+     \hline
+     \texttt{RF-01}
+     & \checkmark &            &            &            &            &
+     &            & \checkmark &            &            &            &
+     &            &            \\ 
+     \texttt{RF-02}
+     &            & \checkmark &            &            &            &
+     &            &            &            &            &            &
+     &            &            \\
+     \texttt{RF-03}
+     &            & \checkmark &            &            &            &
+     &            &            &            &            &            &
+     &            &            \\
+     \texttt{RF-04}
+     & \checkmark &            &            &            &            &
+     &            &            &            &            &            &
+     &            &            \\
+     \texttt{RF-05}
+     &            &            & \checkmark &            &            &
+     &            &            &            &            &            &
+     &            &            \\
+     \texttt{RF-06}
+     &            &            &            &            &            &
+       \checkmark &            &            &            &            &
+     &            & \checkmark &            \\ 
+     \texttt{RF-07}
+     &            &            &            & \checkmark &            &
+     &            &            &            &            &            &
+     &            &            \\
+     \texttt{RF-08}
+     &            &            &            & \checkmark &            &
+     &            &            &            &            &            &
+     &            &            \\
+     \texttt{RF-09}
+     &            &            &            & \checkmark &            &
+     &            &            &            &            &            &
+     &            &            \\
+     \texttt{RF-10}
+     &            &            &            & \checkmark &            &
+     &            &            &            &            &            &
+     &            &            \\
+     \texttt{RF-11}
+     &            &            &            &            & \checkmark &
+     &            &            &            &            &            &
+     &            &            \\
+     \texttt{RF-12}
+     &            &            &            &            & \checkmark &
+     &            &            &            &            &            &
+     &            &            \\
+     \texttt{RF-13}
+     &            &            &            &            & \checkmark &
+     &            &            &            &            &            &
+     &            &            \\
+     \texttt{RF-14}
+     &            &            &            &            &            &
+     &            & \checkmark &            &            &            &
+     &            &            \\
+     \texttt{RF-15}
+     &            &            &            &            &            &
+     &            &            & \checkmark &            &            &
+     &            &            \\
+     \texttt{RF-16}
+     &            &            &            &            &            &
+     &            &            & \checkmark &            &            &
+     &            &            \\
+     \texttt{RF-17}
+     &            &            &            &            &            &
+     &            & \checkmark &            &            &            &
+     &            &            \\
+     \texttt{RF-18}
+     &            &            &            &            &            &
+     &            &            &            & \checkmark &            &
+     &            &            \\
+     \texttt{RF-19}
+     &            &            &            &            &            &
+     &            &            &            &            & \checkmark &
+     &            &            \\
+     \texttt{RF-20}
+     &            &            &            &            &            &
+     &            &            &            &            & \checkmark &
+     &            &            \\
+     \texttt{RF-21}
+     &            &            &            &            &            &
+     &            &            &            &            & \checkmark &
+     &            &            \\
+     \texttt{RF-22}
+     &            &            &            &            &            &
+     &            &            &            &            & \checkmark &
+     &            &            \\
+     \texttt{RF-23}
+     &            &            &            &            &            &
+     &            &            &            &            &            &
+       \checkmark &            &            \\
+     \texttt{RF-24}
+     &            &            &            &            &            &
+     &            &            &            &            &            &
+       \checkmark &            &            \\
+     \texttt{RF-25}
+     &            &            &            &            &            &
+     &            &            &            &            &            &
+       \checkmark &            &            \\
+     \texttt{RF-26}
+     &            &            &            &            &            &
+     & \checkmark &            &            &            &            &
+     &            &            \\
+     \texttt{RF-27}
+     &            &            &            &            &            &
+     &            &            &            &            &            &
+     &            & \checkmark \\
+     \texttt{RF-28}
+     &            &            &            &            &            &
+     & \checkmark &            &            &            &            &
+     &            & \checkmark \\ 
+     \hline
+   \end{tabular}
+   \caption{Requirement - Module traceability matrix}
+   \label{mat:r-m}
+\end{table}
+
+\subsubsection{Traceability Matrix}
+
+As mentioned in previous sections, it is also important to generate a second
+traceability matrix that relates all the library modules with the requirement
+they are fulfilling, to ensure that all the requirements are covered and all
+modules have a purpose from the initial use cases.\\
+
+In Table \ref{mat:r-m} it is patent that all the requirements have been covered
+in the design and that all modules in the design are actually needed for the
+use cases that were required for the library. Once that the design is verified
+to be correct, it is possible to use the current design and artifacts to start
+the implementation of the code and develop the library.\\
+
+\newpage
+
 \subsection{Implementation}
 
 \subsubsection{General Search}
