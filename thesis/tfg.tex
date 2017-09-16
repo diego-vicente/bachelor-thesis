@@ -15,7 +15,9 @@
 \usepackage{float}
 \usepackage{upgreek}
 \usepackage[table]{xcolor}
-\definecolor{azulUC3M}{RGB}{0,0,102}
+\definecolor{azulUC3M}{RGB}{0,6,124}
+\definecolor{rojoUC3M}{RGB}{186,50,50}
+\definecolor{verdeUC3M}{RGB}{86,204,86}
 \definecolor{white}{RGB}{255,255,255}
 \definecolor{gray97}{gray}{.97}
 \definecolor{gray90}{gray}{.90}
@@ -107,6 +109,13 @@
 
 \usepackage{pgfplots}
 \usepackage{pgfgantt}
+
+\pgfplotscreateplotcyclelist{list}{%
+  {color=azulUC3M, fill=azulUC3M},
+  {color=rojoUC3M, fill=rojoUC3M},
+  {color=verdeUC3M, fill=verdeUC3M}
+}
+
 \usepackage{titlesec}
 \usepackage[titletoc,toc,title]{appendix}
 

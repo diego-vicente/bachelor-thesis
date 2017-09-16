@@ -61,6 +61,7 @@ valid. That makes the evaluation simpler to understand for this case.\\
       nodes near coords,
       nodes near coords align={vertical},
       ]
+      \pgfplotsset{cycle list name=list}
       \addplot coordinates {
         (BFS,125.5)
         (DFS,6.806)
@@ -95,6 +96,7 @@ valid. That makes the evaluation simpler to understand for this case.\\
       nodes near coords,
       nodes near coords align={vertical},
       ]
+      \pgfplotsset{cycle list name=list}
       \addplot coordinates {
         (BFS,1966)
         (DFS,114)
@@ -129,6 +131,7 @@ valid. That makes the evaluation simpler to understand for this case.\\
       nodes near coords,
       nodes near coords align={vertical},
       ]
+      \pgfplotsset{cycle list name=list}
       \addplot coordinates {
         (BFS,72840)
         (DFS,6066)
@@ -240,6 +243,7 @@ first we can check the times taken by each of them.\\
       axis lines*=left,
       clip=false
       ]
+      \pgfplotsset{cycle list name=list}
       \addplot coordinates {
         (BFS,1327)
         (DFS,59.53)
@@ -306,6 +310,7 @@ this problem.\\
       nodes near coords,
       nodes near coords align={vertical},
       ]
+      \pgfplotsset{cycle list name=list}
       \addplot coordinates {
         (BFS,17)
         (DFS,1053)
@@ -359,6 +364,7 @@ nodes until the goal state. The results to this test are:\\
       nodes near coords,
       nodes near coords align={vertical},
       ]
+      \pgfplotsset{cycle list name=list}
       \addplot coordinates {
         (BFS,0.559)
         (DFS,0.256)
@@ -863,7 +869,8 @@ the chart shown in the figure \ref{chart-libraries}.\\
     enlarge x limits  = 0.02,
     symbolic y coords = {Package A,Package B},
     nodes near coords,
-  ]
+    ]
+    \pgfplotsset{cycle list name=list}
   \addplot coordinates { (11.779,Package A) (11.046,Package B) };
   \addplot coordinates { (12.473,Package A) (10.677,Package B) };
   \legend{Using union, Using a fold}
