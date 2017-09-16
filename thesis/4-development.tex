@@ -1278,7 +1278,7 @@ formulation of the rules will be the ones provided in
   unit \  x \star f = f(x) \\
   $$
 
-  Which, in Haskell, is equivalent to the expression \texttt{return x >>= f ==
+  Which, in Haskell, is equivalent to the expression \texttt{return x >{}>= f ==
     f x}, for a variable \texttt{x :: a} and a function \texttt{f :: a -> m b}.
   The formal proof for this law is covered in Listing \ref{monad:leftid}.
 
@@ -1305,7 +1305,7 @@ True
   $$
 
   This statement can be written in Haskell as
-  \texttt{SearchM x s >>= (\symbol{92}x -> return x) = SearchM x s}, for a variable
+  \texttt{SearchM x s >{}>= (\symbol{92}x -> return x) = SearchM x s}, for a variable
   \texttt{x :: a}. The formal proof for this law is covered in Listing
   \ref{monad:rightid}.
 
