@@ -48,11 +48,58 @@ the framework or run several benchmarks using a \texttt{criterion} interface.\\
 \newpage
 
 % Spanish summary
+\vspace*{\fill}
+
 \selectlanguage{spanish}
 \begin{abstract}
 
+Actualmente existen pocos ejemplos de búsqueda heurística en Haskell, a pesar
+de que el lenguaje ofrece una sintaxis modular y limpiar que lo hace
+especialmente interesante para fines educativos o de investigación en este
+campo. Además, la programación funcional ofrece una forma de escribir código
+intrínsecamente concurrente, lo que hace código de Haskell trivialmente
+paralelizable (tan solo es necesario activar ciertas opciones propuestas por el
+compilador). Además de todo ello, las restricciones impuestas por el lenguaje
+hacen una opción especialmente interesante que los algoritmos incluídos en la
+librería no tengan un comportamiento clásico, sino que resuelvan a su vez el
+problema de las $k$ mejores soluciones: el algoritmo puede devolver una lista
+con todas las soluciones incluídas en el espacio de búsqueda (que puede ser
+infinita), y usar la evaluación perezosa del lenguaje para solo calcular las
+que el usuario realmente pida, sin ninguna modificación de código ni problema a
+la hora de evaluar dicha lista.\\
+
+Todas estas razones sirven de motivación para el desarrollo de un framework en
+Haskell, que permita al usuario tanto ejecutar búsquedas como diseñar distintos
+algoritmos y compararlos con otros ya existentes. El sistema de tipos de
+Haskell permite a la librería declarar un conjunto de tipos para que sean
+usados por el usuario a la hora de modelar problemas o diseñar algoritmos y
+asegurar de esta manera que si el código compila, es muy probable que el
+comportamiento del código sea el esperado.\\
+
+En este trabajo se recogen todos los pasos que se han seguido en este proceso:
+desde un diseño a nivel de ingeniería de software hasta la generación de todos
+los artefactos necesarios para asegurar un correcto diseño de la librería, para
+pasar a la implementación de dicho diseño. Esta implementación incluye todas
+las justificaciones necesarias así como la verificación formal de los modelos
+que así lo requiren. Se incluye una sección que define todas las pruebas
+realizadas que incluyen la medición de tiempos y recursos, así como varias
+pruebas de bajo nivel realizadas para encontrar el origen de una pérdida de
+espacio y desempeño encontrada en la librería. Todos los los detalles
+organizativos, legales y socioeconómicos se encuentran recogidos en este
+documento, así como la documentación generada por la librería en un apéndice a
+este.\\
+
+El resultado del trabajo es \texttt{agis}: un paquete de Haskell que permite al
+usuario incluir en su propio código un conjunto de tipos para modelar problemas
+y resolverlos usando distintos algoritmos de búsqueda, diseñar algoritmos de
+búsqueda modulares (usando funciones intermedias proporcionadas por el
+framework) o implementar uno de cero (usando los tipos de la librería), y ser
+así capaz de correrlos en distintos dominios de búsqueda incluidos en el
+framework o correr distintos benchmarks con la interfaz proporcionada al
+paquete \texttt{criterion}.\\
 \end{abstract}
 
+\vspace*{\fill}
 \newpage
 
 \selectlanguage{english}
