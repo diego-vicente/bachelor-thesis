@@ -18,7 +18,54 @@ perform a brute-force search; and informed algorithms, which use a heuristic
 function to provide better performance than the aforementioned brute-force
 algorithms.\\
 
+\begin{figure}[ht]
+\centering
+\includegraphics[width=0.8\textwidth]{img/empty-tree.png}
+\caption{Example of a search tree}
+\label{tree:empty}
+\end{figure}
+
+Although every algorithm included in this thesis can work with implicit graphs,
+the best way to gain some intuition about them is to reflect their behavior on
+a search tree, like the one in Figure \ref{tree:empty}. This tree presents a
+root node (top of the image), from which is possible to see two different
+oriented edges going out to two new nodes. This presents in a explicit way the
+fact of being able to traverse the search space using operators given in a
+problem space. The green nodes present final states. The objective of any
+search algorithm then is to find a path from the root node (which is the
+initial state defined in the problem space) to a final node, using different
+constraints depending on the problem at hand: the shortest path, lowest cost
+path, or just a solution that can be found in the shortest time possible. Using
+this graphical representation, we can now go deep into explaining the current
+state of the art of the algorithms that will be included in the framework.\\
+
 \subsubsection{Uninformed Algorithms}
+
+One of the basic brute-force algorithms is, undoubtedly, Breadth-First Search.
+It was first introduced by Konrad Zuse in 1945, although published years later
+\cite{zuse-1972-plankalkul}. This algorithm uses a queue (First In, First Out)
+data structure to store the nodes expanded. The use of this queue to sort the
+nodes to expand results in an exhaustive search per depth in the tree: first
+the depth 0 nodes are expanded, the depth 1, the depth 2, etc, until the
+solution is found or until the search space is completely exhausted. This
+behavior can be appreciated in Figure \ref{tree:bfs}.\\
+
+\begin{figure}[ht]
+\centering
+\includegraphics[width=0.8\textwidth]{img/bfs.png}
+\caption{Breadth-First Search execution on the tree}
+\label{tree:bfs}
+\end{figure}
+
+In Figure \ref{tree:bfs} it is possible to see that the nodes are visited from
+shallower to deeper levels, ensuring that the solution returned by this
+algorithm is indeed the one with the shortest path from the initial state. The
+algorithm is complete, that is, it will find a solution if it exists in the
+search space, even if such space is infinite. The solution found will be the
+nearest to the initial state, which is ensured to be the optimal if there no
+variable costs. Its complexity is defined by $O(b^{d+1})$, where $b$ is the
+branching factor of the problem and $d$ is the distance from the initial state
+to the solution \cite{russel-2003-aima}.\\
 
 \subsubsection{Informed Algorithms}
 
