@@ -107,7 +107,7 @@ to a recursion \cite{rusell-2003-aima}.\\
 
 For that reason, the Iterative-Deepening Depth-First Search was developed: by
 limiting the depth at which a Depth-First algorithm can explore, the
-backtracking is used to explore certain depths \cite{rusell-2003-aima}. This
+backtracking is used to explore certain depths \cite{korf-1985-depth}. This
 eliminates the lack of completeness, and makes IDDFS equivalent to a
 Breadth-First Search if the step used to increase the depth bound is one. It is
 however important to remark that this algorithm is faster than BFS in the last
@@ -130,6 +130,52 @@ optimal.\\
 
 \subsubsection{Informed Algorithms}
 
+Informed algorithms are those that perform searches using a heuristic function.
+This function evaluates a state and returns a value that presents how close
+that state is to a solution. Using those values, the states can be ranked on
+how convenient they are for the search (the closer to the solution, the more
+relevant to the search is to expand such state) \cite{pearl-1984-heuristics}.\\
+
+The main informed algorithm to take into account is the well-known A*
+algorithm. First developed in 1968 as an extension of Dijkstra's algorithm, it
+features an evaluation function that takes into account both the cost of a node
+and its heuristic value \cite{hart-1968-formal}. The algorithm uses a priority
+queue to sort the nodes in ascending order of $f$, the aforementioned
+evaluation function. This function is defined as $f(n) = g(n) + h(n)$ where $g$
+is the cost of the node and $h$ is the value of the heuristic function. That
+way, the algorithm expands the nodes keeping a balance of current and expected
+cost to obtain the solution. Two examples of this algorithm can be found in
+Figure \ref{tree:astar}.\\
+
+\begin{figure}[ht]
+\centering
+\includegraphics[width=0.8\textwidth]{img/astar.png}
+\caption{A* Search executions using two different heuristics}
+\label{tree:astar}
+\end{figure}
+
+In the first execution of Figure \ref{tree:astar} shows how the nodes are
+expanded using the values computed at each iteration. At each new iteration,
+the branch expanded is the one with lower projected costs. In the second
+execution, we can see how a different heuristic returns the same solution but
+expanding less nodes. This introduces an important concept of A*: with a
+perfect heuristic, A* performs a perfect search, expanding only the necessary
+nodes to obtain and ensure that the solution found is optimal
+\cite{dechter-1985-astar}. This implies that the heuristic is relevant for the
+node performance, but not only that: A* is only complete and optimal if the
+heuristic function used is admissible, that is, if it never underestimates the
+actual cost of getting from a node to a solution \cite{pearl-1984-heuristics}.
+Its complexity in worst case scenario is the one of Breadth-First Search;
+$O(b^{d+1})$.\\
+
+Following a similar idea, but using iterative-deepening for obtaining a better
+memory performance, it is important to mention Iterative-Deepening A*
+\cite{korf-1985-depth}. The basic idea behind it is to perform a depth-first
+search using the $f$ function of A*. This results in a linear-memory algorithm,
+that explores the solutions in thresholds defined by $f$ as a cutoff function.
+This makes an interesting algorithm when memory constraints exist, and it is
+ensured to return the shortest path from the initial state to a solution as
+long as the heuristic is admissible.\\
 \subsubsection{Libraries}
 
 Due to being more appropriate for the performance that is in general desired,
