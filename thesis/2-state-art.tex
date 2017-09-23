@@ -176,6 +176,31 @@ that explores the solutions in thresholds defined by $f$ as a cutoff function.
 This makes an interesting algorithm when memory constraints exist, and it is
 ensured to return the shortest path from the initial state to a solution as
 long as the heuristic is admissible.\\
+
+\begin{figure}[ht]
+\centering
+\includegraphics[width=0.8\textwidth]{img/dfbnb.png}
+\caption{Depth-First Branch and Bound Search execution on the tree}
+\label{tree:dfbnb}
+\end{figure}
+
+Last, it is important to remark the family of Branch and Bound algorithms.
+These algorithms uses a solution that is found to keep on the search, using the
+cost of the current best solution as a bound for the rest of the search
+\cite{zhang-1995-bnb}. These algorithms result as well in linear-memory
+executions but ensure that the optimal solution is found (since the execution
+only ends when the search space is exhausted). It is possible to see an example
+execution of Depth-First Branch and Bound in Figure \ref{tree:dfbnb}, where
+each new solution found creates a new bound for the search (the red highlight
+indicates the part of search tree that is out of bounds when tried to be
+expanded).\\
+
+These algorithms can be tuned to use different bounds like depth, cost or other
+evaluations. It is specially relevant for this project an informed version of
+this algorithm proposed in \cite{zhang-1995-bnb}, that uses the $f$ function to
+expand the nodes and creates bounds using cost of each solution found.\\
+
+
 \subsubsection{Libraries}
 
 Due to being more appropriate for the performance that is in general desired,
@@ -201,8 +226,7 @@ in Common Lisp \cite{lisp-aima} or even a complete search framework written in
 OCaml \cite{ocaml-search}. In Haskell, however, projects of this size are
 nowhere to be found: All the algorithms are distributed in individual packages
 with completely different implementations, as well as the data structures used
-to perform the search.
-
+to perform the search.\\
 
 \subsection{Haskell}
 
