@@ -1,6 +1,18 @@
-\section{Project Organization \& Management}
+\section{Project Organization and Management}
+
+All the workload explained along the thesis is the main core of the effort, but
+was only possible to carry due to a comprehensive planning beforehand, using
+all the techniques studied during the bachelor degree. In this section, all the
+organization is summed in several software engineering artifacts that help the
+understanding of the project planning as well as other details like the legal
+or socioeconomic environment of the project.\\
 
 \subsection{Planning}
+
+There are two main aspects that were planned: the time and milestones to
+fulfill along the project, and the Version Control system and scheme to be used
+along the project. In this subsection there is a brief explanation of both of
+them.\\
 
 \subsubsection{Time Management}
 
@@ -33,7 +45,7 @@ that sums the project planning for a complete year.\\
     % \ganttgroup{Research}{2016-09}{2017-06} \\
     \ganttbar{Previous Research}{2016-09}{2016-10} \\
     \ganttlinkedbar{Analysis}{2016-10}{2016-11} \\
-    \ganttlinkedbar{Design \& Modelling}{2016-12}{2017-02} \\ 
+    \ganttlinkedbar{Design and Modelling}{2016-12}{2017-02} \\
     \ganttlinkedmilestone{Initial design}{2017-02} \\
     
     % \ganttgroup{Development}{2017-03}{2017-09} \\
@@ -75,7 +87,7 @@ purpose: depending on the evolution of the project, this may consist on further
 improvements or testing to complete the features and requirements in this
 document.\\
 
-\subsubsection{Version Control \& Continuous Integration}
+\subsubsection{Version Control and Continuous Integration}
 
 To manage all the code in the project, it is a must to use a Version Control
 System (VCS). The chosen system for the project is Git, a widespread
@@ -224,7 +236,12 @@ Estimating both percentages at 10\%, we obtain 857,96\euro $\;$ benefits and a
 
 \subsection{Open-Sourcing the Project}
 
-\subsubsection{License \& Legal Framework}
+Since the inception of the idea, the author's intentions were to develop a good
+base for a bigger, open source project that can grow around a community.
+However, there are several options to take into account to ensure a
+friction-less release and help the project gain the momentum needed.
+
+\subsubsection{License and Legal Framework}
 
 Making the project open source requires a deep research of the available
 distribution licenses for this type of works. To be able to choose the adequate
@@ -278,6 +295,30 @@ more adequate code for the project \cite{beller-2014-review}. Once the code
 review has been approved, the code is merged to the main code and only accepted
 in the repository if all the Continuous Integration stages (install
 dependencies, building and testing) are properly completed.\\
+
+\subsubsection{Socioeconomic Context and Motivation}
+
+There is a main reason behind the purpose of open sourcing the project: to help
+it grow beyond the knowledge, resources and capabilities that the author can
+invest on it. The fact of having several contributors enables a project to have
+different backgrounds and points of view collaborating on it, and ensures a
+faster development if the project is able to gather a community around it
+interested in its development. But, has this project the potential to do so? Is
+it possible for it to engage such community?\\
+
+After all the motivation explained in the project, there is a potential
+interest in the project from education: \texttt{agis} provides a clean syntax
+that can be used by teachers to expose the main concepts of different
+algorithms and enabling the students to experiment with the code in an
+interactive environment, the \texttt{ghci} REPL. This educational purpose is
+backed by the fact that several universities offer introductory courses to
+programming with Haskell as first programming language.\\
+
+It can also be interesting from an industry point of view if mature enough, and
+can be used in production code if the library is developed and tested enough to
+provide stable and concurrent heuristic search algorithms. This is can be
+backed by the current trends in concurrent and parallel programming, which are
+becoming steadily a requirement for building fast, reliable code.\\
 
 \newpage
 
