@@ -68,7 +68,7 @@ number of states. This is common to all search algorithms: theoretically, they
 have to check all states in a worst case scenario. However, it is important to
 notice that the complexity to finding a certain solution at a depth $d$ is
 $O(b^{d+1})$, where $b$ is the branching factor of the problem
-\cite{russel-2003-aima}.\\
+\cite{rusell-2003-aima}.\\
 
 Another well-known uninformed algorithm is Depth-First Search. This algorithm
 uses the opposite approach to the problem: tries to search as deep as possible
@@ -81,7 +81,7 @@ allows Depth-First Search to perform searches in linear space, since it only
 needs to store the stack calls needed to keep track of the search. Although
 this is convenient for this project, it is possible as well to use a stack
 structure (Last In, First Out) to hold all the nodes in an imperative language
-in case the recursion is not desired \cite{russel-2003-aima}. A complete
+in case the recursion is not desired \cite{rusell-2003-aima}. A complete
 execution of this algorithm can be found in Figure \ref{tree:dfs}\\
 
 \begin{figure}[ht]
@@ -103,7 +103,30 @@ a depth $d$ is indeed linear, and its execution to find a solution should
 average faster than Breadth-First Search \cite{zhang-1995-bnb}. However,
 Depth-First Search is not complete in implicit graphs: since the depth of the
 tree can be infinite, the search can get lost expanding nodes that do not lead
-to a recursion \cite{russel-2003-aima}.\\
+to a recursion \cite{rusell-2003-aima}.\\
+
+For that reason, the Iterative-Deepening Depth-First Search was developed: by
+limiting the depth at which a Depth-First algorithm can explore, the
+backtracking is used to explore certain depths \cite{rusell-2003-aima}. This
+eliminates the lack of completeness, and makes IDDFS equivalent to a
+Breadth-First Search if the step used to increase the depth bound is one. It is
+however important to remark that this algorithm is faster than BFS in the last
+iteration but most likely slower if taking into account the cumulative time of
+all depth executions. Its time and space complexity are the same of Depth-First
+Search, but it is complete and optimal if the depth is increased one by one.\\
+
+The last uninformed algorithm to explore is Uniform Cost Search. This algorithm
+performs a brute-force search expanding first the lowest-cost node, using a
+BFS-like fashion to explore the search space \cite{rusell-2003-aima}. This
+algorithm is sometimes referred to as Dijkstra's Algorithm, although the latter
+is considered to be subtly different and since we are applying it to implicit
+graphs, the algorithm will be treated as UCS along the thesis
+\cite{felner-2011-dijkstra}. This algorithm relies on a priority queue that
+sorts the nodes and always returns the one whose current cost is lower. For
+that reason, Uniform Cost Search can be seen as a variation of Breadth-First
+Search that takes into account variable cost paths and thus always return the
+lowest cost solution, instead the shorter one. UCS is, therefore, complete and
+optimal.\\
 
 \subsubsection{Informed Algorithms}
 
