@@ -63,9 +63,47 @@ algorithm is indeed the one with the shortest path from the initial state. The
 algorithm is complete, that is, it will find a solution if it exists in the
 search space, even if such space is infinite. The solution found will be the
 nearest to the initial state, which is ensured to be the optimal if there no
-variable costs. Its complexity is defined by $O(b^{d+1})$, where $b$ is the
-branching factor of the problem and $d$ is the distance from the initial state
-to the solution \cite{russel-2003-aima}.\\
+variable costs. Its complexity is defined by $O(|V|)$, that is, the total
+number of states. This is common to all search algorithms: theoretically, they
+have to check all states in a worst case scenario. However, it is important to
+notice that the complexity to finding a certain solution at a depth $d$ is
+$O(b^{d+1})$, where $b$ is the branching factor of the problem
+\cite{russel-2003-aima}.\\
+
+Another well-known uninformed algorithm is Depth-First Search. This algorithm
+uses the opposite approach to the problem: tries to search as deep as possible
+before exhausting a branch or finding a solution. This algorithm was first
+studied by Charles Pierre Trémaux in the 19th Century, with the purpose of
+solving mazes with well defined passages \cite{even-2011-graph}. This algorithm
+does not need a auxiliary data structure to hold nodes: instead, it is possible
+to explore the nodes in depth just using recursive calls to the algorithm. This
+allows Depth-First Search to perform searches in linear space, since it only
+needs to store the stack calls needed to keep track of the search. Although
+this is convenient for this project, it is possible as well to use a stack
+structure (Last In, First Out) to hold all the nodes in an imperative language
+in case the recursion is not desired \cite{russel-2003-aima}. A complete
+execution of this algorithm can be found in Figure \ref{tree:dfs}\\
+
+\begin{figure}[ht]
+\centering
+\includegraphics[width=0.8\textwidth]{img/dfs.png}
+\caption{Depth-First Search execution on the tree}
+\label{tree:dfs}
+\end{figure}
+
+In the execution of Figure \ref{tree:dfs}, it is possible to see how it
+exhausts the first branch until no more nodes can be expanded, to then
+backtrack. This backtracking can be implicitly implemented (by using recursive
+calls it is possible to recover from an exhausted branch). We can see how this
+search returns a worse solution than Breadth-First: the solution found by the
+algorithm is 3 operations away from the initial state, while the existing
+solution found before has been completely ignored by this algorithm. The main
+advantage of this algorithm is its space complexity to find a given solution at
+a depth $d$ is indeed linear, and its execution to find a solution should
+average faster than Breadth-First Search \cite{zhang-1995-bnb}. However,
+Depth-First Search is not complete in implicit graphs: since the depth of the
+tree can be infinite, the search can get lost expanding nodes that do not lead
+to a recursion \cite{russel-2003-aima}.\\
 
 \subsubsection{Informed Algorithms}
 
