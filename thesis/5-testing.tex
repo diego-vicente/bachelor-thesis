@@ -1,5 +1,11 @@
-
 \section{Testing}
+
+With a functional codebase for the library, it is time to perform all the
+necessary tests to ensure the correctness of the code. This is not restricted
+to classical unit and integration tests: it is important to perform thorough
+analysis of timings to ensure that not only the results are correct, but the
+implementation. This analysis is the one that revealed a major leak in the
+library, and all the work done to try to fix it is gathered in this section.\\
 
 \subsection{Search Domains Analysis}
 
@@ -32,16 +38,7 @@ be explained in depth in each of the domains subsections. To perform these
 tests, the included tools with the library will be used to perform all
 measurements.\\
 
-\subsubsection{Results \& Performance in N-Queens}
-
-The implementation for the N-Queens problem included with the library uses as
-operators the fact of adding a queen to a new column in all possible positions.
-That way, the approach followed to solve this problem is a brute-force
-approach, which is ideal to study all the uninformed algorithms. On the other
-hand, there is no heuristic available for this approach, so the informed set of
-algorithms cannot be tested in this domain. For the same reason, no correctness
-of the solution has to be considered: if the solution is found is because it is
-valid. That makes the evaluation simpler to understand for this case.\\
+\subsubsection{Results and Performance in N-Queens}
 
 \begin{figure}[!htbp]
   \centering
@@ -146,6 +143,14 @@ valid. That makes the evaluation simpler to understand for this case.\\
   \label{nq:memory}
 \end{figure}
 
+The implementation for the N-Queens problem included with the library uses as
+operators the fact of adding a queen to a new column in all possible positions.
+That way, the approach followed to solve this problem is a brute-force
+approach, which is ideal to study all the uninformed algorithms. On the other
+hand, there is no heuristic available for this approach, so the informed set of
+algorithms cannot be tested in this domain. For the same reason, no correctness
+of the solution has to be considered: if the solution is found is because it is
+valid. That makes the evaluation simpler to understand for this case.\\
 
 We can see a clear correlation between the time taken find a solution (Figure
 \ref{nq:time}) and the nodes expanded in the process (Figure \ref{nq:nodes}).
@@ -196,7 +201,7 @@ this search domain, when finding all possible solutions, using linear search
 memory or a general search with a data structure have no visible time overhead
 from one another.\\
 
-\subsubsection{Results \& Performance in 8-Puzzle}
+\subsubsection{Results and Performance in 8-Puzzle}
 
 In the implementation available in the library for 8-Puzzle, the operators
 consists of moving the blank space in the board. It is just a simpler way to
@@ -279,16 +284,16 @@ Iterative-Deepening A*, on the other hand, uses linear memory, but if the
 parameters are not correct the solution found it's not going to be optimal. We
 can see that IDA* is twice as fast as A*.\\
 
-However, we can see that Depth-First Branch \& Bound is much slower than the
+However, we can see that Depth-First Branch and Bound is much slower than the
 rest of the available algorithms. Although it produces the optimal solution, it
 is several orders of magnitude slower, which makes it not acceptable. The
 reason for this is that the rest of the algorithms are obtaining one single
 solution: The first solution that they are able to find. On the other hand,
-Branch \& Bound uses the first solution as a bound, and then keeps on searching
+Branch and Bound uses the first solution as a bound, and then keeps on searching
 until the solution space is completely exhausted. That makes BNB not being able
 to take advantage of Haskell's laziness as the other algorithms, and resulting
 in a terrible performance in this search domain, since the search space is hard
-to completely explore. That makes Depth-First Branch \& Bound a bad choice for
+to completely explore. That makes Depth-First Branch and Bound a bad choice for
 this problem.\\
 
 \begin{figure}[!htbp]
@@ -335,7 +340,7 @@ A*, IDA*, and BNB; with IDFS is really close to it. Unsurprisingly, the greedy
 algorithms (DFS and Hill Climbing) do not find optimal solutions, but their
 time/memory performance is overall better.\\
 
-\subsubsection{Results \& Performance in Moving AI Maps}
+\subsubsection{Results and Performance in Moving AI Maps}
 
 The Moving AI maps are the most complex and demanding test of all. These maps
 are formed by a $512 \times 512$ grid that contain walls and different sets of
@@ -383,7 +388,7 @@ nodes until the goal state. The results to this test are:\\
 
 There are three things that catch our eye in these results: the great
 discordance between the two iterative-deepening methods (applied with similar
-parameters to the problem), the great performance of Depth-First Branch \&
+parameters to the problem), the great performance of Depth-First Branch and
 Bound and the terrible performance of A*.\\
 
 The first one can be explained in function of the maze itself. It is (in this
@@ -392,7 +397,7 @@ expanding the search tree depth-first. This is translated in IDA* needing much
 less iterations than IDFS. However, this contradicts the fact that BFS is much
 more performant than Hill Climbing. We will come back to this detail.\\
 
-Second, Depth-First Branch \& Bound has proven to be a good option to solve
+Second, Depth-First Branch and Bound has proven to be a good option to solve
 this concrete problem, being only slower than DFS. This also ensures that the
 problem the algorithm suffered in the previous section are not intrinsic to the
 implementation, but to the nature of the problem and the algorithm.\\
@@ -422,7 +427,7 @@ of paths being tracked is higher and in algorithms like Breadth-First Search
 advance to the final solution \cite{dechter-2012-search}. For that reason, it
 is recommended to use a traditional approach for different maps and mazes.\\
 
-\subsection{Unit \& Integration Testing}
+\subsection{Unit and Integration Testing}
 
 Thanks to the Cabal packaging tool, it is easy to include a test suite in the
 library, that can be run automatically. The chosen way to test the functions of
@@ -698,6 +703,13 @@ Best settings for Running time:
 5.68s:  +RTS -A268435456 -H1073741824
 \end{lstlisting}
 
+\begin{figure}[ht]
+\centering
+\includegraphics[width=\textwidth]{img/gc-tuning.png}
+\caption{Garbage collection flags compared to execution time.}
+\label{gc-tuning}
+\end{figure}
+
 Under some garbage collection settings, it is possible to improve the total
 execution time in a 50\%. Without having to refactor the code, it is possible
 to cut in half the time just by setting some options in the garbage collection.
@@ -705,13 +717,6 @@ Although this results are good, let us not be over-optimistic: by tuning this
 executable we may be making the execution options specific to the problem that
 is being used, instead of obtaining a general improvement. Over-fitting the
 library to this concrete example is at risk.\\
-
-\begin{figure}[ht]
-\centering
-\includegraphics[width=\textwidth]{img/gc-tuning.png}
-\caption{Garbage collection flags compared to execution time.}
-\label{gc-tuning}
-\end{figure}
 
 To check if that is indeed the case, we can take a look at the general spectrum
 of results generated by the tool (Figure \ref{gc-tuning}). In there, we can see
@@ -727,15 +732,8 @@ settings are high. Although it may be tempting to offer the program the highest
 memory flags to be sure of low execution times, this may be counter-productive
 in lower-memory systems and parallel applications.\\
 
-To check if the flags are, indeed, being a benefit for a general number of
-nodes expanded, the Figure XXXXX shows a side by side plot of different plan
-lengths in the same problem, with and without using any garbage collection
-flags.
-
-%%% TODO:
 
 \subsubsection{Profiling different \texttt{PriorityQueue} implementations}
-
 
 Now that we have discarded a substantial improvement by tuning with flags the
 garbage collection, it's time to analyze the \texttt{PriorityQueue}
