@@ -831,6 +831,12 @@ the implementation of the code and develop the library.\\
 
 \subsection{Implementation}
 
+After verifying that the current design is correct and fulfills all the
+necessary requirements, it is time to start implementing the functionalities in
+Haskell. Since the code can be obscure at some points, this section details all
+the design decisions along the implementation, along with the mechanics used to
+achieve it.\\
+
 \subsubsection{General Search}
 
 To perform searches like a Breadth-First search, it is needed to enqueue the
@@ -941,8 +947,6 @@ the performance compared to a simple recursive call. Also notice that the
 function accepts a \texttt{NodeEvaluation} function to sort the nodes. Although
 this is not explicitly used in any of the predefined algorithms, can be useful
 for an user to sort nodes in order to be expanded.\\
-
-%%% TODO: Diagram explaining work?
 
 However, it is important to note that due to the fact that the each nodes
 include in themselves information of their path (the key part to solve the k
@@ -1258,16 +1262,15 @@ lists) to define it as a functor, and the functions \texttt{pure} (to embed
 pure expressions in the functor) and \texttt{<*>} (to sequence computations and
 combine their results) to define the application of it.\\
 
-However, by including it as a monad (specially as in a library, as a resource
+However, by including it as a monad (specially in a library, as a resource
 available to the end user), we need to ensure that it behaves as such. The way
 to do it is formally proving that the monad fulfills the monad laws
 \cite{wadler-1993-monad}. To prove this, we are going to use the same notation
-used in Wadler's work: The bind operator, defined in Haskell as
-\texttt{>>=}, will be used in this thesis as $\star$, and lambda clauses will
-be defined using the Greek letter ($\lambda$). However, due to a simpler
-approach and the increased intuition on the behavior that they provide, the
-formulation of the rules will be the ones provided in
-\cite{lipovaca-2011-learn}.
+used in Wadler's work: The bind operator, defined in Haskell as \texttt{>{}>=},
+will be used in this thesis as $\star$, and lambda clauses will be defined
+using the Greek letter ($\lambda$). However, due to a simpler approach and the
+increased intuition on the behavior that they provide, the formulation of the
+rules will be the ones provided in \cite{lipovaca-2011-learn}.
 
 \begin{itemize}
 \item \textbf{Left identity}: this law states that putting a pure value in
