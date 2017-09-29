@@ -8,6 +8,9 @@ build:
   script:
     - cd thesis
     - latexmk -pdf tfg.tex
+	- cd ../dissertation
+    - latexmk -pdf slides.tex
   artifacts:
     paths:
       - "thesis/tfg.pdf"
+	  - "dissertation/slides.pdf"
