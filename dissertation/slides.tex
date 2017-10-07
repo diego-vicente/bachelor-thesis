@@ -1,6 +1,42 @@
 \documentclass{beamer}
 
 \usetheme{PaloAlto}
+\usepackage{listings}
+\definecolor{azulUC3M}{RGB}{0,6,124}
+\definecolor{rojoUC3M}{RGB}{186,50,50}
+\definecolor{verdeUC3M}{RGB}{86,204,86}
+\definecolor{white}{RGB}{255,255,255}
+\definecolor{gray97}{gray}{.97}
+\definecolor{gray90}{gray}{.90}
+\definecolor{gray75}{gray}{.75}
+\definecolor{gray45}{gray}{.45}
+\lstset{ frame=Ltb,
+     framerule=0pt,
+     %aboveskip=0.5cm,
+     framextopmargin=3pt,
+     framexbottommargin=3pt,
+     framexleftmargin=0.2cm,
+     % xrightmargin=0.7cm,
+     % xleftmargin=0.5cm,
+     belowcaptionskip=0.5cm,
+     framesep=0pt,
+     rulesep=0.2pt,
+     backgroundcolor=\color{gray97},
+     rulesepcolor=\color{black},
+     %
+     stringstyle=\ttfamily,
+     showstringspaces = false,
+     basicstyle=\fontsize{7pt}{9pt}\ttfamily,
+     commentstyle=\color{gray45},
+     keywordstyle=\bfseries,
+     %
+     breaklines=true,
+     literate= {<lambda>}{$\lambda$}1 {²}{{\textsuperscript{2}}}1 {µ}{$\upmu$}1
+   }
+
+   \lstdefinestyle{haskell}{
+     language=Haskell,
+   }
 
 \usepackage[utf8]{inputenc}
 \graphicspath{{../thesis/img/}}
@@ -38,7 +74,96 @@
   \item Benchmark suites and tools.
   \item Full API documentation with examples.
   \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Purity and $k$ Shortest Paths}
+  \begin{itemize}
+  \item It is not easy to translate typical pseudo-code to pure functional
+    paradigm: no loops, no variables, no general state...
+  \item Ideally, the output of functions should depend on its input only.
+  \item This can be achieved by including a closed list per node.
+  \item Inherently using infinite data structures let us solve the $k$ shortest
+    paths problem as well as regular searches.
+  \end{itemize}
+
+\begin{lstlisting}[style=haskell]
+sols = bfs problem  -- infinite list of solutions
+print $ head sols   -- computes the first solution
+print $ take 5 sols -- computes 5 first solutions
+\end{lstlisting}
+\end{frame}
+
+
+\begin{frame}
+  \frametitle{Use Cases}
+  \begin{itemize}
+  \item Solve a search problem.
+  \item Get search statistics.
+  \item Design a new search algorithm.
+  \item Test a search algorithm.
+  \item Benchmark a search algorithm.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Project Artifacts}
+  \begin{itemize}
+  \item 28 functional requirements.
+  \item 4 non-functional requirements.
+  \item 2 \emph{type-signature graph} for visual intuition.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Type-Signature Graphs}
+  \includegraphics[width=\textwidth]{type-graph-pure.png}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Implementation}
+  A primitive general search is inspired in Russel and Norvig's
+  \emph{Artificial Intelligence: A Modern Approach} algorithm
+  \texttt{GENERAL\_SEARCH}:
+  \begin{itemize}
+  \item Uses a data structure to store expanded nodes.
+  \item Asks the structure for a node, checks it, expands it, stores the
+    resulting nodes in the structure again.
+  \item The algorithm's behavior is defined by the data structure.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{General Search Implementation}
+\begin{lstlisting}[style=haskell]
+generalSearch :: (DataStructure ds, Eq a, Hashable a)
+  => ProblemSpace a
+  -- ^ 'ProblemSpace' to be solved
+  -> Cost a
+  -- ^ 'Cost' function to use
+  -> Heuristic a
+  -- ^ 'Heuristic' function to use
+  -> ds a
+  -- ^ 'DataStructure' that manages the node expansion
+  -> [Node a]
+  -- ^ Returns the list of all final nodes (solutions)
+
+generalSearch problem g h nodes
+  | isEmpty nodes = []
+  | getGoalF problem (getState n) =
+    n : generalSearch problem g h nodes'
+  | otherwise = generalSearch problem g h ds'
+
+  where (nodes', n) = next nodes
+        expanded = expand n g h (getActions p)
+        ds' = addList expanded nodes'
+\end{lstlisting}
+
+\end{frame}
+
 \end{document}
+
+
 
 
 
