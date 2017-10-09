@@ -121,7 +121,7 @@ print $ take 5 sols -- computes 5 first solutions
 \end{frame}
 
 \begin{frame}
-  \frametitle{Implementation}
+  \frametitle{General Search Implementation}
   A primitive general search is inspired in Russel and Norvig's
   \emph{Artificial Intelligence: A Modern Approach} algorithm
   \texttt{GENERAL\_SEARCH}:
@@ -158,8 +158,89 @@ generalSearch problem g h nodes
         expanded = expand n g h (getActions p)
         ds' = addList expanded nodes'
 \end{lstlisting}
-
 \end{frame}
+
+\begin{frame}
+  \frametitle{Linear-Memory Search Implementation}
+  Many algorithms require linear-memory cost to be valid primitives.
+  \begin{itemize}
+  \item Use \texttt{map} and recursion to expand the nodes.
+  \item General depth-first behavior, can be changed by the functions passed to
+    it.
+  \item Use of \texttt{map} is cheap and enables high-level concurrent
+    abstractions.
+  \item Alternative version can receive a node evaluation function and a limit
+    to perform bounded depth-first search.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Linear-Memory Implementation}
+\begin{lstlisting}[style=haskell]
+depthSearch :: (Eq a, Hashable a)
+  => ProblemSpace a
+  -- ^ 'ProblemSpace' to be solved
+  -> Cost a
+  -- ^ 'Cost' function to use
+  -> Heuristic a
+  -- ^ 'Heuristic' function to use
+  -> NodeEvaluation a
+  -- ^ 'NodeEvaluation' to sort the expanded nodes
+  -> Node a
+  -- ^ Current 'Node' to be expanded
+  -> [Node a]
+  -- ^ Returns the list of all solutions
+
+depthSearch problem g h f node
+  | getGoalF problem (getState node) = return node
+  | otherwise = concatMap (depthSearch problem g h f) sorted
+    where sorted = sortBy (\n n' -> compare (f n) (f n')) ns
+          ns = expand node g h (getActions problem)
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Branch and Bound Search Implementation}
+  Another primitive to use is a general Branch and Bound search:
+  \begin{itemize}
+  \item Branch and Bound algorithms uses the best solution found cost as
+    current bound; then keeps expanding the tree with new solutions.
+  \item Use a \texttt{fold} to traverse the tree with the best solution and
+    current bound until search space is exhausted.
+  \item Does not find the best $k$ solutions.
+  \end{itemize}
+  \centering
+  \includegraphics[width=0.7\textwidth]{dfbnb.png}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Branch and Bound Implementation}
+\begin{lstlisting}[style=haskell]
+depthBNB :: (Eq a, Hashable a)
+  => ProblemSpace a
+  -- ^ 'ProblemSpace' to be solved
+  -> Cost a
+  -- ^ 'Cost' function to use
+  -> Heuristic a
+  -- ^ 'Heuristic' function to use
+  -> NodeEvaluation a
+  -- ^ 'NodeEvaluation' to sort and bound the expanded nodes
+  -> Node a
+  -- ^ Current 'Node' to be expanded
+  -> (Double, [Node a])
+  -- ^ The current bound and intermediate solutions found
+  -> (Double, [Node a])
+  -- ^ The final bound and all solutions found
+depthBNB problem g h f n (l, sol) = foldl bnbStep (l, sol) sorted
+  where sorted = sortBy (\n n' -> compare (f n) (f n')) expanded
+        expanded = expand n g h (getActions problem)
+        bnbStep (bound, solutions) n
+          | f n >= bound = (bound, solutions)
+          | getGoalF problem (getState n) = (f n, n:solutions)
+          | otherwise = depthBNB problem g h f n (bound, solutions)
+\end{lstlisting}
+\end{frame}
+
 
 \end{document}
 
