@@ -241,6 +241,105 @@ depthBNB problem g h f n (l, sol) = foldl bnbStep (l, sol) sorted
 \end{lstlisting}
 \end{frame}
 
+\begin{frame}[fragile]
+  \frametitle{Data Structures}
+  To change the behavior of the \texttt{generalSearch} method, it is possible
+  to use a \texttt{DataStructure} type.
+  \begin{itemize}
+  \item Implements the class defining the necessary methods.
+  \item These methods should be to define most kinds of search behaviors.
+  \item Some examples provided in the library included a queue, a stack or a
+    priority queue.
+  \end{itemize}
+\begin{lstlisting}[style=haskell]
+class DataStructure ds where
+
+  add :: (Eq a, Hashable a) => Node a -> ds a -> ds a
+
+  addList :: (Eq a, Hashable a) => [Node a] -> ds a -> ds a
+
+  next :: (Eq a, Hashable a) => ds a -> (ds a, Node a)
+
+  isEmpty :: (Eq a, Hashable a) => ds a -> Bool
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}
+  \frametitle{The Search Monad}
+  Why?
+  \begin{itemize}
+  \item It is not possible to obtain accurate statistics in recursive calls.
+  \item No access to global state of the computer, and therefore context.
+  \item Using a monad, we can encapsulate the context with the solution and
+    define how to combine contexts together.
+  \item If we define our structure as a monad, we can use \texttt{do} notation
+    inside Haskell.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{\texttt{do} Notation}
+\begin{lstlisting}[style=haskell]
+-- Unsweet version
+greet :: IO String
+greet = print "Name? " >>
+          (getLine >>= (\name -> print $ "hello " ++ name))
+
+-- Do notation as syntactic sugar
+greet' :: IO String
+greet = do
+  print "Name? "
+  name <- getLine
+  print $ "hello " ++ name
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{The Search Monad}
+  \begin{itemize}
+  \item The monad (\texttt{SearchM}) will pack together a node with its context
+    (a \texttt{Statistics} record), which contains:
+    \begin{itemize}
+    \item Number of nodes expanded.
+    \item Number of nodes enqueued.
+    \item Maximum length of the data structure.
+    \end{itemize}
+  \item The way to join to \texttt{Statistics} is defined to join contexts in
+    recursive calls.
+  \item \texttt{SearchM} has to implement the \texttt{Functor} and
+    \texttt{Applicative} classes before the \texttt{Monad} class.
+  \end{itemize}
+
+  \begin{lstlisting}[style=haskell]
+data SearchM a = SearchM { getNode  :: a
+                         , getStats :: Statistics
+                         }
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile,fragile]
+  \frametitle{The Search Monad}
+  \begin{itemize}
+  \item All monads have to follow the three monad laws to prevent unexpected
+    behavior in \texttt{do} notation:
+    \begin{itemize}
+    \item Left identity: $unit \  x \star f = f(x) $
+    \item Right identity: $m \star \  \lambda x \rightarrow unit \  x = m$
+    \item Associativity: $m \star f \star g = m \star (\lambda x \rightarrow
+      f(x) \star g)$
+    \end{itemize}
+  \item The implementation has been formally proven to follow these laws using
+    predicate logic.
+  \end{itemize}
+
+\begin{lstlisting}[style=haskell]
+instance Monad SearchM where
+  return = pure
+  SearchM n s >>= f =
+    let SearchM n' s' = f n
+    in SearchM n' (mergeStats s s')
+\end{lstlisting}
+\end{frame}
 
 \end{document}
 
