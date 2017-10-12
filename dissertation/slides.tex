@@ -1,6 +1,8 @@
 \documentclass{beamer}
 
 \usetheme{PaloAlto}
+\usepackage{pgfgantt}
+\usepackage{eurosym}
 \usepackage{listings}
 \definecolor{azulUC3M}{RGB}{0,6,124}
 \definecolor{rojoUC3M}{RGB}{186,50,50}
@@ -451,6 +453,75 @@ generalSearch problem g h nodes
     insertion and extraction priority queue in Haskell.
   \item Out of the scope of the thesis.
   \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Organization}
+  \begin{figure}[ht]
+  \scalebox{.5}{
+  \centering
+  \begin{ganttchart}[vgrid = dotted, hgrid = dotted, compress calendar,
+    time slot format=isodate-yearmonth, x unit = 8mm,
+    group left shift = 0.1, group right shift = -0.1,
+    title/.append style={fill=azulUC3M, draw=white, thick},
+    title label font=\color{white}\ttfamily,
+    title height = 1,
+    group/.append style={fill=azulUC3M},
+    group label font = \small,
+    bar/.append style={fill=azulUC3M, draw=none, rounded corners=3pt},
+    bar label font = \small,
+    milestone/.append style={draw=azulUC3M, fill=azulUC3M},
+    milestone label font = \small,
+    link/.append style={azulUC3M}]
+    {2016-09}{2017-09}
+    \gantttitlecalendar{year, month} \\
+
+    \ganttgroup{Phases}{2016-09}{2017-02}
+    \ganttgroup{}{2017-03}{2017-06}
+    \ganttgroup{}{2017-07}{2017-09} \\
+
+    % \ganttgroup{Research}{2016-09}{2017-06} \\
+    \ganttbar{Previous Research}{2016-09}{2016-10} \\
+    \ganttlinkedbar{Analysis}{2016-10}{2016-11} \\
+    \ganttlinkedbar{Design and Modelling}{2016-12}{2017-02} \\
+    \ganttlinkedmilestone{Initial design}{2017-02} \\
+
+    % \ganttgroup{Development}{2017-03}{2017-09} \\
+    \ganttlinkedbar{Implementation}{2017-03}{2017-05} \\
+    \ganttlinkedbar{Testing}{2017-04}{2017-06} \\
+    \ganttlinkedmilestone{\texttt{v0.1.0.0}}{2017-06} \\
+
+    % \ganttgroup{Testing}{2017-07}{2017-09} \\
+    \ganttlinkedbar{Iteration}{2017-07}{2017-08} \\
+    \ganttlinkedmilestone{\texttt{v0.2.0.0}}{2017-08}
+  \end{ganttchart}
+  }
+\end{figure}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Budget}
+
+  \begin{table}[!htbp]
+    \centering
+   \begin{tabular}{| l | r |}
+     \hline
+     Concept & Total \\
+     \hline
+     Personnel Costs & 7250 \euro \\
+     Equipment Costs & 546.65 \euro \\
+     Indirect Costs  & 779.97 \euro \\
+     \hline
+     Project Costs   & 8579.62 \euro \\
+     Risk            & +10\% \\
+     Benefits        & +10\% \\
+     \hline
+     \hline
+     \textbf{Project Budget}  & \textbf{10295.54 \euro} \\
+     \hline
+   \end{tabular}
+ \end{table}
+
 \end{frame}
 
 \end{document}
