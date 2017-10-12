@@ -394,6 +394,65 @@ generalSearch problem g h nodes
     search domains.
   \end{itemize}
 \end{frame}
+
+\begin{frame}
+  \frametitle{Testing}
+  A suite of unit and integration tests is included in library.
+  \begin{itemize}
+  \item The test suite reflects the structure of the modules 1:1 to ensure full
+    coverage.
+  \item These tests check all different branches for each function as well as
+    each algorithm in each search domain (if applicable).
+  \item The suite is formed by 156 successful examples.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Benchmarking}
+  Apart from the test, thorough benchmark is required to prove correctness of
+  the algorithms.
+  \begin{itemize}
+  \item In general, memory/time/node expansion behave in every algorithm as
+    expected.
+  \item Results show that some algorithms are not suitable for certain
+    problems.
+  \item Remarkable outlier: \texttt{PriorityQueue}-based algorithms show
+    strangely poor performance in problem with long queues.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Searching the Leak}
+  \begin{itemize}
+  \item Using the \texttt{RTS+} is possible to generate a profile of the code.
+  \item Using the \texttt{profiling} executable designed was possible to
+    benchmark the code intensively.
+  \item The problem was pinned to be associated to the space allocation
+    performed by the \texttt{heap} package and the garbage collection of it.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Searching for Solutions}
+  \begin{itemize}
+  \item Try to change the package used to a different one (\texttt{psqueues}).
+  \item Try to search the implementation of the queue (using union or folds).
+  \item Brute-force the garbage collector to understand its influence.
+  \end{itemize}
+  \centering
+  \includegraphics[width=0.7\textwidth]{gc-tuning.png}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Searching for Solutions}
+  \begin{itemize}
+  \item None of the previous options solved completely the problem.
+  \item The definitive way to solve it would be to implement a mutable, $O(1)$
+    insertion and extraction priority queue in Haskell.
+  \item Out of the scope of the thesis.
+  \end{itemize}
+\end{frame}
+
 \end{document}
 
 
