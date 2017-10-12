@@ -341,6 +341,59 @@ instance Monad SearchM where
 \end{lstlisting}
 \end{frame}
 
+\begin{frame}
+  \frametitle{Disadvantages of the Search Monad}
+  \begin{itemize}
+  \item The statistics are computed for the whole search, which breaks lazy
+    evaluation.
+  \item A way to solve this is to use a classic behavior and return the first
+    solution only.
+  \item Therefore, the monadic version of the library does not solve the $k$
+    shortest paths problem.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Example of Monadic Primitive}
+\begin{lstlisting}[style=haskell]
+generalSearch :: (DataStructure ds, Eq a, Hashable a)
+  => ProblemSpace a
+  -> Cost a
+  -> Heuristic a
+  -> ds a
+  -> SearchM (Maybe (Node a))
+
+generalSearch problem g h nodes
+  | isEmpty nodes = do
+      logExpanded
+      return Nothing
+  | getGoalF problem (getState n) = do
+      logExpanded
+      return (Just n)
+  | otherwise = do
+      logExpanded
+      logEnqueued (length expanded)
+      logLength ds'
+      generalSearch problem g h ds'
+
+  where (nodes', n) = next nodes
+        expanded = expand n g h (getActions problem)
+        ds' = addList expanded nodes'
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Features}
+  \begin{itemize}
+  \item \emph{Uninformed algorithms}: Breadth-First Search, Depth-First Search,
+    Iterative-Deepening Depth-First Search, Beam Search, Uniform Cost Search.
+  \item \emph{Informed algorithms}: Hill-Climbing, A*, Iterative-Deepening A*,
+    Depth-First Branch and Bound.
+  \item \emph{Search domains}: 8-Puzzle, N-Queens, MovingAI Map Parser.
+  \item Several \texttt{criterion} benchmarking suites provided for each of the
+    search domains.
+  \end{itemize}
+\end{frame}
 \end{document}
 
 
