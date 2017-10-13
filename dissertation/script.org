@@ -1,0 +1,238 @@
+#+TITLE:  Dissertation Script
+#+AUTHOR: Diego Vicente Martín
+#+EMAIL:  diegovicente@protonmail.com
+
+* Main Points:
+
+** State of the Art
+
+- Heuristic Search:
+  - Part of AI since its very beginning
+  - Tries to find the optimal solution out of all the possibilities.
+
+- Frameworks:
+  - Plenty of them in imperative langauges
+  - C++: HOG2, The Heuristic Search Research Framework
+  - Java: AIMA, Combinatorial Search for Java
+  - Few experiments in functional programming (AIMA Lisp and ocaml-search)
+  - Isolated experiments in Haskell
+
+- Haskell:
+  - Purely functional: output depends on arguments only; results are
+    independent from the machine's state.
+  - Strong typing: compile-time type checking makes the language more robust
+    and allows for first-class functions and composition.
+  - Lazy evaluation: things are only computed when really needed.
+  - Concurrent abstractions: high-level language, inherently concurrent. No
+    state to protect; compiler can apply concurrency and parallelism under the
+    hood.
+
+- Motivation
+  - Concurrency and parallelism are important for us, "the free lunch is over".
+  - However, it has been proven that we are really bad at it.
+  - Haskell's syntax is clean and simple, providing a modern language that
+    favours signal over noise.
+  - It is an original work, that has not been tested yet. For that reason, the
+    results are unexpected and we need to be extra careful.
+
+- Objectives
+
+- Purity and k Shortest Paths
+  - Working on the problem takes to several dead ends.
+  - One of them is the inability to use a global closed list.
+  - First intuition is to include an individual closed list per node, but it's
+    redundant and bad for performance.
+  - This is familiar: Rina Dechter's way of solving the k best solutions
+    problem.
+  - If we build the algorithms to return a list of solutions, we are solving
+    such problem in an organic way while maintaining the original behavior
+    thanks to laziness.
+  - We can see an example of how to use the library.
+
+- Project artifacts
+  - Now, being a little bit more formal
+  - 28 functional requirements out of the aforementioned use cases
+  - 4 non-functional requirements
+  - 2 type-signature graphs
+  - I created type signature graphs to gain visual intuition over the codebase,
+    a class diagram does not apply in FP. It shows function composition among
+    modules and their types.
+
+- General Search
+  - Based on Russel and Norvig's work on heuristic search
+  - It expands recursively the nodes by transporting a data structure along
+    function calls.
+  - The behavior depends mostly on such data structure and its definition.
+  - [explain code]
+
+- Linear memory search
+  - Although all behaviors can be replicated with general search, that's not all.
+  - To ensure correctness on several algorithms, we need to ensure linear
+    memory consumption.
+  - This is done in Agis by recursively calling a depth-first expansion using
+    map on the list of nodes.
+  - Map is indeed concurrent so this offers great performance.
+  - Can be bound to obtain Iterative-Deepening algorithms
+  - [explain code]
+
+- Branch and bound
+  - Last primitive behavior is branch and bound
+  - Depth first to find an initial solution, backtrack using the best
+    solution's cost as bound
+  - Keep updating the solution and bound until the search space is exhausted.
+  - Although not trivial, possible to do in functional programming using a
+    fold.
+  - The nature of this primitive makes it the only one not suitable for the k
+    shortest solutions.
+  - [explain code]
+
+- Data Structures
+  - To create a Data Structure it is necessary to create a new type
+    implementing the methods of the class.
+  - Practically any search behavior can be obtained with these methods.
+  - Examples in the library include a queue, a stack, beam stack, bounded stack
+    o priority queue.
+
+- The Search Monad
+  - The nature of the language makes the whole execution obscure for the user.
+  - There is no way to log execution into a general variable.
+  - A possible workaround is to encapsulate some context within the parameters
+    and functions, but it can be too verbose and not scale.
+  - Haskell usually uses a monad to perform such tasks.
+  - We can create a Search Monad to log statistics and check them once the
+    search is over.
+  - Defining a way to merge together two contexts is necessary for it to work.
+
+- Explain syntactic sugar
+
+- The Search Monad
+  - It will pack together a node with its search context containing:
+	- Expanded nodes
+	- Enqueued nodes
+	- Max length
+  - To join two statistics (merge contexts) we sum nodes and compare lengths.
+  - Creating a dummy context with a single node is therefore the way to update
+    the progress.
+  - A monad is also a functor and applicative, and it is necessary to define
+    all three interfaces.
+
+- Monad laws
+  - There are three laws that are compulsory for the monad to work as expected
+  - Although there are several ways to check them, the thesis includes the
+    formal proof of each of them using predicate logic.
+
+- Disadvantages of the monad
+  - The statistics are defined as the whole search statistics, so laziness does
+    not work any more.
+  - Therefore, the monadic flavor of the library returns the first solution
+    only.
+
+- [explain the new code]
+
+- Features
+  - This is the full list of search algorithms included in the library.
+  - Also three search domains are included to test and benchmark the algorithms:
+	- 8-Puzzle, a 3x3 sliding puzzle
+	- N-Queens, that is, to place N Queens in an NxN chess board without two
+      queens being able to attack each other.
+	- And a map parser to parse mazes or videogame maps that follow the
+      MovingAI format.
+  - Also, to thoroughly benchmark the algorithms, several benchmarking suites
+    and interfaces are defined to the criterion package (gold standard of
+    Haskell benchmarking).
+
+- Tests
+  - There is a test suite bundled with the Haskell package
+  - Mimics the structure of the project.
+  - All functions are covered in several examples.
+  - All high-level algorithms are tested in all search domains.
+  - In total, there are 156 examples that are successful in around 2 seconds.
+
+- Benchmark
+  - Not only the required results are important, also correct performance.
+  - There are thorough timings and studies on node expansions for each of the
+    algorithms in the search domains.
+  - These tests prove that all algorithms perform as expected in most domains.
+  - Although not all algorithms apply to all search domains properly.
+  - A remarkable outlier is that all algorithms based on a priority queue have
+    terrible performance when the queue gets too long.
+
+- Searching the leak
+  - To find the leak, it is necessary to use the runtime system extended
+    provided by GHC and check the profiles of the code.
+  - A profiling executable is included in the package.
+  - Using several tests was possible to find that the garbage collection was
+    using around 70% of the time when the performance was an issue.
+
+- How to solve the problem
+  - The thesis included three possible solutions.
+  - Using a different package for the implementation, psqueues, higher level
+    but offer less control. Marginal improvement
+  - Changing the implementation of the add method from an union to using folds.
+    Marginal to none improvement.
+  - Brute force the garbage collector settings to understand the influence.
+    Garbage collector settings produced overfitted results but increased
+    performance by a 50%.
+
+- Solutions
+  - No absolute solution was found for the issue.
+  - The definitive, theoretical solution would be to implement a mutable,
+    optimal insertion and extraction priority queue in Haskell.
+  - This is so complex and pushes the language to such limits that was
+    considered completely out of the scope of this thesis, in knowledge and
+    effort requirements.
+
+- Organization
+  - The time organization was divided in 3 phases with 3 milestones each:
+	- A final design ready to be implemented.
+	- A first version of the library including primitives and algorithms.
+	- The fully tested version of the algorithms with all required tools.
+  - Since the planning was purposely designed per months, the margin was enough
+    for the project to follow it with no delays.
+
+- Budget
+  - The budget was computed by splitting the estimation of hours dedicated
+    (around 450) into tasks and unfolding them into a team of 3 members, each
+    with their own salary, which sums to 7250.
+  - The imputable costs of the equipment used sums to 546€
+  - And the indirect costs are computed as 10% of such direct costs.
+  - The risk and benefit margins are computed as 10% each of the total project
+    costs, which leads us to 10295€ of total budget in the project.
+
+- Legal
+  - The plan is to open source the project in the near future, and it being a
+    framework is only legally affected by its license.
+  - The chosen license for the codebase is GNU General Public License v3.0,
+    which states that the code is open and can be freely distributed in Haskell
+    package managers.
+  - Everyone can use the code in other projects as long as the resulting code
+    is disclosed and shared alike, despite its purpose.
+  - The open source plans also include a strict control version workflow, a
+    contributor workflow and a code review system that includes continuous
+    integration to ensure the quality of the code.
+
+- Socioeconomic impact
+  - Potential in education
+	- Clean and easy syntax for learning.
+	- Interactive environment.
+	- All the tools are included and documented in the framework.
+  - Research:
+	- Includes primitives and intermediate functions to design.
+	- Provides benchmark tools and several tests.
+	- Interactive environment for fast iteration.
+  - Industry, if the code matures adequately and enough stability is added.
+    Right now, the code is just experimental and the license offers no
+    liability.
+
+- Conclusions
+  - It is possible to implement algorithms correctly without requiring the use
+    of the state.
+  - It is non-trivial to adapt some algorithms but the rewards include clean,
+    modular code and inherent concurrency.
+  - All this advantages can be of great use for the heuristic search field.
+- Future work
+  - Fix the Priority queue issue or find our way around it
+  - Include new algorithms, data structures or search domain; that can even be
+    tangent to other diverse areas like automated planning.
+  - Include new automatization tools like bigger batch testing support and
+    different notifications like email or report generation
