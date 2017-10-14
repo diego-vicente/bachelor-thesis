@@ -152,8 +152,6 @@ print $ take 5 sols -- computes 5 first solutions
   \texttt{GENERAL\_SEARCH}:
   \begin{itemize}
   \item Uses a data structure to store expanded nodes.
-  \item Asks the structure for a node, checks it, expands it, stores the
-    resulting nodes in the structure again.
   \item The algorithm's behavior is defined by the data structure.
   \end{itemize}
 \end{frame}
@@ -184,6 +182,31 @@ generalSearch problem g h nodes
         ds' = addList expanded nodes'
 \end{lstlisting}
 \end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Data Structures}
+  To change the behavior of the \texttt{generalSearch} method, it is possible
+  to use a \texttt{DataStructure} type.
+  \begin{itemize}
+  \item Implements the class defining the necessary methods.
+  \item These methods should be enough to define most kinds of search
+    behaviors.
+  \item Some examples provided in the library included a queue, a stack or a
+    priority queue.
+  \end{itemize}
+\begin{lstlisting}[style=haskell]
+class DataStructure ds where
+
+  add :: (Eq a, Hashable a) => Node a -> ds a -> ds a
+
+  addList :: (Eq a, Hashable a) => [Node a] -> ds a -> ds a
+
+  next :: (Eq a, Hashable a) => ds a -> (ds a, Node a)
+
+  isEmpty :: (Eq a, Hashable a) => ds a -> Bool
+\end{lstlisting}
+\end{frame}
+
 
 \begin{frame}
   \frametitle{Linear-Memory Search Implementation}
@@ -266,33 +289,8 @@ depthBNB problem g h f n (l, sol) = foldl bnbStep (l, sol) sorted
 \end{lstlisting}
 \end{frame}
 
-\begin{frame}[fragile]
-  \frametitle{Data Structures}
-  To change the behavior of the \texttt{generalSearch} method, it is possible
-  to use a \texttt{DataStructure} type.
-  \begin{itemize}
-  \item Implements the class defining the necessary methods.
-  \item These methods should be enough to define most kinds of search
-    behaviors.
-  \item Some examples provided in the library included a queue, a stack or a
-    priority queue.
-  \end{itemize}
-\begin{lstlisting}[style=haskell]
-class DataStructure ds where
-
-  add :: (Eq a, Hashable a) => Node a -> ds a -> ds a
-
-  addList :: (Eq a, Hashable a) => [Node a] -> ds a -> ds a
-
-  next :: (Eq a, Hashable a) => ds a -> (ds a, Node a)
-
-  isEmpty :: (Eq a, Hashable a) => ds a -> Bool
-\end{lstlisting}
-\end{frame}
-
 \begin{frame}
   \frametitle{The Search Monad}
-  Why?
   \begin{itemize}
   \item It is not possible to obtain accurate statistics in recursive calls.
   \item No access to global state of the computer, and therefore context.
@@ -313,7 +311,7 @@ greet = print "Name? " >>
 
 -- Do notation as syntactic sugar
 greet' :: IO String
-greet = do
+greet' = do
   print "Name? "
   name <- getLine
   print $ "hello " ++ name
@@ -474,7 +472,7 @@ generalSearch problem g h nodes
   \begin{itemize}
   \item None of the previous options solved completely the problem.
   \item The definitive way to solve it would be to implement a mutable, $O(1)$
-    insertion and extraction priority queue in Haskell.
+    extraction priority queue in Haskell.
   \item Out of the scope of the thesis.
   \end{itemize}
 \end{frame}
