@@ -1,5 +1,22 @@
-#+Title:  Bachelor Thesis
+#+Title:  Agis: Heuristic Search Library & Framework in Haskell
 #+Author: Diego Vicente Martín
-#+Email:  diegovicente@protonmail.com
+#+Email:  mail@diego.codes
 
-This repository contains the bachelor thesis about the Agis library
+This repository contains the code to generate the my Bachelor Thesis document:
+/Agis: Heuristic Search Library & Framework in Haskell/. In this document, it
+is comprehensively detailed the inception, design and implementation process of
+an heuristic search library from a pure functional programming point of view.
+The document is generated via LaTeX and can be obtained running:
+
+#+BEGIN_SRC sh
+cd thesis
+pdflatex tfg.tex
+#+END_SRC
+
+The code is licensed under MIT License, which allows to free distribution,
+modification and use for the code in this repository. Please take note that
+this only covers the code used to generate the report itself, not the library
+code, which is independently licensed under GPLv3. This means that, while
+=agis= itself adheres to the GPLv3 rules, the LaTeX code contained in this
+repository is free to be modified and redistributed (even for commercial use)
+with no attribution needed (although it is appreciated).
